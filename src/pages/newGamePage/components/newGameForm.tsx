@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import {
     Box,
     Button,
@@ -10,6 +10,8 @@ import {
     SelectChangeEvent,
     TextField,
 } from '@mui/material'
+import { getGameCategories } from '../../../services/gameCategoryService.ts'
+import { GameCategory } from '../../../models/gameCategory.ts'
 
 function NewGameForm() {
     const [formData, setFormData] = useState({
@@ -26,6 +28,18 @@ function NewGameForm() {
         drunk: 0,
     })
 
+    const [categories, setCategories] = useState<GameCategory[]>([])
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            setCategories(await getGameCategories())
+        }
+
+        fetchCategories().catch(error => {
+            console.error('Error fetching game categories:', error)
+        })
+    }, [])
+
     const handleTextChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target
         setFormData({
@@ -33,7 +47,6 @@ function NewGameForm() {
             [name]: value,
         })
     }
-
     const handleNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target
         const numericValue = value === '' ? '' : Number(value)
@@ -42,7 +55,6 @@ function NewGameForm() {
             [name]: numericValue,
         })
     }
-
     const handleSelectChange = (event: SelectChangeEvent<number> | SelectChangeEvent) => {
         const { name, value } = event.target
         setFormData({
@@ -166,9 +178,11 @@ function NewGameForm() {
                             onChange={handleSelectChange}
                             required
                         >
-                            <MenuItem value={1}>Quick Thinking</MenuItem>
-                            <MenuItem value={2}>Category 2</MenuItem>
-                            <MenuItem value={3}>Category 3</MenuItem>
+                            {categories.map(category => (
+                                <MenuItem key={category.id} value={category.id}>
+                                    {category.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -201,7 +215,7 @@ function NewGameForm() {
                             value={formData.playerGroupType}
                             onChange={handleSelectChange}
                         >
-                            <MenuItem value="">
+                            <MenuItem value={0}>
                                 <em>None</em>
                             </MenuItem>
                             <MenuItem value={1}>Even</MenuItem>
@@ -220,7 +234,7 @@ function NewGameForm() {
                             value={formData.gameAudience}
                             onChange={handleSelectChange}
                         >
-                            <MenuItem value="">
+                            <MenuItem value={0}>
                                 <em>None</em>
                             </MenuItem>
                             <MenuItem value={1}>Friends</MenuItem>
