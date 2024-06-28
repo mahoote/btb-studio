@@ -10,16 +10,15 @@ interface HeaderBarProps {
 
 function HeaderBar({ pages }: HeaderBarProps) {
     return (
-        <AppBar position={'static'} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <AppBar position={'static'}>
             <Toolbar>
                 <Typography
                     variant="h6"
                     noWrap
-                    component="a"
-                    href="/"
+                    component={Link}
+                    to="/"
                     sx={{
-                        mr: 2,
-                        display: { xs: 'none', md: 'flex' },
+                        display: 'flex',
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
@@ -29,7 +28,13 @@ function HeaderBar({ pages }: HeaderBarProps) {
                 >
                     BTB-STUDIO
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                <Box
+                    sx={{
+                        ml: 2,
+                        flexGrow: 1,
+                        display: { xs: 'none', md: 'flex' },
+                    }}
+                >
                     {pages.map((page, index) => (
                         <Button
                             key={index}
