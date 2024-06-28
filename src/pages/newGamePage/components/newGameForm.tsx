@@ -10,8 +10,8 @@ import {
     SelectChangeEvent,
     TextField,
 } from '@mui/material'
-import { getGameCategories } from '../../../services/gameCategoryService.ts'
-import { GameCategory } from '../../../models/gameCategory.ts'
+import { getGameCategories } from '../../../services/gameCategoryService'
+import { GameCategory } from '../../../models/gameCategory'
 
 function NewGameForm() {
     const [formData, setFormData] = useState({
