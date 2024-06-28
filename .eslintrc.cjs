@@ -5,20 +5,21 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended-type-checked',
         'plugin:react-hooks/recommended',
-        'plugin:prettier/recommended', // Make sure this is included
+        'plugin:prettier/recommended',
         'prettier'
     ],
     ignorePatterns: ['dist', '.eslintrc.cjs'],
     parser: '@typescript-eslint/parser',
-    plugins: ['react-refresh', 'unused-imports', 'prettier'], // Add 'prettier' plugin here
+    plugins: ['react-refresh', 'unused-imports', 'prettier'],
     rules: {
+        'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
         'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
             'warn',
             { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }
         ],
-        'prettier/prettier': 'error' // Add Prettier rules here
+        'prettier/prettier': 'error'
     },
     parserOptions: {
         ecmaVersion: 'latest',
