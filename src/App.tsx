@@ -9,8 +9,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<AppLayout />}>
-                    <Route index element={<div>Home page</div>} />
-                    <Route path="games" element={<NewGamePage />} />
+                    <Route index element={<NewGamePage />} />
                     <Route path="*" element={<div>This page does not exist</div>} />
                 </Route>
             </Routes>

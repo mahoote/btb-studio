@@ -10,7 +10,7 @@ interface HeaderBarProps {
 
 function HeaderBar({ pages }: HeaderBarProps) {
     return (
-        <AppBar position={'static'} sx={{ display: { xs: 'none', md: 'block' } }}>
+        <AppBar position={'static'}>
             <Toolbar>
                 <Typography
                     variant="h6"
@@ -18,8 +18,7 @@ function HeaderBar({ pages }: HeaderBarProps) {
                     component={Link}
                     to="/"
                     sx={{
-                        mr: 2,
-                        display: { xs: 'none', md: 'flex' },
+                        display: 'flex',
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
