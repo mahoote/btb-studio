@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 import AppLayout from './components/appLayout'
-import NewGamePage from './pages/newGamePage'
+import NewGamePage from './pages/newGamePage/newGamePage'
 
 function App() {
     return (
