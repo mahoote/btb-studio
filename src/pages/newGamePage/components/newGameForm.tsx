@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import {
     Box,
     Button,
@@ -7,14 +7,19 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    SelectChangeEvent,
     TextField,
 } from '@mui/material'
 import { getGameCategories } from '../../../services/gameCategoryService'
-import { GameCategory } from '../../../models/gameCategory'
+import { GameCategory } from '../../../types/gameCategory'
+import {
+    handleNumberChange,
+    handleSelectChange,
+    handleTextChange,
+} from '../../../utils/inputUtils'
+import { NewGameFormData } from '../../../types/formData'
 
 function NewGameForm() {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<NewGameFormData>({
         name: '',
         category: 1,
         introDescription: '',
@@ -40,29 +45,6 @@ function NewGameForm() {
         })
     }, [])
 
-    const handleTextChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-    }
-    const handleNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target
-        const numericValue = value === '' ? '' : Number(value)
-        setFormData({
-            ...formData,
-            [name]: numericValue,
-        })
-    }
-    const handleSelectChange = (event: SelectChangeEvent<number> | SelectChangeEvent) => {
-        const { name, value } = event.target
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-    }
-
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         // Handle form submission logic here
@@ -79,7 +61,7 @@ function NewGameForm() {
                 variant="outlined"
                 name="name"
                 value={formData.name}
-                onChange={handleTextChange}
+                onChange={event => handleTextChange(event, formData, setFormData)}
                 required
             />
             <TextField
@@ -87,7 +69,7 @@ function NewGameForm() {
                 variant="outlined"
                 name="introDescription"
                 value={formData.introDescription}
-                onChange={handleTextChange}
+                onChange={event => handleTextChange(event, formData, setFormData)}
                 multiline
                 required
             />
@@ -100,7 +82,7 @@ function NewGameForm() {
                         type="number"
                         inputProps={{ min: 2 }}
                         value={formData.minPlayers}
-                        onChange={handleNumberChange}
+                        onChange={event => handleNumberChange(event, formData, setFormData)}
                         required
                         fullWidth
                     />
@@ -113,7 +95,7 @@ function NewGameForm() {
                         type="number"
                         inputProps={{ min: 0 }}
                         value={formData.maxPlayers}
-                        onChange={handleNumberChange}
+                        onChange={event => handleNumberChange(event, formData, setFormData)}
                         fullWidth
                     />
                 </Grid>
@@ -125,7 +107,7 @@ function NewGameForm() {
                         type="number"
                         inputProps={{ min: 0 }}
                         value={formData.minutes}
-                        onChange={handleNumberChange}
+                        onChange={event => handleNumberChange(event, formData, setFormData)}
                         fullWidth
                     />
                 </Grid>
@@ -139,7 +121,9 @@ function NewGameForm() {
                             label="Activity Level"
                             name="activity"
                             value={formData.activity}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
                             <MenuItem value={0}>Low</MenuItem>
@@ -156,7 +140,9 @@ function NewGameForm() {
                             label="Drunk Level"
                             name="drunk"
                             value={formData.drunk}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
                             <MenuItem value={0}>Tipsy</MenuItem>
@@ -175,7 +161,9 @@ function NewGameForm() {
                             label="Category"
                             name="category"
                             value={formData.category}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
                             {categories.map(category => (
@@ -194,7 +182,9 @@ function NewGameForm() {
                             label="Game Type"
                             name="gameType"
                             value={formData.gameType}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
                             <MenuItem value={1}>Finish</MenuItem>
@@ -213,7 +203,9 @@ function NewGameForm() {
                             label="Player Group Type"
                             name="playerGroupType"
                             value={formData.playerGroupType}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                         >
                             <MenuItem value={0}>
                                 <em>None</em>
@@ -232,7 +224,9 @@ function NewGameForm() {
                             label="Game Audience"
                             name="gameAudience"
                             value={formData.gameAudience}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                         >
                             <MenuItem value={0}>
                                 <em>None</em>
