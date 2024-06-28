@@ -28,7 +28,13 @@ function HeaderBar({ pages }: HeaderBarProps) {
                 >
                     BTB-STUDIO
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                <Box
+                    sx={{
+                        ml: 2,
+                        flexGrow: 1,
+                        display: { xs: 'none', md: 'flex' },
+                    }}
+                >
                     {pages.map((page, index) => (
                         <Button
                             key={index}
