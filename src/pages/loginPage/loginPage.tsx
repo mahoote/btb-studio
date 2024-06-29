@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { handleTextChange } from '../../utils/inputUtils'
 import { Login } from '../../types/login'
 import { LoadingButton } from '@mui/lab'
@@ -31,6 +31,13 @@ function LoginPage() {
         }
     }
 
+    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        handleLogin(event).catch(error => {
+            console.error('Error submitting form:', error)
+        })
+    }
+
     return (
         <Box
             display="flex"
@@ -48,6 +55,7 @@ function LoginPage() {
                 Blame the Booze Studio
             </Typography>
             <Box
+                component="form"
                 sx={{
                     minWidth: { sm: '30rem' },
                 }}
@@ -57,11 +65,7 @@ function LoginPage() {
                 display="flex"
                 flexDirection="column"
                 gap={2}
-                onSubmit={event => {
-                    handleLogin(event).catch(err => {
-                        console.error('Failed to login: ', err)
-                    })
-                }}
+                onSubmit={handleFormSubmit}
             >
                 <Typography aria-label="Sign in" variant="h5" mb={1}>
                     Sign in
