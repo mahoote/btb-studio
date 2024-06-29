@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
+import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 
 function PhoneFrameComponent() {
     const [descriptionIndex, setDescriptionIndex] = useState<number>(0)
-    const [descriptions, setDescriptions] = useState<string[]>([])
+    const [descriptions, setDescriptions] = useState<string[]>([''])
 
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target
@@ -58,7 +58,11 @@ function PhoneFrameComponent() {
                 }}
             >
                 {descriptionIndex > 0 && <ArrowLeftComponent onClick={handleBack} />}
-                <ArrowRightComponent onClick={handleNext} />
+                <ArrowRightComponent
+                    onClick={handleNext}
+                    index={descriptionIndex}
+                    lastDescriptionIndex={descriptions.length - 1}
+                />
                 <Box sx={{ flexGrow: 1 }}>
                     <Typography
                         variant="h6"
@@ -118,7 +122,15 @@ function ArrowLeftComponent({ onClick }: { onClick: () => void }) {
     )
 }
 
-function ArrowRightComponent({ onClick }: { onClick: () => void }) {
+function ArrowRightComponent({
+    index,
+    lastDescriptionIndex,
+    onClick,
+}: {
+    index: number
+    lastDescriptionIndex: number
+    onClick: () => void
+}) {
     return (
         <Box
             sx={{
@@ -129,7 +141,7 @@ function ArrowRightComponent({ onClick }: { onClick: () => void }) {
             }}
         >
             <IconButton aria-label="Next" onClick={onClick}>
-                <ArrowForwardIos />
+                {index === lastDescriptionIndex ? <Add /> : <ArrowForwardIos />}
             </IconButton>
         </Box>
     )
