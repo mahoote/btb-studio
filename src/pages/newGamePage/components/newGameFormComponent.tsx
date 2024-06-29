@@ -22,6 +22,7 @@ import { getGameTypes } from '../../../services/gameTypeService'
 import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
 import { LoadingButton } from '@mui/lab'
+import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 
 type NewGameFormComponentProps = {
     formData: NewGameFormData
@@ -285,6 +286,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                     </FormControl>
                 </Grid>
             </Grid>
+            <ChipsAutocompleteComponent />
 
             <LoadingButton
                 loading={!createdGame}
