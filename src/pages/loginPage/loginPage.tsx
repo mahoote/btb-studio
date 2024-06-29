@@ -32,7 +32,21 @@ function LoginPage() {
     }
 
     return (
-        <Box display="flex" justifyContent="center">
+        <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="80vh"
+            flexDirection="column"
+        >
+            <Typography
+                variant="h5"
+                mx={3}
+                mb={4}
+                sx={{ fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem' }}
+            >
+                Blame the Booze Studio
+            </Typography>
             <Box
                 sx={{
                     minWidth: { sm: '30rem' },
