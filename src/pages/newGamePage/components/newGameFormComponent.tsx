@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import {
     Box,
     FormControl,
@@ -9,7 +9,6 @@ import {
     Snackbar,
     TextField,
 } from '@mui/material'
-import { getGameCategories } from '../../../services/gameCategoryService'
 import { GameCategory } from '../../../types/gameCategory'
 import {
     handleNumberChange,
@@ -18,10 +17,13 @@ import {
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
 import { GameType } from '../../../types/gameType'
-import { getGameTypes } from '../../../services/gameTypeService'
-import { createGame } from '../../../services/gameService'
+import { createGame, createGameHasAccessory } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
 import { LoadingButton } from '@mui/lab'
+import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
+import { useGameCategories } from '../../../hooks/useGameCategories'
+import { useGameTypes } from '../../../hooks/useGameTypes'
+import { useAccessories } from '../../../hooks/useAccessories'
 
 type NewGameFormComponentProps = {
     formData: NewGameFormData
@@ -29,27 +31,17 @@ type NewGameFormComponentProps = {
 }
 
 function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentProps) {
-    const [categories, setCategories] = useState<GameCategory[]>([])
-    const [gameTypes, setGameTypes] = useState<GameType[]>([])
+    const { data: categories } = useGameCategories()
+    const { data: gameTypes } = useGameTypes()
+    const { data: accessories } = useAccessories()
 
     const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
-
     const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false)
+    const [selectedAccessories, setSelectedAccessories] = useState<string[]>([])
 
     const handleSnackbarClose = () => {
         setOpenSnackbar(false)
     }
-
-    useEffect(() => {
-        const initSelects = async () => {
-            setCategories(await getGameCategories())
-            setGameTypes(await getGameTypes())
-        }
-
-        initSelects().catch(error => {
-            console.error('Error fetching game categories:', error)
-        })
-    }, [])
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -67,7 +59,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
 
         formData.descriptions = updatedDescriptions
 
-        await createGame({
+        const newGame = await createGame({
             name: formData.name,
             intro_description: formData.introDescription,
             descriptions: formData.descriptions,
@@ -81,15 +73,36 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
             game_audience_id: formData.gameAudienceId,
             game_category_id: formData.categoryId,
         })
-            .then((response: GameDto) => {
+            .then((response: GameDto | null) => {
                 setOpenSnackbar(true)
+                if (!response) {
+                    console.error('Could not fetch game from database.')
+                    return
+                }
                 setCreatedGame(response)
+                return response
             })
             .catch(error => {
                 console.error('Error creating game:', error)
                 alert('Error creating game')
                 setCreatedGame({} as GameDto)
             })
+
+        if (newGame) {
+            let hasError = false
+
+            for (const accessory of selectedAccessories) {
+                const accessoryId =
+                    accessories?.find(accessoryItem => accessoryItem.name === accessory)?.id ??
+                    0
+
+                await createGameHasAccessory(newGame.id, accessoryId).catch(error => {
+                    console.error('Error adding accessory to game:', error)
+                    hasError = true
+                })
+            }
+            if (hasError) alert('Error adding accessory to game')
+        }
     }
 
     const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -212,7 +225,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             }
                             required
                         >
-                            {categories.map(category => (
+                            {categories?.map((category: GameCategory) => (
                                 <MenuItem key={category.id} value={category.id}>
                                     {category.name}
                                 </MenuItem>
@@ -233,7 +246,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             }
                             required
                         >
-                            {gameTypes.map(gameType => (
+                            {gameTypes?.map((gameType: GameType) => (
                                 <MenuItem key={gameType.id} value={gameType.id}>
                                     {gameType.name}
                                 </MenuItem>
@@ -285,6 +298,11 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                     </FormControl>
                 </Grid>
             </Grid>
+            <ChipsAutocompleteComponent
+                predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
+                selectedValues={selectedAccessories}
+                setSelectedValues={setSelectedAccessories}
+            />
 
             <LoadingButton
                 loading={!createdGame}
