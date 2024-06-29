@@ -5,6 +5,7 @@ import PhoneFrameComponent from './components/phoneFrameComponent'
 import { NewGameFormData } from '../../types/formData'
 import { GameCategoryProvider } from '../../contexts/GameCategoryContext'
 import { GameTypesProvider } from '../../contexts/GameTypeContext'
+import { AccessoryProvider } from '../../contexts/AccessoryContext'
 
 function NewGamePage() {
     const [descriptions, setDescriptions] = useState<string[]>([''])
@@ -36,24 +37,26 @@ function NewGamePage() {
     return (
         <GameCategoryProvider>
             <GameTypesProvider>
-                <div>
-                    <h2>New Game</h2>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <NewGameFormComponent
-                                formData={formData}
-                                setFormData={setFormData}
-                            />
+                <AccessoryProvider>
+                    <div>
+                        <h2>New Game</h2>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={6}>
+                                <NewGameFormComponent
+                                    formData={formData}
+                                    setFormData={setFormData}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <PhoneFrameComponent
+                                    name={formData.name}
+                                    descriptions={descriptions}
+                                    setDescriptions={setDescriptions}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                            <PhoneFrameComponent
-                                name={formData.name}
-                                descriptions={descriptions}
-                                setDescriptions={setDescriptions}
-                            />
-                        </Grid>
-                    </Grid>
-                </div>
+                    </div>
+                </AccessoryProvider>
             </GameTypesProvider>
         </GameCategoryProvider>
     )

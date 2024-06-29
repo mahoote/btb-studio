@@ -23,6 +23,7 @@ import { LoadingButton } from '@mui/lab'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import { useGameCategories } from '../../../hooks/useGameCategories'
 import { useGameTypes } from '../../../hooks/useGameTypes'
+import { useAccessories } from '../../../hooks/useAccessories'
 
 type NewGameFormComponentProps = {
     formData: NewGameFormData
@@ -32,6 +33,7 @@ type NewGameFormComponentProps = {
 function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentProps) {
     const { data: categories } = useGameCategories()
     const { data: gameTypes } = useGameTypes()
+    const { data: accessories } = useAccessories()
 
     const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
 
@@ -275,7 +277,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                     </FormControl>
                 </Grid>
             </Grid>
-            <ChipsAutocompleteComponent />
+            <ChipsAutocompleteComponent
+                predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
+            />
 
             <LoadingButton
                 loading={!createdGame}

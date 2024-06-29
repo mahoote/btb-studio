@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Autocomplete, TextField, Chip } from '@mui/material'
 
-const predefinedValues = ['Option 1', 'Option 2', 'Option 3', 'Option 4']
+type ChipsAutocompleteProps = {
+    predefinedValues: string[]
+}
 
-function ChipsAutocompleteComponent() {
+function ChipsAutocompleteComponent({ predefinedValues }: ChipsAutocompleteProps) {
     const [selectedValues, setSelectedValues] = useState<string[]>([])
 
     return (
