@@ -3,24 +3,53 @@ import React, { useState } from 'react'
 import { handleTextChange } from '../../utils/inputUtils'
 import { Login } from '../../types/login'
 import { LoadingButton } from '@mui/lab'
+import { supabase } from '../../supabaseClient'
+import { AuthError } from '@supabase/supabase-js'
 
 function LoginPage() {
+    const [loadingSignIn, setLoadingSignIn] = useState<boolean>(false)
+    const [error, setError] = useState<AuthError | null>(null)
+
     const [formData, setFormData] = useState<Login>({
         email: '',
         password: '',
     })
 
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault()
+
+        setLoadingSignIn(true)
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email: formData.email,
+            password: formData.password,
+        })
+
+        if (error) {
+            setLoadingSignIn(false)
+            setError(error)
+        }
+    }
+
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box display="flex" justifyContent="center">
             <Box
                 sx={{
-                    maxWidth: '30rem',
-                    padding: 3,
-                    borderRadius: 2,
-                    bgcolor: 'grey.900',
+                    minWidth: { sm: '30rem' },
+                }}
+                padding={3}
+                borderRadius={2}
+                bgcolor="grey.900"
+                display="flex"
+                flexDirection="column"
+                gap={2}
+                onSubmit={event => {
+                    handleLogin(event).catch(err => {
+                        console.error('Failed to login: ', err)
+                    })
                 }}
             >
-                <Typography aria-label="Sign in" variant="h5" sx={{ mb: 2 }}>
+                <Typography aria-label="Sign in" variant="h5" mb={1}>
                     Sign in
                 </Typography>
                 <TextField
@@ -40,9 +69,17 @@ function LoginPage() {
                     onChange={event => handleTextChange(event, formData, setFormData)}
                     required
                     fullWidth
-                    sx={{ mt: 2 }}
+                    type="password"
                 />
-                <LoadingButton variant="contained" fullWidth sx={{ mt: 2 }}>
+
+                {error && <Typography color="lightblue">{error.message}</Typography>}
+
+                <LoadingButton
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    loading={loadingSignIn}
+                >
                     Sign in
                 </LoadingButton>
             </Box>
