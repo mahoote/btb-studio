@@ -20,7 +20,7 @@ import { NewGameFormData } from '../../../types/formData'
 import { GameType } from '../../../types/gameType'
 import { getGameTypes } from '../../../services/gameTypeService'
 
-function NewGameForm() {
+function NewGameFormComponent() {
     const [formData, setFormData] = useState<NewGameFormData>({
         name: '',
         category: 1,
@@ -75,7 +75,6 @@ function NewGameForm() {
                 value={formData.introDescription}
                 onChange={event => handleTextChange(event, formData, setFormData)}
                 multiline
-                required
             />
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -251,4 +250,4 @@ function NewGameForm() {
     )
 }
 
-export default NewGameForm
+export default NewGameFormComponent

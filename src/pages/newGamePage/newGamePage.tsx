@@ -1,7 +1,7 @@
 import React from 'react'
-import NewGameForm from './components/newGameForm'
+import NewGameFormComponent from './components/newGameFormComponent'
 import { Grid } from '@mui/material'
-import PhoneFrame from './components/phoneFrame'
+import PhoneFrameComponent from './components/phoneFrameComponent'
 
 function NewGamePage() {
     return (
@@ -9,10 +9,10 @@ function NewGamePage() {
             <h2>New Game</h2>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <NewGameForm />
+                    <NewGameFormComponent />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <PhoneFrame />
+                    <PhoneFrameComponent />
                 </Grid>
             </Grid>
         </div>
