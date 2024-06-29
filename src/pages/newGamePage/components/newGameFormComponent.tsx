@@ -7,6 +7,7 @@ import {
     InputLabel,
     MenuItem,
     Select,
+    Snackbar,
     TextField,
 } from '@mui/material'
 import { getGameCategories } from '../../../services/gameCategoryService'
@@ -19,6 +20,8 @@ import {
 import { NewGameFormData } from '../../../types/formData'
 import { GameType } from '../../../types/gameType'
 import { getGameTypes } from '../../../services/gameTypeService'
+import { createGame } from '../../../services/gameService'
+import { GameDto } from '../../../types/game'
 
 type NewGameFormComponentProps = {
     formData: NewGameFormData
@@ -28,6 +31,14 @@ type NewGameFormComponentProps = {
 function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentProps) {
     const [categories, setCategories] = useState<GameCategory[]>([])
     const [gameTypes, setGameTypes] = useState<GameType[]>([])
+
+    const [createdGame, setCreatedGame] = useState<GameDto | undefined>()
+
+    const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false)
+
+    const handleSnackbarClose = () => {
+        setOpenSnackbar(false)
+    }
 
     useEffect(() => {
         const initSelects = async () => {
@@ -40,7 +51,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
         })
     }, [])
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         const updatedDescriptions = formData.descriptions.filter(
@@ -53,12 +64,42 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
         }
 
         formData.descriptions = updatedDescriptions
+
+        await createGame({
+            name: formData.name,
+            intro_description: formData.introDescription,
+            descriptions: formData.descriptions,
+            min_players: formData.minPlayers,
+            max_players: formData.maxPlayers,
+            activity_level: formData.activityLevel,
+            drunk_level: formData.drunkLevel,
+            minutes: formData.minutes,
+            game_type_id: formData.gameType,
+            player_group_type_id: formData.playerGroupTypeId,
+            game_audience_id: formData.gameAudienceId,
+            game_category_id: formData.categoryId,
+        })
+            .then((response: GameDto) => {
+                setOpenSnackbar(true)
+                setCreatedGame(response)
+            })
+            .catch(error => {
+                console.error('Error creating game:', error)
+                alert('Error creating game')
+            })
+    }
+
+    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        handleSubmit(event).catch(error => {
+            console.error('Error submitting form:', error)
+        })
     }
 
     return (
         <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleFormSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
             <TextField
@@ -124,11 +165,10 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             labelId="activity-label"
                             label="Activity Level"
                             name="activity"
-                            value={formData.activity}
+                            value={formData.activityLevel}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
                             }
-                            required
                         >
                             <MenuItem value={0}>Low</MenuItem>
                             <MenuItem value={1}>Medium</MenuItem>
@@ -143,11 +183,10 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             labelId="drunk-label"
                             label="Drunk Level"
                             name="drunk"
-                            value={formData.drunk}
+                            value={formData.drunkLevel}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
                             }
-                            required
                         >
                             <MenuItem value={0}>Tipsy</MenuItem>
                             <MenuItem value={1}>Drunk</MenuItem>
@@ -164,7 +203,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             labelId="category-label"
                             label="Category"
                             name="category"
-                            value={formData.category}
+                            value={formData.categoryId}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
                             }
@@ -208,7 +247,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             labelId="player-group-type-label"
                             label="Player Group Type"
                             name="playerGroupType"
-                            value={formData.playerGroupType}
+                            value={formData.playerGroupTypeId}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
                             }
@@ -229,7 +268,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             labelId="game-audience-label"
                             label="Game Audience"
                             name="gameAudience"
-                            value={formData.gameAudience}
+                            value={formData.gameAudienceId}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
                             }
@@ -247,6 +286,12 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
             <Button type="submit" variant="contained" color="primary">
                 Submit
             </Button>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={2000}
+                onClose={handleSnackbarClose}
+                message={`${createdGame?.name} is created!`}
+            />
         </Box>
     )
 }
