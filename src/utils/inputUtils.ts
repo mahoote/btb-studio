@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react'
 import { SelectChangeEvent } from '@mui/material'
-import { NewGameFormData } from '../types/formData'
 
 /**
  * Updates the form data with the new value of the input field
@@ -10,8 +9,10 @@ import { NewGameFormData } from '../types/formData'
  */
 export const handleTextChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    formData: NewGameFormData,
-    setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    formData: any,
+    setFormData: React.Dispatch<React.SetStateAction<any>>
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 ) => {
     const { name, value } = event.target
     setFormData({
@@ -29,8 +30,10 @@ export const handleTextChange = (
  */
 export const handleNumberChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    formData: NewGameFormData,
-    setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    formData: any,
+    setFormData: React.Dispatch<React.SetStateAction<any>>
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 ) => {
     const { name, value } = event.target
     const numericValue = value === '' ? '' : Number(value)
@@ -48,8 +51,10 @@ export const handleNumberChange = (
  */
 export const handleSelectChange = (
     event: SelectChangeEvent<number> | SelectChangeEvent,
-    formData: NewGameFormData,
-    setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    formData: any,
+    setFormData: React.Dispatch<React.SetStateAction<any>>
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 ) => {
     const { name, value } = event.target
     setFormData({

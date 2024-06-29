@@ -1,14 +1,27 @@
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { Page } from '../types/page'
+import { Logout } from '@mui/icons-material'
+import { supabase } from '../supabaseClient'
+import { AuthError } from '@supabase/supabase-js'
 
 interface HeaderBarProps {
     pages: Page[]
 }
 
 function HeaderBarComponent({ pages }: HeaderBarProps) {
+    const handleSignOut = () => {
+        const signOut = async () => {
+            await supabase.auth.signOut()
+        }
+
+        signOut().catch((error: AuthError | null) => {
+            console.error('Error signing out:', error?.message)
+        })
+    }
+
     return (
         <AppBar position={'static'}>
             <Toolbar>
@@ -46,6 +59,9 @@ function HeaderBarComponent({ pages }: HeaderBarProps) {
                         </Button>
                     ))}
                 </Box>
+                <IconButton onClick={handleSignOut}>
+                    <Logout />
+                </IconButton>
             </Toolbar>
         </AppBar>
     )
