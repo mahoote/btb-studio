@@ -17,6 +17,8 @@ import {
     handleTextChange,
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
+import { GameType } from '../../../types/gameType'
+import { getGameTypes } from '../../../services/gameTypeService'
 
 function NewGameForm() {
     const [formData, setFormData] = useState<NewGameFormData>({
@@ -34,13 +36,15 @@ function NewGameForm() {
     })
 
     const [categories, setCategories] = useState<GameCategory[]>([])
+    const [gameTypes, setGameTypes] = useState<GameType[]>([])
 
     useEffect(() => {
-        const fetchCategories = async () => {
+        const initSelects = async () => {
             setCategories(await getGameCategories())
+            setGameTypes(await getGameTypes())
         }
 
-        fetchCategories().catch(error => {
+        initSelects().catch(error => {
             console.error('Error fetching game categories:', error)
         })
     }, [])
@@ -187,9 +191,11 @@ function NewGameForm() {
                             }
                             required
                         >
-                            <MenuItem value={1}>Finish</MenuItem>
-                            <MenuItem value={2}>Forfeit</MenuItem>
-                            <MenuItem value={3}>Timed</MenuItem>
+                            {gameTypes.map(gameType => (
+                                <MenuItem key={gameType.id} value={gameType.id}>
+                                    {gameType.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
