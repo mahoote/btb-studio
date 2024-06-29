@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import {
     Box,
     Button,
@@ -7,12 +7,21 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    SelectChangeEvent,
     TextField,
 } from '@mui/material'
+import { getGameCategories } from '../../../services/gameCategoryService'
+import { GameCategory } from '../../../types/gameCategory'
+import {
+    handleNumberChange,
+    handleSelectChange,
+    handleTextChange,
+} from '../../../utils/inputUtils'
+import { NewGameFormData } from '../../../types/formData'
+import { GameType } from '../../../types/gameType'
+import { getGameTypes } from '../../../services/gameTypeService'
 
 function NewGameForm() {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<NewGameFormData>({
         name: '',
         category: 1,
         introDescription: '',
@@ -26,30 +35,19 @@ function NewGameForm() {
         drunk: 0,
     })
 
-    const handleTextChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-    }
+    const [categories, setCategories] = useState<GameCategory[]>([])
+    const [gameTypes, setGameTypes] = useState<GameType[]>([])
 
-    const handleNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target
-        const numericValue = value === '' ? '' : Number(value)
-        setFormData({
-            ...formData,
-            [name]: numericValue,
-        })
-    }
+    useEffect(() => {
+        const initSelects = async () => {
+            setCategories(await getGameCategories())
+            setGameTypes(await getGameTypes())
+        }
 
-    const handleSelectChange = (event: SelectChangeEvent<number> | SelectChangeEvent) => {
-        const { name, value } = event.target
-        setFormData({
-            ...formData,
-            [name]: value,
+        initSelects().catch(error => {
+            console.error('Error fetching game categories:', error)
         })
-    }
+    }, [])
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -67,7 +65,7 @@ function NewGameForm() {
                 variant="outlined"
                 name="name"
                 value={formData.name}
-                onChange={handleTextChange}
+                onChange={event => handleTextChange(event, formData, setFormData)}
                 required
             />
             <TextField
@@ -75,7 +73,7 @@ function NewGameForm() {
                 variant="outlined"
                 name="introDescription"
                 value={formData.introDescription}
-                onChange={handleTextChange}
+                onChange={event => handleTextChange(event, formData, setFormData)}
                 multiline
                 required
             />
@@ -88,7 +86,7 @@ function NewGameForm() {
                         type="number"
                         inputProps={{ min: 2 }}
                         value={formData.minPlayers}
-                        onChange={handleNumberChange}
+                        onChange={event => handleNumberChange(event, formData, setFormData)}
                         required
                         fullWidth
                     />
@@ -101,7 +99,7 @@ function NewGameForm() {
                         type="number"
                         inputProps={{ min: 0 }}
                         value={formData.maxPlayers}
-                        onChange={handleNumberChange}
+                        onChange={event => handleNumberChange(event, formData, setFormData)}
                         fullWidth
                     />
                 </Grid>
@@ -113,7 +111,7 @@ function NewGameForm() {
                         type="number"
                         inputProps={{ min: 0 }}
                         value={formData.minutes}
-                        onChange={handleNumberChange}
+                        onChange={event => handleNumberChange(event, formData, setFormData)}
                         fullWidth
                     />
                 </Grid>
@@ -127,7 +125,9 @@ function NewGameForm() {
                             label="Activity Level"
                             name="activity"
                             value={formData.activity}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
                             <MenuItem value={0}>Low</MenuItem>
@@ -144,7 +144,9 @@ function NewGameForm() {
                             label="Drunk Level"
                             name="drunk"
                             value={formData.drunk}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
                             <MenuItem value={0}>Tipsy</MenuItem>
@@ -163,12 +165,16 @@ function NewGameForm() {
                             label="Category"
                             name="category"
                             value={formData.category}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
-                            <MenuItem value={1}>Quick Thinking</MenuItem>
-                            <MenuItem value={2}>Category 2</MenuItem>
-                            <MenuItem value={3}>Category 3</MenuItem>
+                            {categories.map(category => (
+                                <MenuItem key={category.id} value={category.id}>
+                                    {category.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -180,12 +186,16 @@ function NewGameForm() {
                             label="Game Type"
                             name="gameType"
                             value={formData.gameType}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                             required
                         >
-                            <MenuItem value={1}>Finish</MenuItem>
-                            <MenuItem value={2}>Forfeit</MenuItem>
-                            <MenuItem value={3}>Timed</MenuItem>
+                            {gameTypes.map(gameType => (
+                                <MenuItem key={gameType.id} value={gameType.id}>
+                                    {gameType.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -199,9 +209,11 @@ function NewGameForm() {
                             label="Player Group Type"
                             name="playerGroupType"
                             value={formData.playerGroupType}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                         >
-                            <MenuItem value="">
+                            <MenuItem value={0}>
                                 <em>None</em>
                             </MenuItem>
                             <MenuItem value={1}>Even</MenuItem>
@@ -218,9 +230,11 @@ function NewGameForm() {
                             label="Game Audience"
                             name="gameAudience"
                             value={formData.gameAudience}
-                            onChange={handleSelectChange}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
                         >
-                            <MenuItem value="">
+                            <MenuItem value={0}>
                                 <em>None</em>
                             </MenuItem>
                             <MenuItem value={1}>Friends</MenuItem>
