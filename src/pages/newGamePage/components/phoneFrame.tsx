@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 
 function PhoneFrame() {
     return (
@@ -18,13 +18,12 @@ function PhoneFrame() {
                     width: '17rem',
                     bgcolor: 'grey.800',
                     color: 'text.primary',
+                    padding: 3,
+                    display: 'flex',
+                    flexDirection: 'column',
                 }}
             >
-                <Box
-                    sx={{
-                        padding: 3,
-                    }}
-                >
+                <Box sx={{ flexGrow: 1 }}>
                     <Typography
                         variant="h6"
                         component="div"
@@ -37,6 +36,9 @@ function PhoneFrame() {
                         content.
                     </Typography>
                 </Box>
+                <Button variant="contained" disabled>
+                    Continue
+                </Button>
             </Box>
         </Box>
     )
