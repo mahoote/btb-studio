@@ -32,7 +32,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
     const [categories, setCategories] = useState<GameCategory[]>([])
     const [gameTypes, setGameTypes] = useState<GameType[]>([])
 
-    const [createdGame, setCreatedGame] = useState<GameDto | undefined>()
+    const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
 
     const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false)
 
@@ -88,6 +88,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
             .catch(error => {
                 console.error('Error creating game:', error)
                 alert('Error creating game')
+                setCreatedGame({} as GameDto)
             })
     }
 
