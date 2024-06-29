@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
+import { Box, IconButton, TextField, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 
 type PhoneFrameComponentProps = {
@@ -66,12 +66,6 @@ function PhoneFrameComponent({
                     position: 'relative',
                 }}
             >
-                {descriptionIndex > 0 && <ArrowLeftComponent onClick={handleBack} />}
-                <ArrowRightComponent
-                    onClick={handleNext}
-                    index={descriptionIndex}
-                    lastDescriptionIndex={descriptions.length - 1}
-                />
                 <Box sx={{ flexGrow: 1 }}>
                     <Typography
                         variant="h6"
@@ -87,6 +81,7 @@ function PhoneFrameComponent({
                                 padding: '0.5rem',
                             },
                         }}
+                        placeholder="Description"
                         variant="outlined"
                         name="description"
                         value={descriptions[descriptionIndex]}
@@ -101,30 +96,45 @@ function PhoneFrameComponent({
                         }}
                     />
                 </Box>
-                <Box sx={{ paddingX: 2, paddingY: 1 }}>
-                    <Button variant="contained" disabled fullWidth>
-                        Continue
-                    </Button>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <ArrowLeftComponent
+                        onClick={handleBack}
+                        disabled={descriptionIndex <= 0}
+                    />
+                    <Typography sx={{ textAlign: 'center' }} variant={'body2'}>
+                        Page {descriptionIndex + 1}
+                    </Typography>
+                    <ArrowRightComponent
+                        onClick={handleNext}
+                        index={descriptionIndex}
+                        lastDescriptionIndex={descriptions.length - 1}
+                    />
                 </Box>
-                <Typography sx={{ textAlign: 'center' }} variant={'body2'}>
-                    Page {descriptionIndex + 1}
-                </Typography>
             </Box>
         </Box>
     )
 }
 
-function ArrowLeftComponent({ onClick }: { onClick: () => void }) {
+function ArrowLeftComponent({
+    onClick,
+    disabled,
+}: {
+    onClick: () => void
+    disabled: boolean
+}) {
     return (
         <Box
             sx={{
-                position: 'absolute',
-                left: -50,
-                top: '50%',
-                transform: 'translateY(-50%)',
+                marginX: 3,
             }}
         >
-            <IconButton aria-label="Back" onClick={onClick}>
+            <IconButton aria-label="Back" onClick={onClick} disabled={disabled}>
                 <ArrowBackIos />
             </IconButton>
         </Box>
@@ -143,10 +153,7 @@ function ArrowRightComponent({
     return (
         <Box
             sx={{
-                position: 'absolute',
-                right: -50,
-                top: '50%',
-                transform: 'translateY(-50%)',
+                marginX: 3,
             }}
         >
             <IconButton aria-label="Next" onClick={onClick}>
