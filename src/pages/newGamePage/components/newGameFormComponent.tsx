@@ -1,7 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import {
     Box,
-    Button,
     FormControl,
     Grid,
     InputLabel,
@@ -22,6 +21,7 @@ import { GameType } from '../../../types/gameType'
 import { getGameTypes } from '../../../services/gameTypeService'
 import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
+import { LoadingButton } from '@mui/lab'
 
 type NewGameFormComponentProps = {
     formData: NewGameFormData
@@ -53,6 +53,8 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+
+        setCreatedGame(undefined)
 
         const updatedDescriptions = formData.descriptions.filter(
             description => description !== ''
@@ -283,9 +285,15 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                 </Grid>
             </Grid>
 
-            <Button type="submit" variant="contained" color="primary">
+            <LoadingButton
+                loading={!createdGame}
+                type="submit"
+                variant="contained"
+                color="primary"
+            >
                 Submit
-            </Button>
+            </LoadingButton>
+
             <Snackbar
                 open={openSnackbar}
                 autoHideDuration={2000}
