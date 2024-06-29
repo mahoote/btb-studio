@@ -1,25 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Autocomplete, TextField, Chip } from '@mui/material'
 
 type ChipsAutocompleteProps = {
     predefinedValues: string[]
+    selectedValues: string[]
+    setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-function ChipsAutocompleteComponent({ predefinedValues }: ChipsAutocompleteProps) {
-    const [selectedValues, setSelectedValues] = useState<string[]>([])
-
+function ChipsAutocompleteComponent({
+    predefinedValues,
+    selectedValues,
+    setSelectedValues,
+}: ChipsAutocompleteProps) {
     return (
         <Autocomplete
             multiple
             options={predefinedValues}
             value={selectedValues}
-            onChange={(event, newValue) => {
+            onChange={(_, newValue) => {
                 setSelectedValues(newValue)
             }}
             renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                ))
+                value.map((option, index) => {
+                    const { key, ...tagProps } = getTagProps({ index })
+                    return <Chip key={key} variant="outlined" label={option} {...tagProps} />
+                })
             }
             renderInput={params => (
                 <TextField
