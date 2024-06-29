@@ -9,17 +9,17 @@ function NewGamePage() {
 
     const [formData, setFormData] = useState<NewGameFormData>({
         name: '',
-        category: 1,
-        introDescription: '',
+        categoryId: 1,
+        introDescription: undefined,
         descriptions: descriptions,
         minPlayers: 2,
-        maxPlayers: 0,
-        activity: 0,
-        minutes: 0,
+        maxPlayers: undefined,
+        activityLevel: undefined,
+        minutes: undefined,
         gameType: 1,
-        playerGroupType: 0,
-        gameAudience: 0,
-        drunk: 0,
+        playerGroupTypeId: undefined,
+        gameAudienceId: undefined,
+        drunkLevel: undefined,
     })
 
     useEffect(() => {
