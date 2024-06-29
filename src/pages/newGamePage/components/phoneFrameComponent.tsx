@@ -2,9 +2,18 @@ import React, { useState } from 'react'
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 
-function PhoneFrameComponent() {
+type PhoneFrameComponentProps = {
+    name: string
+    descriptions: string[]
+    setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+function PhoneFrameComponent({
+    name,
+    descriptions,
+    setDescriptions,
+}: PhoneFrameComponentProps) {
     const [descriptionIndex, setDescriptionIndex] = useState<number>(0)
-    const [descriptions, setDescriptions] = useState<string[]>([''])
 
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target
@@ -69,7 +78,7 @@ function PhoneFrameComponent() {
                         component="div"
                         sx={{ textAlign: 'center', marginTop: 3 }}
                     >
-                        Title
+                        {name === '' ? 'Game Name' : name}
                     </Typography>
                     <TextField
                         sx={{
@@ -86,9 +95,9 @@ function PhoneFrameComponent() {
                         required
                         fullWidth
                         minRows={4}
-                        maxRows={13}
+                        maxRows={15}
                         InputProps={{
-                            style: { fontSize: '0.8em' },
+                            style: { fontSize: '0.85em' },
                         }}
                     />
                 </Box>
