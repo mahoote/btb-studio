@@ -4,14 +4,14 @@ import { Outlet } from 'react-router-dom'
 
 import { Page } from '../types/page'
 
-import HeaderBar from './headerBar'
+import HeaderBarComponent from './headerBarComponent'
 
 const pages: Page[] = []
 
-function AppLayout() {
+function AppLayoutComponent() {
     return (
         <div>
-            <HeaderBar pages={pages} />
+            <HeaderBarComponent pages={pages} />
             <Container sx={{ my: 2 }}>
                 <Outlet />
             </Container>
@@ -19,4 +19,4 @@ function AppLayout() {
     )
 }
 
-export default AppLayout
+export default AppLayoutComponent

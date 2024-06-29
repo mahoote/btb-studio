@@ -20,21 +20,12 @@ import { NewGameFormData } from '../../../types/formData'
 import { GameType } from '../../../types/gameType'
 import { getGameTypes } from '../../../services/gameTypeService'
 
-function NewGameForm() {
-    const [formData, setFormData] = useState<NewGameFormData>({
-        name: '',
-        category: 1,
-        introDescription: '',
-        minPlayers: 2,
-        maxPlayers: 0,
-        activity: 0,
-        minutes: 0,
-        gameType: 1,
-        playerGroupType: 0,
-        gameAudience: 0,
-        drunk: 0,
-    })
+type NewGameFormComponentProps = {
+    formData: NewGameFormData
+    setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
+}
 
+function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentProps) {
     const [categories, setCategories] = useState<GameCategory[]>([])
     const [gameTypes, setGameTypes] = useState<GameType[]>([])
 
@@ -51,7 +42,17 @@ function NewGameForm() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        // Handle form submission logic here
+
+        const updatedDescriptions = formData.descriptions.filter(
+            description => description !== ''
+        )
+
+        if (updatedDescriptions.length === 0) {
+            alert('Please add at least one description')
+            return
+        }
+
+        formData.descriptions = updatedDescriptions
     }
 
     return (
@@ -75,7 +76,6 @@ function NewGameForm() {
                 value={formData.introDescription}
                 onChange={event => handleTextChange(event, formData, setFormData)}
                 multiline
-                required
             />
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
@@ -251,4 +251,4 @@ function NewGameForm() {
     )
 }
 
-export default NewGameForm
+export default NewGameFormComponent

@@ -8,7 +8,7 @@ interface HeaderBarProps {
     pages: Page[]
 }
 
-function HeaderBar({ pages }: HeaderBarProps) {
+function HeaderBarComponent({ pages }: HeaderBarProps) {
     return (
         <AppBar position={'static'}>
             <Toolbar>
@@ -51,4 +51,4 @@ function HeaderBar({ pages }: HeaderBarProps) {
     )
 }
 
-export default HeaderBar
+export default HeaderBarComponent
