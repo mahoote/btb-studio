@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import {
     Box,
     FormControl,
@@ -9,7 +9,6 @@ import {
     Snackbar,
     TextField,
 } from '@mui/material'
-import { getGameCategories } from '../../../services/gameCategoryService'
 import { GameCategory } from '../../../types/gameCategory'
 import {
     handleNumberChange,
@@ -18,11 +17,12 @@ import {
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
 import { GameType } from '../../../types/gameType'
-import { getGameTypes } from '../../../services/gameTypeService'
 import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
 import { LoadingButton } from '@mui/lab'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
+import { useGameCategories } from '../../../hooks/useGameCategories'
+import { useGameTypes } from '../../../hooks/useGameTypes'
 
 type NewGameFormComponentProps = {
     formData: NewGameFormData
@@ -30,8 +30,8 @@ type NewGameFormComponentProps = {
 }
 
 function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentProps) {
-    const [categories, setCategories] = useState<GameCategory[]>([])
-    const [gameTypes, setGameTypes] = useState<GameType[]>([])
+    const { data: categories } = useGameCategories()
+    const { data: gameTypes } = useGameTypes()
 
     const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
 
@@ -40,17 +40,6 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
     const handleSnackbarClose = () => {
         setOpenSnackbar(false)
     }
-
-    useEffect(() => {
-        const initSelects = async () => {
-            setCategories(await getGameCategories())
-            setGameTypes(await getGameTypes())
-        }
-
-        initSelects().catch(error => {
-            console.error('Error fetching game categories:', error)
-        })
-    }, [])
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -213,7 +202,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             }
                             required
                         >
-                            {categories.map(category => (
+                            {categories?.map((category: GameCategory) => (
                                 <MenuItem key={category.id} value={category.id}>
                                     {category.name}
                                 </MenuItem>
@@ -234,7 +223,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                             }
                             required
                         >
-                            {gameTypes.map(gameType => (
+                            {gameTypes?.map((gameType: GameType) => (
                                 <MenuItem key={gameType.id} value={gameType.id}>
                                     {gameType.name}
                                 </MenuItem>
