@@ -57,7 +57,7 @@ function LoginPage() {
             <Box
                 component="form"
                 sx={{
-                    minWidth: { sm: '30rem' },
+                    minWidth: { sm: '30rem', xs: '90%' },
                 }}
                 padding={3}
                 borderRadius={2}
