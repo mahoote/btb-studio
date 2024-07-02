@@ -170,6 +170,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                         value={formData.minutes}
                         onChange={event => handleNumberChange(event, formData, setFormData)}
                         fullWidth
+                        required
                     />
                 </Grid>
             </Grid>
@@ -302,6 +303,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                 predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
                 selectedValues={selectedAccessories}
                 setSelectedValues={setSelectedAccessories}
+                label="Accessories"
             />
 
             <LoadingButton

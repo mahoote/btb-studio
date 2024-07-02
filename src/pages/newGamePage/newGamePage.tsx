@@ -11,18 +11,18 @@ function NewGamePage() {
     const [descriptions, setDescriptions] = useState<string[]>([''])
 
     const [formData, setFormData] = useState<NewGameFormData>({
-        name: '',
+        activityLevel: 0,
         categoryId: 1,
-        introDescription: undefined,
         descriptions: descriptions,
-        minPlayers: 2,
-        maxPlayers: undefined,
-        activityLevel: undefined,
-        minutes: undefined,
-        gameTypeId: 1,
-        playerGroupTypeId: undefined,
+        drunkLevel: 0,
         gameAudienceId: undefined,
-        drunkLevel: undefined,
+        gameTypeId: 1,
+        introDescription: undefined,
+        maxPlayers: undefined,
+        minPlayers: 2,
+        minutes: 0,
+        name: '',
+        playerGroupTypeId: undefined,
     })
 
     useEffect(() => {
