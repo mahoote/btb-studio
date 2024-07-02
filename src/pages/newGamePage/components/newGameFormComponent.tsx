@@ -25,12 +25,12 @@ import { useGameCategories } from '../../../hooks/useGameCategories'
 import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
 
-type NewGameFormComponentProps = {
+type NewGameFormProps = {
     formData: NewGameFormData
     setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
 }
 
-function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentProps) {
+function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
     const { data: categories } = useGameCategories()
     const { data: gameTypes } = useGameTypes()
     const { data: accessories } = useAccessories()
@@ -68,7 +68,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
             activity_level: formData.activityLevel,
             drunk_level: formData.drunkLevel,
             minutes: formData.minutes,
-            game_type_id: formData.gameType,
+            game_type_id: formData.gameTypeId,
             player_group_type_id: formData.playerGroupTypeId,
             game_audience_id: formData.gameAudienceId,
             game_category_id: formData.categoryId,
@@ -180,7 +180,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                         <Select
                             labelId="activity-label"
                             label="Activity Level"
-                            name="activity"
+                            name="activityLevel"
                             value={formData.activityLevel}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
@@ -198,7 +198,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                         <Select
                             labelId="drunk-label"
                             label="Drunk Level"
-                            name="drunk"
+                            name="drunkLevel"
                             value={formData.drunkLevel}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
@@ -218,7 +218,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                         <Select
                             labelId="category-label"
                             label="Category"
-                            name="category"
+                            name="categoryId"
                             value={formData.categoryId}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
@@ -239,8 +239,8 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                         <Select
                             labelId="game-type-label"
                             label="Game Type"
-                            name="gameType"
-                            value={formData.gameType}
+                            name="gameTypeId"
+                            value={formData.gameTypeId}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
                             }
@@ -262,7 +262,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                         <Select
                             labelId="player-group-type-label"
                             label="Player Group Type"
-                            name="playerGroupType"
+                            name="playerGroupTypeId"
                             value={formData.playerGroupTypeId}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)
@@ -283,7 +283,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormComponentPro
                         <Select
                             labelId="game-audience-label"
                             label="Game Audience"
-                            name="gameAudience"
+                            name="gameAudienceId"
                             value={formData.gameAudienceId}
                             onChange={event =>
                                 handleSelectChange(event, formData, setFormData)

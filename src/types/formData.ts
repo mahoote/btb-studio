@@ -7,7 +7,7 @@ export type NewGameFormData = {
     maxPlayers?: number
     activityLevel?: number
     minutes?: number
-    gameType: number
+    gameTypeId: number
     playerGroupTypeId?: number
     gameAudienceId?: number
     drunkLevel?: number

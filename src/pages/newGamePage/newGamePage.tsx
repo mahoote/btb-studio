@@ -19,7 +19,7 @@ function NewGamePage() {
         maxPlayers: undefined,
         activityLevel: undefined,
         minutes: undefined,
-        gameType: 1,
+        gameTypeId: 1,
         playerGroupTypeId: undefined,
         gameAudienceId: undefined,
         drunkLevel: undefined,
