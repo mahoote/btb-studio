@@ -102,6 +102,8 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                 newGame
             )
             if (gameTypeErrorMessage) alert('Error adding game type to game')
+
+            // TODO: Make logic to delete game if an error occurs adding the accessories or game types.
         }
     }
 

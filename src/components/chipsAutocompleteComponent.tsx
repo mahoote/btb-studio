@@ -16,6 +16,8 @@ function ChipsAutocompleteComponent({
     label,
     required,
 }: ChipsAutocompleteProps) {
+    const isRequired = selectedValues.length === 0 && required
+
     return (
         <Autocomplete
             multiple
@@ -36,7 +38,7 @@ function ChipsAutocompleteComponent({
                     variant="outlined"
                     label={label}
                     placeholder="Choose..."
-                    required={required}
+                    required={isRequired}
                 />
             )}
             disableCloseOnSelect
