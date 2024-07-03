@@ -16,13 +16,14 @@ import {
     handleTextChange,
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
-import { createGame, createGameHasAccessory } from '../../../services/gameService'
+import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
 import { LoadingButton } from '@mui/lab'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import { useGameCategories } from '../../../hooks/useGameCategories'
 import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
+import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGameFormUtils'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -88,19 +89,19 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
             })
 
         if (newGame) {
-            let hasError = false
+            const { errorMessage: accessoryErrorMessage } = await addAccessoriesToGame(
+                selectedAccessories,
+                accessories,
+                newGame
+            )
+            if (accessoryErrorMessage) alert('Error adding accessory to game')
 
-            for (const accessory of selectedAccessories) {
-                const accessoryId =
-                    accessories?.find(accessoryItem => accessoryItem.name === accessory)?.id ??
-                    0
-
-                await createGameHasAccessory(newGame.id, accessoryId).catch(error => {
-                    console.error('Error adding accessory to game:', error)
-                    hasError = true
-                })
-            }
-            if (hasError) alert('Error adding accessory to game')
+            const { errorMessage: gameTypeErrorMessage } = await addGameTypesToGame(
+                selectedGameTypes,
+                gameTypes,
+                newGame
+            )
+            if (gameTypeErrorMessage) alert('Error adding game type to game')
         }
     }
 
