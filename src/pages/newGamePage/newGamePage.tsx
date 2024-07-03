@@ -16,7 +16,6 @@ function NewGamePage() {
         descriptions: descriptions,
         drunkLevel: 0,
         gameAudienceId: undefined,
-        gameTypeId: 1,
         introDescription: undefined,
         maxPlayers: undefined,
         minPlayers: 2,

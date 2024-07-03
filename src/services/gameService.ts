@@ -26,3 +26,13 @@ export async function createGameHasAccessory(gameId: number, accessoryId: number
         throw new Error(error.message)
     }
 }
+
+export async function createGameHasGameType(gameId: number, gameTypeId: number) {
+    const { error }: SupabaseResponse<GameHasAccessoryDto> = await supabase
+        .from('game_has_game_type')
+        .insert({ game_id: gameId, game_type_id: gameTypeId })
+
+    if (error) {
+        throw new Error(error.message)
+    }
+}

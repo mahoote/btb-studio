@@ -16,14 +16,14 @@ import {
     handleTextChange,
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
-import { GameType } from '../../../types/gameType'
-import { createGame, createGameHasAccessory } from '../../../services/gameService'
+import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
 import { LoadingButton } from '@mui/lab'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import { useGameCategories } from '../../../hooks/useGameCategories'
 import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
+import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGameFormUtils'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -38,6 +38,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
     const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
     const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false)
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([])
+    const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
 
     const handleSnackbarClose = () => {
         setOpenSnackbar(false)
@@ -68,7 +69,6 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
             activity_level: formData.activityLevel,
             drunk_level: formData.drunkLevel,
             minutes: formData.minutes,
-            game_type_id: formData.gameTypeId,
             player_group_type_id: formData.playerGroupTypeId,
             game_audience_id: formData.gameAudienceId,
             game_category_id: formData.categoryId,
@@ -89,19 +89,21 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
             })
 
         if (newGame) {
-            let hasError = false
+            const { errorMessage: accessoryErrorMessage } = await addAccessoriesToGame(
+                selectedAccessories,
+                accessories,
+                newGame
+            )
+            if (accessoryErrorMessage) alert('Error adding accessory to game')
 
-            for (const accessory of selectedAccessories) {
-                const accessoryId =
-                    accessories?.find(accessoryItem => accessoryItem.name === accessory)?.id ??
-                    0
+            const { errorMessage: gameTypeErrorMessage } = await addGameTypesToGame(
+                selectedGameTypes,
+                gameTypes,
+                newGame
+            )
+            if (gameTypeErrorMessage) alert('Error adding game type to game')
 
-                await createGameHasAccessory(newGame.id, accessoryId).catch(error => {
-                    console.error('Error adding accessory to game:', error)
-                    hasError = true
-                })
-            }
-            if (hasError) alert('Error adding accessory to game')
+            // TODO: Make logic to delete game if an error occurs adding the accessories or game types.
         }
     }
 
@@ -118,14 +120,41 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
             onSubmit={handleFormSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextField
-                label="Name"
-                variant="outlined"
-                name="name"
-                value={formData.name}
-                onChange={event => handleTextChange(event, formData, setFormData)}
-                required
-            />
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        label="Name"
+                        variant="outlined"
+                        name="name"
+                        value={formData.name}
+                        onChange={event => handleTextChange(event, formData, setFormData)}
+                        required
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <FormControl variant="outlined" fullWidth>
+                        <InputLabel id="category-label">Category</InputLabel>
+                        <Select
+                            labelId="category-label"
+                            label="Category"
+                            name="categoryId"
+                            value={formData.categoryId}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
+                            required
+                        >
+                            {categories?.map((category: GameCategory) => (
+                                <MenuItem key={category.id} value={category.id}>
+                                    {category.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </Grid>
+
             <TextField
                 label="Intro Description"
                 variant="outlined"
@@ -212,50 +241,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                     </FormControl>
                 </Grid>
             </Grid>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <FormControl variant="outlined" fullWidth>
-                        <InputLabel id="category-label">Category</InputLabel>
-                        <Select
-                            labelId="category-label"
-                            label="Category"
-                            name="categoryId"
-                            value={formData.categoryId}
-                            onChange={event =>
-                                handleSelectChange(event, formData, setFormData)
-                            }
-                            required
-                        >
-                            {categories?.map((category: GameCategory) => (
-                                <MenuItem key={category.id} value={category.id}>
-                                    {category.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <FormControl variant="outlined" fullWidth>
-                        <InputLabel id="game-type-label">Game Type</InputLabel>
-                        <Select
-                            labelId="game-type-label"
-                            label="Game Type"
-                            name="gameTypeId"
-                            value={formData.gameTypeId}
-                            onChange={event =>
-                                handleSelectChange(event, formData, setFormData)
-                            }
-                            required
-                        >
-                            {gameTypes?.map((gameType: GameType) => (
-                                <MenuItem key={gameType.id} value={gameType.id}>
-                                    {gameType.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-            </Grid>
+
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                     <FormControl variant="outlined" fullWidth>
@@ -299,6 +285,13 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                     </FormControl>
                 </Grid>
             </Grid>
+            <ChipsAutocompleteComponent
+                predefinedValues={gameTypes?.map(gameType => gameType.name) ?? []}
+                selectedValues={selectedGameTypes}
+                setSelectedValues={setSelectedGameTypes}
+                label="Game Types"
+                required={true}
+            />
             <ChipsAutocompleteComponent
                 predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
                 selectedValues={selectedAccessories}

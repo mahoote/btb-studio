@@ -6,6 +6,7 @@ type ChipsAutocompleteProps = {
     selectedValues: string[]
     setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
     label: string
+    required?: boolean
 }
 
 function ChipsAutocompleteComponent({
@@ -13,7 +14,10 @@ function ChipsAutocompleteComponent({
     selectedValues,
     setSelectedValues,
     label,
+    required,
 }: ChipsAutocompleteProps) {
+    const isRequired = selectedValues.length === 0 && required
+
     return (
         <Autocomplete
             multiple
@@ -34,6 +38,7 @@ function ChipsAutocompleteComponent({
                     variant="outlined"
                     label={label}
                     placeholder="Choose..."
+                    required={isRequired}
                 />
             )}
             disableCloseOnSelect
