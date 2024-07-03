@@ -16,7 +16,6 @@ import {
     handleTextChange,
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
-import { GameType } from '../../../types/gameType'
 import { createGame, createGameHasAccessory } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
 import { LoadingButton } from '@mui/lab'
@@ -38,6 +37,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
     const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
     const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false)
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([])
+    const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
 
     const handleSnackbarClose = () => {
         setOpenSnackbar(false)
@@ -118,14 +118,41 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
             onSubmit={handleFormSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextField
-                label="Name"
-                variant="outlined"
-                name="name"
-                value={formData.name}
-                onChange={event => handleTextChange(event, formData, setFormData)}
-                required
-            />
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        label="Name"
+                        variant="outlined"
+                        name="name"
+                        value={formData.name}
+                        onChange={event => handleTextChange(event, formData, setFormData)}
+                        required
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <FormControl variant="outlined" fullWidth>
+                        <InputLabel id="category-label">Category</InputLabel>
+                        <Select
+                            labelId="category-label"
+                            label="Category"
+                            name="categoryId"
+                            value={formData.categoryId}
+                            onChange={event =>
+                                handleSelectChange(event, formData, setFormData)
+                            }
+                            required
+                        >
+                            {categories?.map((category: GameCategory) => (
+                                <MenuItem key={category.id} value={category.id}>
+                                    {category.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </Grid>
+
             <TextField
                 label="Intro Description"
                 variant="outlined"
@@ -212,50 +239,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                     </FormControl>
                 </Grid>
             </Grid>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <FormControl variant="outlined" fullWidth>
-                        <InputLabel id="category-label">Category</InputLabel>
-                        <Select
-                            labelId="category-label"
-                            label="Category"
-                            name="categoryId"
-                            value={formData.categoryId}
-                            onChange={event =>
-                                handleSelectChange(event, formData, setFormData)
-                            }
-                            required
-                        >
-                            {categories?.map((category: GameCategory) => (
-                                <MenuItem key={category.id} value={category.id}>
-                                    {category.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <FormControl variant="outlined" fullWidth>
-                        <InputLabel id="game-type-label">Game Type</InputLabel>
-                        <Select
-                            labelId="game-type-label"
-                            label="Game Type"
-                            name="gameTypeId"
-                            value={formData.gameTypeId}
-                            onChange={event =>
-                                handleSelectChange(event, formData, setFormData)
-                            }
-                            required
-                        >
-                            {gameTypes?.map((gameType: GameType) => (
-                                <MenuItem key={gameType.id} value={gameType.id}>
-                                    {gameType.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-            </Grid>
+
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                     <FormControl variant="outlined" fullWidth>
@@ -299,6 +283,13 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                     </FormControl>
                 </Grid>
             </Grid>
+            <ChipsAutocompleteComponent
+                predefinedValues={gameTypes?.map(gameType => gameType.name) ?? []}
+                selectedValues={selectedGameTypes}
+                setSelectedValues={setSelectedGameTypes}
+                label="Game Types"
+                required={true}
+            />
             <ChipsAutocompleteComponent
                 predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
                 selectedValues={selectedAccessories}
