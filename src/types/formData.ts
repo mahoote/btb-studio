@@ -3,7 +3,6 @@ export type NewGameFormData = {
     categoryId: number
     descriptions: string[]
     drunkLevel: number
-    gameTypeId: number
     minPlayers: number
     minutes: number
     name: string

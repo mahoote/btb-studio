@@ -68,7 +68,6 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
             activity_level: formData.activityLevel,
             drunk_level: formData.drunkLevel,
             minutes: formData.minutes,
-            game_type_id: formData.gameTypeId,
             player_group_type_id: formData.playerGroupTypeId,
             game_audience_id: formData.gameAudienceId,
             game_category_id: formData.categoryId,
