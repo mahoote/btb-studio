@@ -5,12 +5,14 @@ type ChipsAutocompleteProps = {
     predefinedValues: string[]
     selectedValues: string[]
     setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
+    label: string
 }
 
 function ChipsAutocompleteComponent({
     predefinedValues,
     selectedValues,
     setSelectedValues,
+    label,
 }: ChipsAutocompleteProps) {
     return (
         <Autocomplete
@@ -30,7 +32,7 @@ function ChipsAutocompleteComponent({
                 <TextField
                     {...params}
                     variant="outlined"
-                    label="Select Options"
+                    label={label}
                     placeholder="Choose..."
                 />
             )}
