@@ -185,6 +185,7 @@ function NewGameComponent() {
             onFinnish={handleFormSubmit}
             onReset={handleResetForm}
             completeMessage={`"${createdGame?.name}" was created.`}
+            isComplete={!!createdGame}
         />
     )
 }
