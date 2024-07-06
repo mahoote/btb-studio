@@ -1,6 +1,8 @@
+import React from 'react'
+
 type StepperObject = {
     content: React.ReactNode
-    title: string
+    label: string
     isOptional?: boolean
 }
 

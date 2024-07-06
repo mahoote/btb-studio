@@ -6,7 +6,7 @@ import { NewGameFormData } from '../../../types/formData'
 import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
 import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGameFormUtils'
-import { Grid, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import NewGameFormComponent from './newGameFormComponent'
 import PreviewWindowComponent from './previewWindowComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
@@ -168,30 +168,24 @@ function NewGameComponent() {
     }, [setFormData, descriptions])
 
     return (
-        <>
-            <Typography variant="h5" paddingY={2}>
-                New Game
-            </Typography>
-
-            <HorizontalLinearStepperComponent
-                steps={[
-                    {
-                        title: 'New Game',
-                        content: (
-                            <NewGameStep
-                                formData={formData}
-                                setFormData={setFormData}
-                                descriptions={descriptions}
-                                setDescriptions={setDescriptions}
-                            />
-                        ),
-                    },
-                ]}
-                onFinnish={handleFormSubmit}
-                onReset={handleResetForm}
-                completeMessage={`"${createdGame?.name}" was created.`}
-            />
-        </>
+        <HorizontalLinearStepperComponent
+            steps={[
+                {
+                    label: 'New Game',
+                    content: (
+                        <NewGameStep
+                            formData={formData}
+                            setFormData={setFormData}
+                            descriptions={descriptions}
+                            setDescriptions={setDescriptions}
+                        />
+                    ),
+                },
+            ]}
+            onFinnish={handleFormSubmit}
+            onReset={handleResetForm}
+            completeMessage={`"${createdGame?.name}" was created.`}
+        />
     )
 }
 

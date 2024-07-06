@@ -95,7 +95,7 @@ function HorizontalLinearStepperComponent({
                     }
                     return (
                         <Step key={index} {...stepProps}>
-                            <StepLabel {...labelProps}>{step.title}</StepLabel>
+                            <StepLabel {...labelProps}>{step.label}</StepLabel>
                         </Step>
                     )
                 })}
