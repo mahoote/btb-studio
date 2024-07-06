@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import NewGameFormComponent from './components/newGameFormComponent'
 import { Grid } from '@mui/material'
-import PhoneFrameComponent from './components/phoneFrameComponent'
+import PreviewWindowComponent from './components/previewWindowComponent'
 import { NewGameFormData } from '../../types/formData'
 import { GameCategoryProvider } from '../../contexts/GameCategoryContext'
 import { GameTypesProvider } from '../../contexts/GameTypeContext'
@@ -47,7 +47,7 @@ function NewGamePage() {
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <PhoneFrameComponent
+                                <PreviewWindowComponent
                                     name={formData.name}
                                     descriptions={descriptions}
                                     setDescriptions={setDescriptions}
