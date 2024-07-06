@@ -34,6 +34,23 @@ function NewGamePage() {
         })
     }, [descriptions])
 
+    function BasicStep() {
+        return (
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                    <NewGameFormComponent formData={formData} setFormData={setFormData} />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <PreviewWindowComponent
+                        name={formData.name}
+                        descriptions={descriptions}
+                        setDescriptions={setDescriptions}
+                    />
+                </Grid>
+            </Grid>
+        )
+    }
+
     return (
         <GameCategoryProvider>
             <GameTypesProvider>
@@ -41,22 +58,10 @@ function NewGamePage() {
                     <Typography variant="h5" paddingY={2}>
                         New Game
                     </Typography>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <NewGameFormComponent
-                                formData={formData}
-                                setFormData={setFormData}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <PreviewWindowComponent
-                                name={formData.name}
-                                descriptions={descriptions}
-                                setDescriptions={setDescriptions}
-                            />
-                        </Grid>
-                    </Grid>
-                    <HorizontalLinearStepperComponent />
+
+                    <HorizontalLinearStepperComponent
+                        steps={[{ title: 'Basic Info', content: <BasicStep /> }]}
+                    />
                 </AccessoryProvider>
             </GameTypesProvider>
         </GameCategoryProvider>
