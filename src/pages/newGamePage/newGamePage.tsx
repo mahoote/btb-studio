@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import NewGameFormComponent from './components/newGameFormComponent'
 import { Grid, Typography } from '@mui/material'
 import PreviewWindowComponent from './components/previewWindowComponent'
@@ -7,26 +7,13 @@ import { GameCategoryProvider } from '../../contexts/GameCategoryContext'
 import { GameTypesProvider } from '../../contexts/GameTypeContext'
 import { AccessoryProvider } from '../../contexts/AccessoryContext'
 import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
+import useNewGameContext from '../../hooks/useNewGame'
 
 function NewGamePage() {
-    const [descriptions, setDescriptions] = useState<string[]>([''])
-
-    const [formData, setFormData] = useState<NewGameFormData>({
-        activityLevel: 0,
-        categoryId: 1,
-        descriptions: descriptions,
-        drunkLevel: 0,
-        gameAudienceId: undefined,
-        introDescription: undefined,
-        maxPlayers: undefined,
-        minPlayers: 2,
-        minutes: 0,
-        name: '',
-        playerGroupTypeId: undefined,
-    })
+    const { setFormData, descriptions, setDescriptions, formData } = useNewGameContext()
 
     useEffect(() => {
-        setFormData(prevState => {
+        setFormData((prevState: NewGameFormData) => {
             return {
                 ...prevState,
                 descriptions: descriptions,
@@ -34,7 +21,7 @@ function NewGamePage() {
         })
     }, [descriptions])
 
-    function BasicStep() {
+    function NewGameStep() {
         return (
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
@@ -60,7 +47,7 @@ function NewGamePage() {
                     </Typography>
 
                     <HorizontalLinearStepperComponent
-                        steps={[{ title: 'Basic Info', content: <BasicStep /> }]}
+                        steps={[{ title: 'Basic Info', content: <NewGameStep /> }]}
                     />
                 </AccessoryProvider>
             </GameTypesProvider>

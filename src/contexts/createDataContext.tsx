@@ -1,11 +1,6 @@
 import React, { createContext, ReactNode } from 'react'
 import useFetch from '../hooks/useFetch'
-
-export type DataContextType<T> = {
-    data: T | null
-    loading: boolean
-    error: Error | null
-}
+import { DataContextType } from '../types/contexts/dataContextType'
 
 export function createDataContext<T>(fetchData: () => Promise<T>) {
     const DataContext = createContext<DataContextType<T> | undefined>(undefined)

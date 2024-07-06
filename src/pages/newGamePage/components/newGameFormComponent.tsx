@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent } from 'react'
 import {
     Box,
     FormControl,
@@ -24,6 +24,7 @@ import { useGameCategories } from '../../../hooks/useGameCategories'
 import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
 import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGameFormUtils'
+import useNewGame from '../../../hooks/useNewGame'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -31,14 +32,20 @@ type NewGameFormProps = {
 }
 
 function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
+    const {
+        setCreatedGame,
+        selectedAccessories,
+        setSelectedAccessories,
+        selectedGameTypes,
+        setSelectedGameTypes,
+        createdGame,
+    } = useNewGame()
+
     const { data: categories } = useGameCategories()
     const { data: gameTypes } = useGameTypes()
     const { data: accessories } = useAccessories()
 
-    const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
     const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false)
-    const [selectedAccessories, setSelectedAccessories] = useState<string[]>([])
-    const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
 
     const handleSnackbarClose = () => {
         setOpenSnackbar(false)
