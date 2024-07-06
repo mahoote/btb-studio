@@ -2,17 +2,13 @@ import React, { useState } from 'react'
 import { Box, IconButton, TextField, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 
-type PhoneFrameComponentProps = {
+type PreviewWindowProps = {
     name: string
     descriptions: string[]
     setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-function PhoneFrameComponent({
-    name,
-    descriptions,
-    setDescriptions,
-}: PhoneFrameComponentProps) {
+function PreviewWindowComponent({ name, descriptions, setDescriptions }: PreviewWindowProps) {
     const [descriptionIndex, setDescriptionIndex] = useState<number>(0)
 
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,27 +47,23 @@ function PhoneFrameComponent({
             alignItems="center"
             height="100%"
             width="100%"
+            bgcolor="grey.900"
+            borderRadius={2}
+            flexDirection="column"
         >
             <Box
                 className="container"
-                sx={{
-                    borderRadius: 5,
-                    height: '32rem',
-                    width: '17rem',
-                    bgcolor: 'grey.800',
-                    color: 'text.primary',
-                    padding: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    position: 'relative',
-                }}
+                borderRadius={5}
+                height="32rem"
+                width="17rem"
+                color="text.primary"
+                padding={2}
+                display="flex"
+                flexDirection="column"
+                position="relative"
             >
-                <Box sx={{ flexGrow: 1 }}>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{ textAlign: 'center', marginTop: 3 }}
-                    >
+                <Box flexGrow={1}>
+                    <Typography variant="h6" component="div" textAlign="center" marginTop={3}>
                         {name === '' ? 'Game Name' : name}
                     </Typography>
                     <TextField
@@ -82,32 +74,25 @@ function PhoneFrameComponent({
                             },
                         }}
                         placeholder="Description"
-                        variant="outlined"
+                        variant="standard"
                         name="description"
                         value={descriptions[descriptionIndex]}
                         onChange={handleDescriptionChange}
                         multiline
                         required
                         fullWidth
-                        minRows={4}
-                        maxRows={15}
+                        rows={15}
                         InputProps={{
                             style: { fontSize: '0.85em' },
                         }}
                     />
                 </Box>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
+                <Box display="flex" justifyContent="center" alignItems="center">
                     <ArrowLeftComponent
                         onClick={handleBack}
                         disabled={descriptionIndex <= 0}
                     />
-                    <Typography sx={{ textAlign: 'center' }} variant={'body2'}>
+                    <Typography textAlign="center" variant={'body2'}>
                         Page {descriptionIndex + 1}
                     </Typography>
                     <ArrowRightComponent
@@ -163,4 +148,4 @@ function ArrowRightComponent({
     )
 }
 
-export default PhoneFrameComponent
+export default PreviewWindowComponent

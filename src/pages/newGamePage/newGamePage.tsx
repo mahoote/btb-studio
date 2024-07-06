@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import NewGameFormComponent from './components/newGameFormComponent'
-import { Grid } from '@mui/material'
-import PhoneFrameComponent from './components/phoneFrameComponent'
+import { Grid, Typography } from '@mui/material'
+import PreviewWindowComponent from './components/previewWindowComponent'
 import { NewGameFormData } from '../../types/formData'
 import { GameCategoryProvider } from '../../contexts/GameCategoryContext'
 import { GameTypesProvider } from '../../contexts/GameTypeContext'
@@ -37,24 +37,24 @@ function NewGamePage() {
         <GameCategoryProvider>
             <GameTypesProvider>
                 <AccessoryProvider>
-                    <div>
-                        <h2>New Game</h2>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} md={6}>
-                                <NewGameFormComponent
-                                    formData={formData}
-                                    setFormData={setFormData}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <PhoneFrameComponent
-                                    name={formData.name}
-                                    descriptions={descriptions}
-                                    setDescriptions={setDescriptions}
-                                />
-                            </Grid>
+                    <Typography variant="h5" paddingY={2}>
+                        New Game
+                    </Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <NewGameFormComponent
+                                formData={formData}
+                                setFormData={setFormData}
+                            />
                         </Grid>
-                    </div>
+                        <Grid item xs={12} md={6}>
+                            <PreviewWindowComponent
+                                name={formData.name}
+                                descriptions={descriptions}
+                                setDescriptions={setDescriptions}
+                            />
+                        </Grid>
+                    </Grid>
                 </AccessoryProvider>
             </GameTypesProvider>
         </GameCategoryProvider>

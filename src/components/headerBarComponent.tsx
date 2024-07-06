@@ -30,39 +30,42 @@ function HeaderBarComponent({ pages }: HeaderBarProps) {
                         flexGrow: 1,
                     }}
                 >
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component={Link}
-                        to="/"
-                        sx={{
-                            display: 'flex',
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        BTB-STUDIO
-                    </Typography>
-                    <Box
-                        sx={{
-                            ml: 2,
-                            flexGrow: 1,
-                            display: { xs: 'none', md: 'flex' },
-                        }}
-                    >
-                        {pages.map((page, index) => (
-                            <Button
-                                key={index}
-                                component={Link}
-                                to={page.path}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page.name}
-                            </Button>
-                        ))}
+                    <Box display="flex">
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component={Link}
+                            to="/"
+                            display="flex"
+                            fontFamily="monospace"
+                            fontWeight={700}
+                            letterSpacing=".3rem"
+                            color="inherit"
+                            sx={{
+                                textDecoration: 'none',
+                            }}
+                        >
+                            BTB-STUDIO
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                ml: 2,
+                                display: { xs: 'none', md: 'flex' },
+                            }}
+                            flexGrow={1}
+                        >
+                            {pages.map((page, index) => (
+                                <Button
+                                    key={index}
+                                    component={Link}
+                                    to={page.path}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                >
+                                    {page.name}
+                                </Button>
+                            ))}
+                        </Box>
                     </Box>
                 </Box>
                 <IconButton onClick={handleSignOut} edge="end">
