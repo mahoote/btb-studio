@@ -1,14 +1,5 @@
-import React, { FormEvent, useState } from 'react'
-import {
-    Box,
-    FormControl,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    Snackbar,
-    TextField,
-} from '@mui/material'
+import React from 'react'
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { GameCategory } from '../../../types/gameCategory'
 import {
     handleNumberChange,
@@ -16,14 +7,11 @@ import {
     handleTextChange,
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
-import { createGame } from '../../../services/gameService'
-import { GameDto } from '../../../types/game'
-import { LoadingButton } from '@mui/lab'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import { useGameCategories } from '../../../hooks/useGameCategories'
 import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
-import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGameFormUtils'
+import useNewGame from '../../../hooks/useNewGame'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -31,95 +19,19 @@ type NewGameFormProps = {
 }
 
 function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
+    const {
+        selectedAccessories,
+        setSelectedAccessories,
+        selectedGameTypes,
+        setSelectedGameTypes,
+    } = useNewGame()
+
     const { data: categories } = useGameCategories()
     const { data: gameTypes } = useGameTypes()
     const { data: accessories } = useAccessories()
 
-    const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
-    const [openSnackbar, setOpenSnackbar] = React.useState<boolean>(false)
-    const [selectedAccessories, setSelectedAccessories] = useState<string[]>([])
-    const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
-
-    const handleSnackbarClose = () => {
-        setOpenSnackbar(false)
-    }
-
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        setCreatedGame(undefined)
-
-        const updatedDescriptions = formData.descriptions.filter(
-            description => description !== ''
-        )
-
-        if (updatedDescriptions.length === 0) {
-            alert('Please add at least one description')
-            return
-        }
-
-        formData.descriptions = updatedDescriptions
-
-        const newGame = await createGame({
-            name: formData.name,
-            intro_description: formData.introDescription,
-            descriptions: formData.descriptions,
-            min_players: formData.minPlayers,
-            max_players: formData.maxPlayers,
-            activity_level: formData.activityLevel,
-            drunk_level: formData.drunkLevel,
-            minutes: formData.minutes,
-            player_group_type_id: formData.playerGroupTypeId,
-            game_audience_id: formData.gameAudienceId,
-            game_category_id: formData.categoryId,
-        })
-            .then((response: GameDto | null) => {
-                setOpenSnackbar(true)
-                if (!response) {
-                    console.error('Could not fetch game from database.')
-                    return
-                }
-                setCreatedGame(response)
-                return response
-            })
-            .catch(error => {
-                console.error('Error creating game:', error)
-                alert('Error creating game')
-                setCreatedGame({} as GameDto)
-            })
-
-        if (newGame) {
-            const { errorMessage: accessoryErrorMessage } = await addAccessoriesToGame(
-                selectedAccessories,
-                accessories,
-                newGame
-            )
-            if (accessoryErrorMessage) alert('Error adding accessory to game')
-
-            const { errorMessage: gameTypeErrorMessage } = await addGameTypesToGame(
-                selectedGameTypes,
-                gameTypes,
-                newGame
-            )
-            if (gameTypeErrorMessage) alert('Error adding game type to game')
-
-            // TODO: Make logic to delete game if an error occurs adding the accessories or game types.
-        }
-    }
-
-    const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        handleSubmit(event).catch(error => {
-            console.error('Error submitting form:', error)
-        })
-    }
-
     return (
-        <Box
-            component="form"
-            onSubmit={handleFormSubmit}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
+        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                     <TextField
@@ -297,22 +209,6 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                 selectedValues={selectedAccessories}
                 setSelectedValues={setSelectedAccessories}
                 label="Accessories"
-            />
-
-            <LoadingButton
-                loading={!createdGame}
-                type="submit"
-                variant="contained"
-                color="primary"
-            >
-                Submit
-            </LoadingButton>
-
-            <Snackbar
-                open={openSnackbar}
-                autoHideDuration={2000}
-                onClose={handleSnackbarClose}
-                message={`${createdGame?.name} is created!`}
             />
         </Box>
     )

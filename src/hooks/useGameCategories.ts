@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { GameCategoryContext } from '../contexts/GameCategoryContext'
-import { DataContextType } from '../contexts/createDataContext'
 import { GameCategory } from '../types/gameCategory'
+import { DataContextType } from '../types/contexts/dataContextType'
 
 export const useGameCategories = (): DataContextType<GameCategory[]> => {
     const context = useContext(GameCategoryContext)
