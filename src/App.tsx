@@ -6,7 +6,6 @@ import NewGamePage from './pages/newGamePage/newGamePage'
 import LoginPage from './pages/loginPage/loginPage'
 import { useAuth } from './hooks/useAuth'
 import { Box, CircularProgress } from '@mui/material'
-import NewGameProvider from './contexts/NewGameContext'
 
 function App() {
     return (
@@ -31,14 +30,7 @@ function AuthRoutes() {
         <Routes>
             {user ? (
                 <Route path="/" element={<AppLayoutComponent />}>
-                    <Route
-                        index
-                        element={
-                            <NewGameProvider>
-                                <NewGamePage />
-                            </NewGameProvider>
-                        }
-                    />
+                    <Route index element={<NewGamePage />} />
                     <Route path="*" element={<div>This page does not exist</div>} />
                 </Route>
             ) : (

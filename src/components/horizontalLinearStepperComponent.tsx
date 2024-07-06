@@ -6,13 +6,30 @@ import StepLabel from '@mui/material/StepLabel'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { StepperObject } from '../types/StepperObject'
+import { useEffect } from 'react'
 
 type HorizontalLinearStepperProps = {
     steps: StepperObject[]
+    onFinnish?: () => void
+    completeMessage?: string
+    onReset?: () => void
 }
 
-export default function HorizontalLinearStepperComponent({
+/**
+ * Creates a step by step component to wrap around a form.
+ * Is able to skip steps and go back and forth.
+ * On the last step it will call the onFinnish function if it is provided.
+ * @param steps
+ * @param onFinnish
+ * @param completeMessage
+ * @param onReset
+ * @constructor
+ */
+function HorizontalLinearStepperComponent({
     steps,
+    onFinnish,
+    completeMessage,
+    onReset,
 }: HorizontalLinearStepperProps) {
     const [activeStep, setActiveStep] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
@@ -38,8 +55,6 @@ export default function HorizontalLinearStepperComponent({
 
     const handleSkip = () => {
         if (!steps[activeStep].isOptional) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
             throw new Error("You can't skip a step that isn't optional.")
         }
 
@@ -52,8 +67,15 @@ export default function HorizontalLinearStepperComponent({
     }
 
     const handleReset = () => {
+        if (onReset) onReset()
         setActiveStep(0)
     }
+
+    useEffect(() => {
+        if (activeStep === steps.length && onFinnish) {
+            onFinnish()
+        }
+    }, [activeStep])
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -81,7 +103,9 @@ export default function HorizontalLinearStepperComponent({
             {activeStep === steps.length ? (
                 <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&apos;re finished
+                        {completeMessage ?? (
+                            <span>All steps completed - you&apos;re finished</span>
+                        )}
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Box sx={{ flex: '1 1 auto' }} />
@@ -115,3 +139,5 @@ export default function HorizontalLinearStepperComponent({
         </Box>
     )
 }
+
+export default React.memo(HorizontalLinearStepperComponent)
