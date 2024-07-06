@@ -6,6 +6,7 @@ import { NewGameFormData } from '../../types/formData'
 import { GameCategoryProvider } from '../../contexts/GameCategoryContext'
 import { GameTypesProvider } from '../../contexts/GameTypeContext'
 import { AccessoryProvider } from '../../contexts/AccessoryContext'
+import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
 
 function NewGamePage() {
     const [descriptions, setDescriptions] = useState<string[]>([''])
@@ -55,6 +56,7 @@ function NewGamePage() {
                             />
                         </Grid>
                     </Grid>
+                    <HorizontalLinearStepperComponent />
                 </AccessoryProvider>
             </GameTypesProvider>
         </GameCategoryProvider>
