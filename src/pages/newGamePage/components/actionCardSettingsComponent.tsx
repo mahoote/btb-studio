@@ -59,6 +59,7 @@ function ActionCardSettingsComponent() {
                             <MenuItem value={1}>Random Objects</MenuItem>
                             <MenuItem value={2}>Sentences</MenuItem>
                             <MenuItem value={3}>Player Questions</MenuItem>
+                            <MenuItem value={4}>Tasks</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -101,18 +102,29 @@ function ActionCardSettingsComponent() {
                     </Tooltip>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <Tooltip
-                        title={
-                            'If the "Card Seconds" is set, the Auto-next decides if there is a manual step between each card or if they should show the next card automatically.'
-                        }
-                    >
-                        <FormControlLabel
-                            disabled={(formData?.cardSeconds ?? 0) <= 0}
-                            control={<Switch />}
-                            label="Auto-next"
-                            labelPlacement="top"
-                        />
-                    </Tooltip>
+                    <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
+                        <Tooltip
+                            title={
+                                'If the "Card Seconds" is set, the Auto-next decides if there is a manual step between each card or if they should show the next card automatically.'
+                            }
+                        >
+                            <FormControlLabel
+                                disabled={(formData?.cardSeconds ?? 0) <= 0}
+                                control={<Switch />}
+                                label="Auto-next"
+                                labelPlacement="top"
+                            />
+                        </Tooltip>
+                        <Tooltip
+                            title={'If the players will be creative and make their own cards.'}
+                        >
+                            <FormControlLabel
+                                control={<Switch />}
+                                label="Player Creative"
+                                labelPlacement="top"
+                            />
+                        </Tooltip>
+                    </Box>
                 </Grid>
             </Grid>
         </Box>
