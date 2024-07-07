@@ -1,5 +1,7 @@
+import ActionCardSettingsComponent from './actionCardSettingsComponent'
+
 function AdvancedSettingsComponent() {
-    return <div>Hello World</div>
+    return <ActionCardSettingsComponent />
 }
 
 export default AdvancedSettingsComponent
