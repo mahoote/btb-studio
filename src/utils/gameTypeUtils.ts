@@ -1,8 +1,6 @@
 import { GameTypeEnum } from '../enums/gameTypeEnum'
 
+// TODO: Is this needed?
 export function getGameTypeCombinations(): string[][] {
-    return [
-        [GameTypeEnum.ActionCard, GameTypeEnum.Timed, GameTypeEnum.Forfeit],
-        [GameTypeEnum.ActionCard, GameTypeEnum.Timed, GameTypeEnum.Finish],
-    ]
+    return [Object.values(GameTypeEnum)]
 }
