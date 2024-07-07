@@ -29,25 +29,14 @@ function ChipsAutocompleteComponent({
         if (selectedValues.length <= 0) return false
         if (selectedValues.includes(option)) return false
 
-        let optionDisabled = true
+        const combinationsWithSelectedValues: string[][] = optionCombinations.filter(
+            combination => selectedValues.every(value => combination.includes(value))
+        )
 
-        for (const combination of optionCombinations) {
-            const selectedValuesInCombination = selectedValues.every(value =>
-                combination.includes(value)
-            )
-            const optionInCombination = combination.includes(option)
+        const flattenedCombinations: string[] = combinationsWithSelectedValues.flat()
+        const optionInCombination = flattenedCombinations.includes(option)
 
-            optionDisabled = !selectedValuesInCombination || !optionInCombination
-
-            if (
-                !optionDisabled ||
-                (selectedValuesInCombination && selectedValues.length > 1)
-            ) {
-                break
-            }
-        }
-
-        return optionDisabled
+        return !optionInCombination
     }
 
     return (
