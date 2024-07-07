@@ -12,6 +12,7 @@ import { useGameCategories } from '../../../hooks/useGameCategories'
 import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
 import useNewGame from '../../../hooks/useNewGame'
+import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -203,6 +204,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                 setSelectedValues={setSelectedGameTypes}
                 label="Game Types"
                 required={true}
+                optionCombinations={getGameTypeCombinations()}
             />
             <ChipsAutocompleteComponent
                 predefinedValues={accessories?.map(accessory => accessory.name) ?? []}

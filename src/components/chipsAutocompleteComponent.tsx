@@ -7,6 +7,7 @@ type ChipsAutocompleteProps = {
     setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
     label: string
     required?: boolean
+    optionCombinations?: string[][]
 }
 
 function ChipsAutocompleteComponent({
@@ -15,8 +16,39 @@ function ChipsAutocompleteComponent({
     setSelectedValues,
     label,
     required,
+    optionCombinations,
 }: ChipsAutocompleteProps) {
     const isRequired = selectedValues.length === 0 && required
+
+    /**
+     * Will not disable if there is no selected values or the option is selected.
+     * @param option
+     */
+    const isOptionDisabled = (option: string) => {
+        if (!optionCombinations) return false
+        if (selectedValues.length <= 0) return false
+        if (selectedValues.includes(option)) return false
+
+        let optionDisabled = true
+
+        for (const combination of optionCombinations) {
+            const selectedValuesInCombination = selectedValues.every(value =>
+                combination.includes(value)
+            )
+            const optionInCombination = combination.includes(option)
+
+            optionDisabled = !selectedValuesInCombination || !optionInCombination
+
+            if (
+                !optionDisabled ||
+                (selectedValuesInCombination && selectedValues.length > 1)
+            ) {
+                break
+            }
+        }
+
+        return optionDisabled
+    }
 
     return (
         <Autocomplete
@@ -42,6 +74,7 @@ function ChipsAutocompleteComponent({
                 />
             )}
             disableCloseOnSelect
+            getOptionDisabled={isOptionDisabled}
         />
     )
 }
