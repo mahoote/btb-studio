@@ -10,6 +10,7 @@ import {
     Switch,
     TextField,
     Tooltip,
+    Typography,
 } from '@mui/material'
 import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
 import { ActionCardSettingsData } from '../../../types/formData'
@@ -22,6 +23,7 @@ function ActionCardSettingsComponent() {
 
     return (
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Typography variant="h6">Action Card Settings</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                     <FormControl variant="outlined" fullWidth>
