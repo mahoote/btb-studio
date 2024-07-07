@@ -1,5 +1,6 @@
 import React from 'react'
 import { Autocomplete, TextField, Chip } from '@mui/material'
+import { isOptionDisabled } from '../utils/chipsAutocompleteUtils'
 
 type ChipsAutocompleteProps = {
     predefinedValues: string[]
@@ -7,6 +8,7 @@ type ChipsAutocompleteProps = {
     setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
     label: string
     required?: boolean
+    optionCombinations?: string[][]
 }
 
 function ChipsAutocompleteComponent({
@@ -15,6 +17,7 @@ function ChipsAutocompleteComponent({
     setSelectedValues,
     label,
     required,
+    optionCombinations,
 }: ChipsAutocompleteProps) {
     const isRequired = selectedValues.length === 0 && required
 
@@ -42,6 +45,9 @@ function ChipsAutocompleteComponent({
                 />
             )}
             disableCloseOnSelect
+            getOptionDisabled={option =>
+                isOptionDisabled(option, selectedValues, optionCombinations)
+            }
         />
     )
 }
