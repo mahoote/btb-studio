@@ -156,4 +156,4 @@ function HorizontalLinearStepperComponent({
     )
 }
 
-export default React.memo(HorizontalLinearStepperComponent)
+export default HorizontalLinearStepperComponent

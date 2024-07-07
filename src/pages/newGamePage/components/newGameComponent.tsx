@@ -10,6 +10,7 @@ import { Grid } from '@mui/material'
 import NewGameFormComponent from './newGameFormComponent'
 import PreviewWindowComponent from './previewWindowComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
+import AdvancedSettingsComponent from './advancedSettingsComponent'
 
 type NewGameStepProps = {
     formData: NewGameFormData
@@ -180,6 +181,10 @@ function NewGameComponent() {
                             setDescriptions={setDescriptions}
                         />
                     ),
+                },
+                {
+                    label: 'Advanced Settings',
+                    content: <AdvancedSettingsComponent />,
                 },
             ]}
             onFinnish={handleFormSubmit}
