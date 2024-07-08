@@ -151,6 +151,9 @@ function ActionCardSettingsComponent() {
             </Grid>
             <Typography>Cards</Typography>
             <MultiInputComponent
+                wordSuggestions={[
+                    { values: ['$ALL$', '$PLAYER$', '$SELF$', '$PLAYERS{NUM}$'], key: '$' },
+                ]}
                 isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2, 3, 4])}
                 inputs={actionCardInputs}
                 setInputs={setActionCardInputs}

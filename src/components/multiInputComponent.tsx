@@ -2,11 +2,13 @@ import { Button, Grid } from '@mui/material'
 import React from 'react'
 import { Add } from '@mui/icons-material'
 import TextFieldSuggestionsComponent from './textFieldSuggestionsComponent'
+import { TextFieldSuggestion } from '../types/textFieldSuggestion'
 
 type MultiInputProps = {
     inputs: string[]
     setInputs: React.Dispatch<React.SetStateAction<string[]>>
     isMultiline?: boolean
+    wordSuggestions: TextFieldSuggestion[]
 }
 
 /**
@@ -14,7 +16,12 @@ type MultiInputProps = {
  * Is comes with the grid layout.
  * @constructor
  */
-function MultiInputComponent({ isMultiline, inputs, setInputs }: MultiInputProps) {
+function MultiInputComponent({
+    isMultiline,
+    inputs,
+    setInputs,
+    wordSuggestions,
+}: MultiInputProps) {
     if (inputs.length <= 0) {
         setInputs([''])
     }
@@ -32,9 +39,7 @@ function MultiInputComponent({ isMultiline, inputs, setInputs }: MultiInputProps
             {inputs.map((input, index) => (
                 <Grid key={index} item xs={12} sm={4}>
                     <TextFieldSuggestionsComponent
-                        wordSuggestions={[
-                            { values: ['$ALL$', '$PLAYER$', '$GAME$', '$SCORE$'], key: '$' },
-                        ]}
+                        wordSuggestions={wordSuggestions}
                         label={`Input ${index + 1}`}
                         name={`input-${index + 1}`}
                         variant="outlined"
