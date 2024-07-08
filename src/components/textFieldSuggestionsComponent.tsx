@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { TextField, Popper, Paper, List, ListItemButton, ListItemText } from '@mui/material'
 import { TextFieldSuggestion } from '../types/textFieldSuggestion'
 
@@ -59,6 +59,30 @@ function TextFieldSuggestionsComponent({
         setAnchorEl(null)
     }
 
+    const handleClickAway = (event: MouseEvent) => {
+        if (anchorEl && !anchorEl.contains(event.target as Node)) {
+            setSuggestions([])
+            setAnchorEl(null)
+        }
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            setSuggestions([])
+            setAnchorEl(null)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickAway)
+        document.addEventListener('keydown', handleKeyDown)
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickAway)
+            document.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [anchorEl])
+
     return (
         <div>
             <TextField
@@ -72,7 +96,12 @@ function TextFieldSuggestionsComponent({
                 inputRef={textFieldRef}
                 name={name}
             />
-            <Popper open={suggestions.length > 0} anchorEl={anchorEl} placement="bottom-end">
+            <Popper
+                open={suggestions.length > 0}
+                anchorEl={anchorEl}
+                placement="bottom-start"
+                style={{ zIndex: 100 }}
+            >
                 <Paper>
                     <List>
                         {suggestions.map((suggestion, index) => (
