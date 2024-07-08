@@ -19,7 +19,7 @@ type NewGameStepProps = {
     setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const initialFormData: NewGameFormData = {
+const initialNewGameData: NewGameFormData = {
     activityLevel: 0,
     categoryId: 1,
     descriptions: [],
@@ -78,17 +78,19 @@ function NewGameComponent() {
         selectedGameTypes,
         setSelectedGameTypes,
         setSelectedAccessories,
+        setActionCardSettingsData,
+        setActionCardInputs,
     } = useNewGameContext()
 
     const { data: gameTypes } = useGameTypes()
     const { data: accessories } = useAccessories()
 
-    const [formData, setFormData] = useState<NewGameFormData>(initialFormData)
+    const [newGameData, setNewGameData] = useState<NewGameFormData>(initialNewGameData)
 
     const handleSubmit = async () => {
         setCreatedGame(undefined)
 
-        const updatedDescriptions = formData.descriptions.filter(
+        const updatedDescriptions = newGameData.descriptions.filter(
             description => description !== ''
         )
 
@@ -97,20 +99,20 @@ function NewGameComponent() {
             return
         }
 
-        formData.descriptions = updatedDescriptions
+        newGameData.descriptions = updatedDescriptions
 
         const newGame = await createGame({
-            name: formData.name,
-            intro_description: formData.introDescription,
-            descriptions: formData.descriptions,
-            min_players: formData.minPlayers,
-            max_players: formData.maxPlayers,
-            activity_level: formData.activityLevel,
-            drunk_level: formData.drunkLevel,
-            minutes: formData.minutes,
-            player_group_type_id: formData.playerGroupTypeId,
-            game_audience_id: formData.gameAudienceId,
-            game_category_id: formData.categoryId,
+            name: newGameData.name,
+            intro_description: newGameData.introDescription,
+            descriptions: newGameData.descriptions,
+            min_players: newGameData.minPlayers,
+            max_players: newGameData.maxPlayers,
+            activity_level: newGameData.activityLevel,
+            drunk_level: newGameData.drunkLevel,
+            minutes: newGameData.minutes,
+            player_group_type_id: newGameData.playerGroupTypeId,
+            game_audience_id: newGameData.gameAudienceId,
+            game_category_id: newGameData.categoryId,
         })
             .then((response: GameDto | null) => {
                 if (!response) {
@@ -152,21 +154,26 @@ function NewGameComponent() {
     }
 
     const handleResetForm = () => {
-        setFormData(initialFormData)
-        setDescriptions([])
+        setNewGameData(initialNewGameData)
+        setDescriptions([''])
         setCreatedGame(undefined)
         setSelectedGameTypes([])
         setSelectedAccessories([])
+        setActionCardSettingsData({
+            stateId: 0,
+            contentId: 0,
+        })
+        setActionCardInputs([''])
     }
 
     useEffect(() => {
-        setFormData((prevState: NewGameFormData) => {
+        setNewGameData((prevState: NewGameFormData) => {
             return {
                 ...prevState,
                 descriptions: descriptions,
             }
         })
-    }, [setFormData, descriptions])
+    }, [setNewGameData, descriptions])
 
     return (
         <HorizontalLinearStepperComponent
@@ -175,8 +182,8 @@ function NewGameComponent() {
                     label: 'New Game',
                     content: (
                         <NewGameStep
-                            formData={formData}
-                            setFormData={setFormData}
+                            formData={newGameData}
+                            setFormData={setNewGameData}
                             descriptions={descriptions}
                             setDescriptions={setDescriptions}
                         />

@@ -1,9 +1,11 @@
 import { Button, Grid } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { Add } from '@mui/icons-material'
 import TextFieldSuggestionsComponent from './textFieldSuggestionsComponent'
 
 type MultiInputProps = {
+    inputs: string[]
+    setInputs: React.Dispatch<React.SetStateAction<string[]>>
     isMultiline?: boolean
 }
 
@@ -12,8 +14,10 @@ type MultiInputProps = {
  * Is comes with the grid layout.
  * @constructor
  */
-function MultiInputComponent({ isMultiline }: MultiInputProps) {
-    const [inputs, setInputs] = useState<string[]>([''])
+function MultiInputComponent({ isMultiline, inputs, setInputs }: MultiInputProps) {
+    if (inputs.length <= 0) {
+        setInputs([''])
+    }
 
     const handleInputChange = (index: number, newValue: string) => {
         setInputs(prevInputs => prevInputs.map((input, i) => (i === index ? newValue : input)))

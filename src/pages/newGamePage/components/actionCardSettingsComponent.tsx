@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Box,
     FormControl,
@@ -13,14 +13,16 @@ import {
     Typography,
 } from '@mui/material'
 import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
-import { ActionCardSettingsData } from '../../../types/formData'
 import MultiInputComponent from '../../../components/multiInputComponent'
+import useNewGame from '../../../hooks/useNewGame'
 
 function ActionCardSettingsComponent() {
-    const [formData, setFormData] = useState<ActionCardSettingsData>({
-        stateId: 0,
-        contentId: 0,
-    })
+    const {
+        actionCardSettingsData,
+        setActionCardSettingsData,
+        actionCardInputs,
+        setActionCardInputs,
+    } = useNewGame()
 
     return (
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -33,9 +35,13 @@ function ActionCardSettingsComponent() {
                             labelId="state"
                             label="State"
                             name="state"
-                            value={formData.stateId}
+                            value={actionCardSettingsData.stateId}
                             onChange={event =>
-                                handleSelectChange(event, formData, setFormData)
+                                handleSelectChange(
+                                    event,
+                                    actionCardSettingsData,
+                                    setActionCardSettingsData
+                                )
                             }
                         >
                             <MenuItem value={0}>All get the same cards</MenuItem>
@@ -53,9 +59,13 @@ function ActionCardSettingsComponent() {
                             labelId="content-type"
                             label="Content Type"
                             name="contentType"
-                            value={formData.contentId}
+                            value={actionCardSettingsData.contentId}
                             onChange={event =>
-                                handleSelectChange(event, formData, setFormData)
+                                handleSelectChange(
+                                    event,
+                                    actionCardSettingsData,
+                                    setActionCardSettingsData
+                                )
                             }
                         >
                             <MenuItem value={0}>Random Words</MenuItem>
@@ -80,9 +90,13 @@ function ActionCardSettingsComponent() {
                             name="cardLimit"
                             type="number"
                             inputProps={{ min: 0 }}
-                            value={formData.cardLimit}
+                            value={actionCardSettingsData.cardLimit}
                             onChange={event =>
-                                handleNumberChange(event, formData, setFormData)
+                                handleNumberChange(
+                                    event,
+                                    actionCardSettingsData,
+                                    setActionCardSettingsData
+                                )
                             }
                             fullWidth
                         />
@@ -96,9 +110,13 @@ function ActionCardSettingsComponent() {
                             name="cardSeconds"
                             type="number"
                             inputProps={{ min: 5 }}
-                            value={formData.cardSeconds}
+                            value={actionCardSettingsData.cardSeconds}
                             onChange={event =>
-                                handleNumberChange(event, formData, setFormData)
+                                handleNumberChange(
+                                    event,
+                                    actionCardSettingsData,
+                                    setActionCardSettingsData
+                                )
                             }
                             fullWidth
                         />
@@ -112,7 +130,7 @@ function ActionCardSettingsComponent() {
                             }
                         >
                             <FormControlLabel
-                                disabled={(formData?.cardSeconds ?? 0) <= 0}
+                                disabled={(actionCardSettingsData?.cardSeconds ?? 0) <= 0}
                                 control={<Switch />}
                                 label="Auto-next"
                                 labelPlacement="top"
@@ -131,7 +149,11 @@ function ActionCardSettingsComponent() {
                 </Grid>
             </Grid>
             <Typography>Cards</Typography>
-            <MultiInputComponent isMultiline={true} />
+            <MultiInputComponent
+                isMultiline={true}
+                inputs={actionCardInputs}
+                setInputs={setActionCardInputs}
+            />
         </Box>
     )
 }
