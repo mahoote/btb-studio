@@ -30,7 +30,7 @@ function MultiInputComponent({ isMultiline, inputs, setInputs }: MultiInputProps
     return (
         <Grid container spacing={2}>
             {inputs.map((input, index) => (
-                <Grid item xs={12} sm={4}>
+                <Grid key={index} item xs={12} sm={4}>
                     <TextFieldSuggestionsComponent
                         wordSuggestions={[
                             { values: ['$ALL$', '$PLAYER$', '$GAME$', '$SCORE$'], key: '$' },

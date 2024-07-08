@@ -15,6 +15,7 @@ import {
 import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
 import MultiInputComponent from '../../../components/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
+import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 
 function ActionCardSettingsComponent() {
     const {
@@ -32,9 +33,9 @@ function ActionCardSettingsComponent() {
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel id="state">State</InputLabel>
                         <Select
-                            labelId="state"
+                            labelId="state-id"
                             label="State"
-                            name="state"
+                            name="stateId"
                             value={actionCardSettingsData.stateId}
                             onChange={event =>
                                 handleSelectChange(
@@ -56,9 +57,9 @@ function ActionCardSettingsComponent() {
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel id="state">Content Type</InputLabel>
                         <Select
-                            labelId="content-type"
+                            labelId="content-id"
                             label="Content Type"
-                            name="contentType"
+                            name="contentId"
                             value={actionCardSettingsData.contentId}
                             onChange={event =>
                                 handleSelectChange(
@@ -150,7 +151,7 @@ function ActionCardSettingsComponent() {
             </Grid>
             <Typography>Cards</Typography>
             <MultiInputComponent
-                isMultiline={true}
+                isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2, 3, 4])}
                 inputs={actionCardInputs}
                 setInputs={setActionCardInputs}
             />
