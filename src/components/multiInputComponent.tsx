@@ -23,9 +23,9 @@ function MultiInputComponent() {
             {inputs.map((input, index) => (
                 <Grid item xs={12} sm={4}>
                     <TextField
-                        label={`Card ${index + 1}`}
+                        label={`Input ${index + 1}`}
                         variant="outlined"
-                        name={`card-${index + 1}`}
+                        name={`input-${index + 1}`}
                         value={input}
                         onChange={e => handleInputChange(index, e.target.value)}
                         required
