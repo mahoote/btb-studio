@@ -16,6 +16,7 @@ import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtil
 import MultiInputComponent from '../../../components/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
+import { ActionCardSuggestionEnum } from '../../../enums/wordSuggestionEnum'
 
 function ActionCardSettingsComponent() {
     const {
@@ -152,7 +153,15 @@ function ActionCardSettingsComponent() {
             <Typography>Cards</Typography>
             <MultiInputComponent
                 wordSuggestions={[
-                    { values: ['$ALL$', '$PLAYER$', '$SELF$', '$PLAYERS{NUM}$'], key: '$' },
+                    {
+                        values: [
+                            ActionCardSuggestionEnum.ALL,
+                            ActionCardSuggestionEnum.SELF,
+                            ActionCardSuggestionEnum.PLAYER,
+                            ActionCardSuggestionEnum.PLAYERS,
+                        ],
+                        key: '$',
+                    },
                 ]}
                 isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2, 3, 4])}
                 inputs={actionCardInputs}
