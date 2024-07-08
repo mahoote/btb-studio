@@ -28,7 +28,9 @@ function MultiInputComponent({ isMultiline }: MultiInputProps) {
             {inputs.map((input, index) => (
                 <Grid item xs={12} sm={4}>
                     <TextFieldSuggestionsComponent
-                        wordSuggestions={['$ALL$', '$PLAYER$', '$GAME$', '$SCORE$']}
+                        wordSuggestions={[
+                            { values: ['$ALL$', '$PLAYER$', '$GAME$', '$SCORE$'], key: '$' },
+                        ]}
                         label={`Input ${index + 1}`}
                         name={`input-${index + 1}`}
                         variant="outlined"

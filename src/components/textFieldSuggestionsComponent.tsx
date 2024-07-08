@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { TextField, Popper, Paper, List, ListItemButton, ListItemText } from '@mui/material'
+import { TextFieldSuggestion } from '../types/textFieldSuggestion'
 
 type TextFieldSuggestionsProps = {
     label: string
@@ -9,7 +10,7 @@ type TextFieldSuggestionsProps = {
     setValue: (newValue: string) => void
     value: string
     variant: 'outlined' | 'filled' | 'standard'
-    wordSuggestions: string[]
+    wordSuggestions: TextFieldSuggestion[]
 }
 
 function TextFieldSuggestionsComponent({
@@ -33,15 +34,18 @@ function TextFieldSuggestionsComponent({
         const cursorPosition = event.target.selectionStart
         const lastWord = value.slice(0, cursorPosition!).split(' ').pop()
 
-        if (lastWord && lastWord.startsWith('$')) {
-            const filteredSuggestions = wordSuggestions.filter(word =>
-                word.includes(lastWord.toUpperCase())
-            )
-            setSuggestions(filteredSuggestions)
-            setAnchorEl(event.currentTarget)
-        } else {
-            setSuggestions([])
-            setAnchorEl(null)
+        for (const suggestion of wordSuggestions) {
+            if (lastWord && lastWord.startsWith(suggestion.key)) {
+                const filteredSuggestions = suggestion.values.filter(word =>
+                    word.includes(lastWord.toUpperCase())
+                )
+                setSuggestions(filteredSuggestions)
+                setAnchorEl(event.currentTarget)
+                break
+            } else {
+                setSuggestions([])
+                setAnchorEl(null)
+            }
         }
     }
 
