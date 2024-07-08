@@ -26,6 +26,8 @@ function TextFieldSuggestionsComponent({
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const [suggestions, setSuggestions] = useState<string[]>([])
     const textFieldRef = useRef<HTMLInputElement>(null)
+    const popperRef = useRef<HTMLDivElement>(null)
+    const ignoreClick = useRef(false)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
@@ -60,10 +62,17 @@ function TextFieldSuggestionsComponent({
     }
 
     const handleClickAway = (event: MouseEvent) => {
-        if (anchorEl && !anchorEl.contains(event.target as Node)) {
+        if (
+            !ignoreClick.current &&
+            anchorEl &&
+            !anchorEl.contains(event.target as Node) &&
+            popperRef.current &&
+            !popperRef.current.contains(event.target as Node)
+        ) {
             setSuggestions([])
             setAnchorEl(null)
         }
+        ignoreClick.current = false
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -101,6 +110,10 @@ function TextFieldSuggestionsComponent({
                 anchorEl={anchorEl}
                 placement="bottom-start"
                 style={{ zIndex: 100 }}
+                ref={popperRef}
+                onMouseDown={() => {
+                    ignoreClick.current = true
+                }}
             >
                 <Paper>
                     <List>
