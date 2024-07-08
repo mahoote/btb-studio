@@ -2,12 +2,16 @@ import { Button, Grid, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Add } from '@mui/icons-material'
 
+type MultiInputProps = {
+    isMultiline?: boolean
+}
+
 /**
  * This is a component for creating multiple input elements.
  * Is comes with the grid layout.
  * @constructor
  */
-function MultiInputComponent() {
+function MultiInputComponent({ isMultiline }: MultiInputProps) {
     const [inputs, setInputs] = useState<string[]>([''])
 
     const handleInputChange = (index: number, newValue: string) => {
@@ -30,6 +34,7 @@ function MultiInputComponent() {
                         onChange={e => handleInputChange(index, e.target.value)}
                         required
                         fullWidth
+                        multiline={isMultiline}
                     />
                 </Grid>
             ))}

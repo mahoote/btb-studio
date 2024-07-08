@@ -131,7 +131,7 @@ function ActionCardSettingsComponent() {
                 </Grid>
             </Grid>
             <Typography>Cards</Typography>
-            <MultiInputComponent />
+            <MultiInputComponent isMultiline={true} />
         </Box>
     )
 }
