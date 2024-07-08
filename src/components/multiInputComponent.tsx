@@ -1,6 +1,7 @@
-import { Button, Grid, TextField } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import React, { useState } from 'react'
 import { Add } from '@mui/icons-material'
+import TextFieldSuggestionsComponent from './textFieldSuggestionsComponent'
 
 type MultiInputProps = {
     isMultiline?: boolean
@@ -26,15 +27,15 @@ function MultiInputComponent({ isMultiline }: MultiInputProps) {
         <Grid container spacing={2}>
             {inputs.map((input, index) => (
                 <Grid item xs={12} sm={4}>
-                    <TextField
+                    <TextFieldSuggestionsComponent
+                        wordSuggestions={['$ALL$', '$PLAYER$', '$GAME$', '$SCORE$']}
                         label={`Input ${index + 1}`}
-                        variant="outlined"
                         name={`input-${index + 1}`}
+                        variant="outlined"
                         value={input}
-                        onChange={e => handleInputChange(index, e.target.value)}
-                        required
-                        fullWidth
+                        setValue={(newValue: string) => handleInputChange(index, newValue)}
                         multiline={isMultiline}
+                        required
                     />
                 </Grid>
             ))}
