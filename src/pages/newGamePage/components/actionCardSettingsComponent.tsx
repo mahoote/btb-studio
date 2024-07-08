@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
 import { ActionCardSettingsData } from '../../../types/formData'
+import MultiInputComponent from '../../../components/multiInputComponent'
 
 function ActionCardSettingsComponent() {
     const [formData, setFormData] = useState<ActionCardSettingsData>({
@@ -129,6 +130,8 @@ function ActionCardSettingsComponent() {
                     </Box>
                 </Grid>
             </Grid>
+            <Typography>Cards</Typography>
+            <MultiInputComponent />
         </Box>
     )
 }
