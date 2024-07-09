@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material'
 import React from 'react'
-import { Add, List } from '@mui/icons-material'
+import { Add, Clear, List } from '@mui/icons-material'
 import TextFieldSuggestionsComponent from '../textFieldSuggestionsComponent'
 import { TextFieldSuggestion } from '../../types/textFieldSuggestion'
 import MultiInputBulkComponent from './multiInputBulkComponent'
@@ -50,6 +50,10 @@ function MultiInputComponent({
         setInputs([...inputs, ...filteredBulkInputs])
     }
 
+    const removeEmptyInputs = () => {
+        setInputs(inputs.filter(input => input !== ''))
+    }
+
     return (
         <>
             <MultiInputBulkComponent
@@ -72,7 +76,15 @@ function MultiInputComponent({
                         />
                     </Grid>
                 ))}
-                <Grid item sm={12} display="flex" alignItems="center" gap={1}>
+                <Grid
+                    item
+                    sm={12}
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                    flexWrap="wrap"
+                    sx={{ justifyContent: { xs: 'center', sm: 'normal' } }}
+                >
                     <Button
                         variant="outlined"
                         endIcon={<Add />}
@@ -88,6 +100,14 @@ function MultiInputComponent({
                         sx={{ width: '10rem' }}
                     >
                         Bulk
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        endIcon={<Clear />}
+                        onClick={removeEmptyInputs}
+                        color="error"
+                    >
+                        Remove empty
                     </Button>
                 </Grid>
             </Grid>
