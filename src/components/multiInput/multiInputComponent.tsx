@@ -44,7 +44,10 @@ function MultiInputComponent({
             setInputs(bulkInputs)
             return
         }
-        setInputs([...inputs, ...bulkInputs])
+
+        const filteredBulkInputs = bulkInputs.filter(bulkInput => !inputs.includes(bulkInput))
+
+        setInputs([...inputs, ...filteredBulkInputs])
     }
 
     return (
