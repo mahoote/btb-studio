@@ -13,7 +13,7 @@ import {
     Typography,
 } from '@mui/material'
 import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
-import MultiInputComponent from '../../../components/multiInputComponent'
+import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import { ActionCardSuggestionEnum } from '../../../enums/wordSuggestionEnum'
