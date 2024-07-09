@@ -1,6 +1,8 @@
 import React, { createContext, useState } from 'react'
 import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { GameDto } from '../types/game'
+import { ActionCardSettingsData } from '../types/formData'
+import { initialActionCardSettingsData } from '../utils/actionCardSettingsUtils'
 
 interface NewGameProviderProps {
     children: React.ReactNode
@@ -14,6 +16,11 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([])
     const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
 
+    const [actionCardSettingsData, setActionCardSettingsData] =
+        useState<ActionCardSettingsData>(initialActionCardSettingsData)
+
+    const [actionCardInputs, setActionCardInputs] = useState<string[]>([''])
+
     return (
         <NewGameContext.Provider
             value={{
@@ -25,6 +32,10 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
                 setSelectedAccessories,
                 selectedGameTypes,
                 setSelectedGameTypes,
+                actionCardSettingsData,
+                setActionCardSettingsData,
+                actionCardInputs,
+                setActionCardInputs,
             }}
         >
             {children}

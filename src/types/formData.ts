@@ -11,3 +11,11 @@ export type NewGameFormData = {
     introDescription?: string
     gameAudienceId?: number
 }
+
+export type ActionCardSettingsData = {
+    stateId: number
+    contentId: number
+    cardLimit?: number
+    cardSeconds?: number
+    autoNext?: boolean
+}
