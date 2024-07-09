@@ -17,6 +17,7 @@ import MultiInputComponent from '../../../components/multiInput/multiInputCompon
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import { ActionCardSuggestionEnum } from '../../../enums/wordSuggestionEnum'
+import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -54,7 +55,7 @@ function ActionCardSettingsComponent() {
                             <MenuItem value={1}>All get different cards</MenuItem>
                             <MenuItem value={2}>Some get different cards</MenuItem>
                             <MenuItem value={3}>Random player get card (Repeating)</MenuItem>
-                            <MenuItem value={4}>One gets cards</MenuItem>
+                            <MenuItem value={4}>Player gets cards</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -74,11 +75,9 @@ function ActionCardSettingsComponent() {
                                 )
                             }
                         >
-                            <MenuItem value={0}>Random Words</MenuItem>
-                            <MenuItem value={1}>Random Objects</MenuItem>
-                            <MenuItem value={2}>Sentences</MenuItem>
-                            <MenuItem value={3}>Player Questions</MenuItem>
-                            <MenuItem value={4}>Tasks</MenuItem>
+                            {Object.values(ActionCardContentTypeEnum).map((type, index) => (
+                                <MenuItem value={index}>{type}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
