@@ -105,7 +105,7 @@ function MultiInputComponent({
                         variant="outlined"
                         endIcon={<Clear />}
                         onClick={removeEmptyInputs}
-                        color="error"
+                        color="warning"
                     >
                         Remove empty
                     </Button>

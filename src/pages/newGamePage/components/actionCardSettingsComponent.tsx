@@ -84,7 +84,7 @@ function ActionCardSettingsComponent() {
                 </Grid>
             </Grid>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                     <Tooltip
                         title={
                             'How many cards there is in a game. Will end the game after the last card.'
@@ -108,7 +108,7 @@ function ActionCardSettingsComponent() {
                         />
                     </Tooltip>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                     <Tooltip title={'How long each card is displayed.'}>
                         <TextField
                             label="Card Seconds"
@@ -128,7 +128,7 @@ function ActionCardSettingsComponent() {
                         />
                     </Tooltip>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6}>
                     <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
                         <Tooltip
                             title={
