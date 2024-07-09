@@ -1,24 +1,41 @@
 import { Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { Add } from '@mui/icons-material'
+import { isJSONStringArray } from '../../utils/jsonUtils'
 
 type MultiInputBulkProps = {
     open: boolean
     handleClose: () => void
+    handleAdd: (jsonObject: string) => void
 }
 
-function MultiInputBulkComponent({ open, handleClose }: MultiInputBulkProps) {
+function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBulkProps) {
     const [jsonObject, setJsonObject] = useState<string>('')
+    const [isCorrectFormat, setIsCorrectFormat] = useState<boolean>(true)
 
     const handleModalClose = () => {
         setJsonObject('')
         handleClose()
     }
 
+    const handleModalAdd = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault()
+
+        const isJsonStringArray = isJSONStringArray(jsonObject)
+        setIsCorrectFormat(isJsonStringArray)
+
+        if (!isJsonStringArray) {
+            return
+        }
+
+        handleAdd(jsonObject)
+        handleModalClose()
+    }
+
     return (
         <Modal
-            aria-labelledby="action-card-bulk-mode"
-            aria-describedby="paste-a-json-array-of-action-cards-here"
+            aria-labelledby="bulk-modal-title"
+            aria-describedby="bulk-modal-description"
             open={open}
             onClose={handleModalClose}
             closeAfterTransition
@@ -43,12 +60,22 @@ function MultiInputBulkComponent({ open, handleClose }: MultiInputBulkProps) {
                         p: 4,
                     }}
                 >
-                    <Typography id="transition-modal-title" variant="h6" component="h2">
+                    <Typography id="bulk-modal-title" variant="h6" component="h2">
                         Action Card Bulk Mode
                     </Typography>
-                    <Typography id="transition-modal-description" sx={{ mt: 1 }}>
+                    <Typography id="bulk-modal-description" sx={{ mt: 1 }}>
                         Paste a JSON array of action cards here.
                     </Typography>
+                    {!isCorrectFormat && (
+                        <Typography
+                            id="transition-modal-description"
+                            sx={{ mt: 1 }}
+                            color="indianred"
+                        >
+                            Incorrect JSON format
+                        </Typography>
+                    )}
+
                     <TextField
                         sx={{ mt: 2 }}
                         variant="outlined"
@@ -63,6 +90,7 @@ function MultiInputBulkComponent({ open, handleClose }: MultiInputBulkProps) {
                         <Button
                             variant="contained"
                             endIcon={<Add />}
+                            onClick={handleModalAdd}
                             disabled={jsonObject.length <= 0}
                         >
                             Add
