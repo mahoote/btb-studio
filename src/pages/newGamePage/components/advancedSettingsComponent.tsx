@@ -9,7 +9,7 @@ function AdvancedSettingsComponent() {
 
     return (
         <Box>
-            <Typography variant="h6" textAlign="center">
+            <Typography variant="h6" textAlign="center" mb={2}>
                 More settings coming soon!
             </Typography>
             {selectedGameTypes.includes(GameTypeEnum.ActionCard) && (
