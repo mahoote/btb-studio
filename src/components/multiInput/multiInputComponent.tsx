@@ -39,9 +39,21 @@ function MultiInputComponent({
         setInputs([...inputs, ''])
     }
 
+    const addBulkInputs = (bulkInputs: string[]) => {
+        if (inputs.length === 1 && inputs[0] === '') {
+            setInputs(bulkInputs)
+            return
+        }
+        setInputs([...inputs, ...bulkInputs])
+    }
+
     return (
         <>
-            <MultiInputBulkComponent open={openBulk} handleClose={handleCloseBulk} />
+            <MultiInputBulkComponent
+                open={openBulk}
+                handleClose={handleCloseBulk}
+                handleAdd={addBulkInputs}
+            />
             <Grid container spacing={2}>
                 {inputs.map((input, index) => (
                     <Grid key={index} item xs={12} sm={4}>

@@ -6,17 +6,12 @@ import { isJSONStringArray } from '../../utils/jsonUtils'
 type MultiInputBulkProps = {
     open: boolean
     handleClose: () => void
-    handleAdd: (jsonObject: string) => void
+    handleAdd: (bulkInputs: string[]) => void
 }
 
 function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBulkProps) {
     const [jsonObject, setJsonObject] = useState<string>('')
     const [isCorrectFormat, setIsCorrectFormat] = useState<boolean>(true)
-
-    const handleModalClose = () => {
-        setJsonObject('')
-        handleClose()
-    }
 
     const handleModalAdd = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
@@ -28,8 +23,9 @@ function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBul
             return
         }
 
-        handleAdd(jsonObject)
-        handleModalClose()
+        handleAdd(JSON.parse(jsonObject) as string[])
+        setJsonObject('')
+        handleClose()
     }
 
     return (
@@ -37,7 +33,7 @@ function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBul
             aria-labelledby="bulk-modal-title"
             aria-describedby="bulk-modal-description"
             open={open}
-            onClose={handleModalClose}
+            onClose={handleClose}
             closeAfterTransition
             slots={{ backdrop: Backdrop }}
             slotProps={{
