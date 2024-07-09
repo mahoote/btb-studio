@@ -49,9 +49,8 @@ function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBul
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 400,
+                        width: { xs: '90%', sm: '50%' },
                         bgcolor: 'background.paper',
-                        border: '2px solid #000',
                         boxShadow: 24,
                         p: 4,
                     }}
