@@ -39,6 +39,10 @@ function MultiInputComponent({
         setInputs([...inputs, ''])
     }
 
+    /**
+     * Filters out all the non-empty inputs and adds them to the array.
+     * @param bulkInputs
+     */
     const addBulkInputs = (bulkInputs: string[]) => {
         if (inputs.length === 1 && inputs[0] === '') {
             setInputs(bulkInputs)

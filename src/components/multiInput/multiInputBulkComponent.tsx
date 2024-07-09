@@ -9,10 +9,21 @@ type MultiInputBulkProps = {
     handleAdd: (bulkInputs: string[]) => void
 }
 
+/**
+ * Lets you type in an array of strings in a JSON format for quick adding of multiple inputs.
+ * @param open
+ * @param handleClose
+ * @param handleAdd
+ * @constructor
+ */
 function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBulkProps) {
     const [jsonObject, setJsonObject] = useState<string>('')
     const [isCorrectFormat, setIsCorrectFormat] = useState<boolean>(true)
 
+    /**
+     * Verifies that the content is correct before calling the handleAdd function.
+     * @param event
+     */
     const handleModalAdd = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
 
