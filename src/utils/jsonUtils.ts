@@ -6,7 +6,7 @@
 export function isJSONStringArray(input: string): boolean {
     try {
         const parsed = JSON.parse(input) as string[]
-        return Array.isArray(parsed) && parsed.every(item => typeof item === 'string')
+        return Array.isArray(parsed)
     } catch {
         return false
     }
