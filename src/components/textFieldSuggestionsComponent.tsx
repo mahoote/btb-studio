@@ -13,6 +13,19 @@ type TextFieldSuggestionsProps = {
     wordSuggestions: TextFieldSuggestion[]
 }
 
+/**
+ * A custom component using the MUI Text Field and Popper components
+ * to display suggestions based on the user's input.
+ * @param label
+ * @param variant
+ * @param wordSuggestions
+ * @param value
+ * @param setValue
+ * @param required
+ * @param name
+ * @param multiline
+ * @constructor
+ */
 function TextFieldSuggestionsComponent({
     label,
     variant,
@@ -29,6 +42,10 @@ function TextFieldSuggestionsComponent({
     const popperRef = useRef<HTMLDivElement>(null)
     const ignoreClick = useRef(false)
 
+    /**
+     * Checks if a key word has been typed, and in that case, display the suggestions.
+     * @param event
+     */
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
         setValue(value)
@@ -51,6 +68,10 @@ function TextFieldSuggestionsComponent({
         }
     }
 
+    /**
+     * When clicking on one of the suggestions, add it to the input value.
+     * @param suggestion
+     */
     const handleSuggestionClick = (suggestion: string) => {
         const cursorPosition = textFieldRef.current?.selectionStart
         const words = value.slice(0, cursorPosition!).split(' ')
@@ -61,6 +82,10 @@ function TextFieldSuggestionsComponent({
         setAnchorEl(null)
     }
 
+    /**
+     * Logic for hiding the suggestions on click away.
+     * @param event
+     */
     const handleClickAway = (event: MouseEvent) => {
         if (
             !ignoreClick.current &&
@@ -75,6 +100,10 @@ function TextFieldSuggestionsComponent({
         ignoreClick.current = false
     }
 
+    /**
+     * Logic for hiding the suggestions on click escape.
+     * @param event
+     */
     const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
             setSuggestions([])
@@ -93,7 +122,7 @@ function TextFieldSuggestionsComponent({
     }, [anchorEl])
 
     return (
-        <div>
+        <>
             <TextField
                 label={label}
                 variant={variant}
@@ -128,7 +157,7 @@ function TextFieldSuggestionsComponent({
                     </List>
                 </Paper>
             </Popper>
-        </div>
+        </>
     )
 }
 

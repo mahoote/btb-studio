@@ -18,6 +18,10 @@ import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import { ActionCardSuggestionEnum } from '../../../enums/wordSuggestionEnum'
 
+/**
+ * All the different settings to add to a game with "Action Card" game type.
+ * @constructor
+ */
 function ActionCardSettingsComponent() {
     const {
         actionCardSettingsData,
@@ -154,12 +158,7 @@ function ActionCardSettingsComponent() {
             <MultiInputComponent
                 wordSuggestions={[
                     {
-                        values: [
-                            ActionCardSuggestionEnum.ALL,
-                            ActionCardSuggestionEnum.SELF,
-                            ActionCardSuggestionEnum.PLAYER,
-                            ActionCardSuggestionEnum.PLAYERS,
-                        ],
+                        values: Object.values(ActionCardSuggestionEnum),
                         key: '$',
                     },
                 ]}

@@ -5,32 +5,23 @@ import { useAccessories } from '../../../hooks/useAccessories'
 import { NewGameFormData } from '../../../types/formData'
 import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
-import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGameFormUtils'
+import {
+    addAccessoriesToGame,
+    addGameTypesToGame,
+    initialNewGameData,
+} from '../../../utils/newGameFormUtils'
 import { Grid } from '@mui/material'
 import NewGameFormComponent from './newGameFormComponent'
 import PreviewWindowComponent from './previewWindowComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
 import AdvancedSettingsComponent from './advancedSettingsComponent'
+import { initialActionCardSettingsData } from '../../../utils/actionCardSettingsUtils'
 
 type NewGameStepProps = {
     formData: NewGameFormData
     setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
     descriptions: string[]
     setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
-}
-
-const initialNewGameData: NewGameFormData = {
-    activityLevel: 0,
-    categoryId: 1,
-    descriptions: [],
-    drunkLevel: 0,
-    gameAudienceId: undefined,
-    introDescription: undefined,
-    maxPlayers: undefined,
-    minPlayers: 2,
-    minutes: 0,
-    name: '',
-    playerGroupTypeId: undefined,
 }
 
 /**
@@ -159,10 +150,7 @@ function NewGameComponent() {
         setCreatedGame(undefined)
         setSelectedGameTypes([])
         setSelectedAccessories([])
-        setActionCardSettingsData({
-            stateId: 0,
-            contentId: 0,
-        })
+        setActionCardSettingsData(initialActionCardSettingsData)
         setActionCardInputs([''])
     }
 

@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react'
 import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { GameDto } from '../types/game'
 import { ActionCardSettingsData } from '../types/formData'
+import { initialActionCardSettingsData } from '../utils/actionCardSettingsUtils'
 
 interface NewGameProviderProps {
     children: React.ReactNode
@@ -16,10 +17,7 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
     const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
 
     const [actionCardSettingsData, setActionCardSettingsData] =
-        useState<ActionCardSettingsData>({
-            stateId: 0,
-            contentId: 0,
-        })
+        useState<ActionCardSettingsData>(initialActionCardSettingsData)
 
     const [actionCardInputs, setActionCardInputs] = useState<string[]>([''])
 
