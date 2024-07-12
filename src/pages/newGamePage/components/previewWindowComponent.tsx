@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { Box, IconButton, TextField, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
+import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../utils/suggestionUtils'
 
 type PreviewWindowProps = {
     name: string
@@ -11,12 +13,10 @@ type PreviewWindowProps = {
 function PreviewWindowComponent({ name, descriptions, setDescriptions }: PreviewWindowProps) {
     const [descriptionIndex, setDescriptionIndex] = useState<number>(0)
 
-    const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target
-
+    const handleDescriptionChange = (newValue: string) => {
         setDescriptions(prevState => {
             const newState = [...prevState]
-            newState[descriptionIndex] = value
+            newState[descriptionIndex] = newValue
             return newState
         })
     }
@@ -66,7 +66,8 @@ function PreviewWindowComponent({ name, descriptions, setDescriptions }: Preview
                     <Typography variant="h6" component="div" textAlign="center" marginTop={3}>
                         {name === '' ? 'Game Name' : name}
                     </Typography>
-                    <TextField
+                    <TextFieldSuggestionsComponent
+                        wordSuggestions={actionCardSuggestions}
                         sx={{
                             marginTop: 3,
                             '& .MuiOutlinedInput-root': {
@@ -77,7 +78,7 @@ function PreviewWindowComponent({ name, descriptions, setDescriptions }: Preview
                         variant="standard"
                         name="description"
                         value={descriptions[descriptionIndex]}
-                        onChange={handleDescriptionChange}
+                        setValue={handleDescriptionChange}
                         multiline
                         required
                         fullWidth

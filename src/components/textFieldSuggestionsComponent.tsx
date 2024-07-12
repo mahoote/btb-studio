@@ -1,40 +1,34 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { TextField, Popper, Paper, List, ListItemButton, ListItemText } from '@mui/material'
+import {
+    TextField,
+    Popper,
+    Paper,
+    List,
+    ListItemButton,
+    ListItemText,
+    TextFieldProps,
+} from '@mui/material'
 import { TextFieldSuggestion } from '../types/textFieldSuggestion'
 
-type TextFieldSuggestionsProps = {
-    label: string
-    multiline?: boolean
-    name?: string
-    required?: boolean
+type TextFieldSuggestionsProps = TextFieldProps & {
     setValue?: (newValue: string) => void
     value?: string
-    variant: 'outlined' | 'filled' | 'standard'
     wordSuggestions: TextFieldSuggestion[]
 }
 
 /**
  * A custom component using the MUI Text Field and Popper components
  * to display suggestions based on the user's input.
- * @param label
- * @param variant
  * @param wordSuggestions
  * @param value
  * @param setValue
- * @param required
- * @param name
- * @param multiline
  * @constructor
  */
 function TextFieldSuggestionsComponent({
-    label,
-    variant,
     wordSuggestions,
     value,
     setValue,
-    required,
-    name,
-    multiline,
+    ...props
 }: TextFieldSuggestionsProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const [suggestions, setSuggestions] = useState<string[]>([])
@@ -128,15 +122,10 @@ function TextFieldSuggestionsComponent({
     return (
         <>
             <TextField
-                label={label}
-                variant={variant}
-                multiline={multiline}
-                required={required}
-                fullWidth
                 value={value}
                 onChange={handleInputChange}
                 inputRef={textFieldRef}
-                name={name}
+                {...props}
             />
             <Popper
                 open={suggestions.length > 0}

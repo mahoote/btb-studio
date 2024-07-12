@@ -16,9 +16,9 @@ import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtil
 import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
-import { ActionCardSuggestionEnum } from '../../../enums/wordSuggestionEnum'
 import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../utils/suggestionUtils'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -33,13 +33,6 @@ function ActionCardSettingsComponent() {
     } = useNewGame()
 
     const actionCardContentTypeArray = Object.values(ActionCardContentTypeEnum)
-
-    const actionCardSuggestions = [
-        {
-            values: Object.values(ActionCardSuggestionEnum),
-            key: '$',
-        },
-    ]
 
     return (
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -175,6 +168,7 @@ function ActionCardSettingsComponent() {
                             label="Prompt"
                             variant="outlined"
                             name="prompt"
+                            fullWidth
                             value={actionCardSettingsData.prompt}
                             setValue={newValue =>
                                 setActionCardSettingsData({

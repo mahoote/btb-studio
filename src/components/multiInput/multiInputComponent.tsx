@@ -81,6 +81,7 @@ function MultiInputComponent({
                             setValue={(newValue: string) => handleInputChange(index, newValue)}
                             multiline={isMultiline}
                             required
+                            fullWidth
                         />
                     </Grid>
                 ))}
