@@ -167,10 +167,10 @@ function ActionCardSettingsComponent() {
                         }
                     >
                         <TextField
-                            label="Prompt Text"
+                            label="Prompt"
                             variant="outlined"
-                            name="promptText"
-                            value={actionCardSettingsData.promptText}
+                            name="prompt"
+                            value={actionCardSettingsData.prompt}
                             onChange={event =>
                                 handleTextChange(
                                     event,
