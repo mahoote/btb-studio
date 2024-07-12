@@ -7,8 +7,8 @@ type TextFieldSuggestionsProps = {
     multiline?: boolean
     name?: string
     required?: boolean
-    setValue: (newValue: string) => void
-    value: string
+    setValue?: (newValue: string) => void
+    value?: string
     variant: 'outlined' | 'filled' | 'standard'
     wordSuggestions: TextFieldSuggestion[]
 }
@@ -47,6 +47,8 @@ function TextFieldSuggestionsComponent({
      * @param event
      */
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!setValue) return
+
         const value = event.target.value
         setValue(value)
 
@@ -73,10 +75,12 @@ function TextFieldSuggestionsComponent({
      * @param suggestion
      */
     const handleSuggestionClick = (suggestion: string) => {
+        if (!setValue) return
+
         const cursorPosition = textFieldRef.current?.selectionStart
-        const words = value.slice(0, cursorPosition!).split(' ')
-        words.pop()
-        const newValue = words.join(' ') + ' ' + suggestion + value.slice(cursorPosition!)
+        const words = value?.slice(0, cursorPosition!).split(' ')
+        words?.pop()
+        const newValue = words?.join(' ') + ' ' + suggestion + value?.slice(cursorPosition!)
         setValue(newValue)
         setSuggestions([])
         setAnchorEl(null)

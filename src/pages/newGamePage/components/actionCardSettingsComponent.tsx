@@ -12,16 +12,13 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material'
-import {
-    handleNumberChange,
-    handleSelectChange,
-    handleTextChange,
-} from '../../../utils/inputUtils'
+import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
 import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import { ActionCardSuggestionEnum } from '../../../enums/wordSuggestionEnum'
 import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
+import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -36,6 +33,13 @@ function ActionCardSettingsComponent() {
     } = useNewGame()
 
     const actionCardContentTypeArray = Object.values(ActionCardContentTypeEnum)
+
+    const actionCardSuggestions = [
+        {
+            values: Object.values(ActionCardSuggestionEnum),
+            key: '$',
+        },
+    ]
 
     return (
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -166,31 +170,25 @@ function ActionCardSettingsComponent() {
                             'The common prompt at the beginning of the card. Can be used to give a hint, a question or a statement.'
                         }
                     >
-                        <TextField
+                        <TextFieldSuggestionsComponent
+                            wordSuggestions={actionCardSuggestions}
                             label="Prompt"
                             variant="outlined"
                             name="prompt"
                             value={actionCardSettingsData.prompt}
-                            onChange={event =>
-                                handleTextChange(
-                                    event,
-                                    actionCardSettingsData,
-                                    setActionCardSettingsData
-                                )
+                            setValue={newValue =>
+                                setActionCardSettingsData({
+                                    ...actionCardSettingsData,
+                                    prompt: newValue,
+                                })
                             }
-                            fullWidth
                         />
                     </Tooltip>
                 </Grid>
             </Grid>
             <Typography>Cards</Typography>
             <MultiInputComponent
-                wordSuggestions={[
-                    {
-                        values: Object.values(ActionCardSuggestionEnum),
-                        key: '$',
-                    },
-                ]}
+                wordSuggestions={actionCardSuggestions}
                 isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [
                     actionCardContentTypeArray.indexOf(ActionCardContentTypeEnum.SENTENCE),
                 ])}
