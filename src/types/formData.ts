@@ -18,4 +18,5 @@ export type ActionCardSettingsData = {
     cardLimit?: number
     cardSeconds?: number
     autoNext?: boolean
+    promptText?: string
 }

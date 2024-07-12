@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material'
 import React from 'react'
-import { Add, Clear, List } from '@mui/icons-material'
+import { Add, Clear, Delete, List } from '@mui/icons-material'
 import TextFieldSuggestionsComponent from '../textFieldSuggestionsComponent'
 import { TextFieldSuggestion } from '../../types/textFieldSuggestion'
 import MultiInputBulkComponent from './multiInputBulkComponent'
@@ -58,6 +58,10 @@ function MultiInputComponent({
         setInputs(inputs.filter(input => input !== ''))
     }
 
+    const removeAllInputs = () => {
+        setInputs([''])
+    }
+
     return (
         <>
             <MultiInputBulkComponent
@@ -112,6 +116,14 @@ function MultiInputComponent({
                         color="warning"
                     >
                         Remove empty
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        endIcon={<Delete />}
+                        onClick={removeAllInputs}
+                        color="error"
+                    >
+                        Remove all
                     </Button>
                 </Grid>
             </Grid>
