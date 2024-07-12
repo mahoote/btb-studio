@@ -16,8 +16,9 @@ import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtil
 import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
-import { ActionCardSuggestionEnum } from '../../../enums/wordSuggestionEnum'
 import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
+import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../utils/suggestionUtils'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -30,6 +31,8 @@ function ActionCardSettingsComponent() {
         actionCardInputs,
         setActionCardInputs,
     } = useNewGame()
+
+    const actionCardContentTypeArray = Object.values(ActionCardContentTypeEnum)
 
     return (
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -54,8 +57,8 @@ function ActionCardSettingsComponent() {
                             <MenuItem value={0}>All get the same cards</MenuItem>
                             <MenuItem value={1}>All get different cards</MenuItem>
                             <MenuItem value={2}>Some get different cards</MenuItem>
-                            <MenuItem value={3}>Random player get card (Repeating)</MenuItem>
-                            <MenuItem value={4}>Player gets cards</MenuItem>
+                            <MenuItem value={3}>Random player get card</MenuItem>
+                            <MenuItem value={4}>One player get cards</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -75,7 +78,7 @@ function ActionCardSettingsComponent() {
                                 )
                             }
                         >
-                            {Object.values(ActionCardContentTypeEnum).map((type, index) => (
+                            {actionCardContentTypeArray.map((type, index) => (
                                 <MenuItem value={index}>{type}</MenuItem>
                             ))}
                         </Select>
@@ -153,15 +156,36 @@ function ActionCardSettingsComponent() {
                     </Box>
                 </Grid>
             </Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                    <Tooltip
+                        title={
+                            'The common prompt at the beginning of the card. Can be used to give a hint, a question or a statement.'
+                        }
+                    >
+                        <TextFieldSuggestionsComponent
+                            wordSuggestions={actionCardSuggestions}
+                            label="Prompt"
+                            variant="outlined"
+                            name="prompt"
+                            fullWidth
+                            value={actionCardSettingsData.prompt}
+                            setValue={newValue =>
+                                setActionCardSettingsData({
+                                    ...actionCardSettingsData,
+                                    prompt: newValue,
+                                })
+                            }
+                        />
+                    </Tooltip>
+                </Grid>
+            </Grid>
             <Typography>Cards</Typography>
             <MultiInputComponent
-                wordSuggestions={[
-                    {
-                        values: Object.values(ActionCardSuggestionEnum),
-                        key: '$',
-                    },
-                ]}
-                isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2, 3, 4])}
+                wordSuggestions={actionCardSuggestions}
+                isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [
+                    actionCardContentTypeArray.indexOf(ActionCardContentTypeEnum.SENTENCE),
+                ])}
                 inputs={actionCardInputs}
                 setInputs={setActionCardInputs}
             />

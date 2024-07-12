@@ -13,6 +13,8 @@ import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
 import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
+import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../utils/suggestionUtils'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -68,12 +70,18 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                 </Grid>
             </Grid>
 
-            <TextField
+            <TextFieldSuggestionsComponent
+                wordSuggestions={actionCardSuggestions}
                 label="Intro Description"
                 variant="outlined"
                 name="introDescription"
                 value={formData.introDescription}
-                onChange={event => handleTextChange(event, formData, setFormData)}
+                setValue={newValue =>
+                    setFormData({
+                        ...formData,
+                        introDescription: newValue,
+                    })
+                }
                 multiline
             />
             <Grid container spacing={2}>

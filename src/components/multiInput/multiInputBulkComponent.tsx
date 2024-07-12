@@ -91,6 +91,7 @@ function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBul
                         multiline
                         fullWidth
                         minRows={6}
+                        maxRows={18}
                     />
                     <Box display="flex" justifyContent="end" mt={2}>
                         <Button
