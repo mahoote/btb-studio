@@ -60,8 +60,8 @@ function ActionCardSettingsComponent() {
                             <MenuItem value={0}>All get the same cards</MenuItem>
                             <MenuItem value={1}>All get different cards</MenuItem>
                             <MenuItem value={2}>Some get different cards</MenuItem>
-                            <MenuItem value={3}>Random player get card (Repeating)</MenuItem>
-                            <MenuItem value={4}>Player gets cards</MenuItem>
+                            <MenuItem value={3}>Random player get card</MenuItem>
+                            <MenuItem value={4}>One player get cards</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

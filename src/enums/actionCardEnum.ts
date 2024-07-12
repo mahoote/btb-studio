@@ -1,4 +1,4 @@
 export enum ActionCardContentTypeEnum {
-    WORD = 'WORD',
-    SENTENCE = 'SENTENCE',
+    WORD = 'Word',
+    SENTENCE = 'Sentence',
 }
