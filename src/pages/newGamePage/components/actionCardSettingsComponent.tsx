@@ -79,7 +79,9 @@ function ActionCardSettingsComponent() {
                             }
                         >
                             {actionCardContentTypeArray.map((type, index) => (
-                                <MenuItem value={index}>{type}</MenuItem>
+                                <MenuItem key={index} value={index}>
+                                    {type}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
