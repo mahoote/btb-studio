@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, RefObject, useRef, useState } from 'react'
 import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { GameDto } from '../types/game'
 import { ActionCardSettingsData } from '../types/formData'
@@ -21,6 +21,10 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
 
     const [actionCardInputs, setActionCardInputs] = useState<string[]>([''])
 
+    const [activeFormRef, setActiveFormRef] = useState<RefObject<HTMLFormElement>>(
+        useRef(null)
+    )
+
     return (
         <NewGameContext.Provider
             value={{
@@ -36,6 +40,8 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
                 setActionCardSettingsData,
                 actionCardInputs,
                 setActionCardInputs,
+                activeFormRef,
+                setActiveFormRef,
             }}
         >
             {children}

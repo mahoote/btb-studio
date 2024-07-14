@@ -5,10 +5,10 @@ import React from 'react'
 import { GameTypeEnum } from '../../../enums/gameTypeEnum'
 
 function AdvancedSettingsComponent() {
-    const { selectedGameTypes } = useNewGame()
+    const { selectedGameTypes, activeFormRef } = useNewGame()
 
     return (
-        <Box>
+        <Box component="form" ref={activeFormRef}>
             <Typography variant="h6" textAlign="center" mb={2}>
                 More settings coming soon!
             </Typography>

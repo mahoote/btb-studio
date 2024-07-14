@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { RefObject } from 'react'
 import { GameDto } from '../game'
 import { ActionCardSettingsData } from '../formData'
 
@@ -15,6 +15,8 @@ type NewGameContextType = {
     setActionCardSettingsData: React.Dispatch<React.SetStateAction<ActionCardSettingsData>>
     actionCardInputs: string[]
     setActionCardInputs: React.Dispatch<React.SetStateAction<string[]>>
+    activeFormRef: RefObject<HTMLFormElement>
+    setActiveFormRef: React.Dispatch<React.SetStateAction<RefObject<HTMLFormElement>>>
 }
 
 export type { NewGameContextType }

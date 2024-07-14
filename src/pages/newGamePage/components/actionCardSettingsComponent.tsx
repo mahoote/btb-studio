@@ -35,7 +35,7 @@ function ActionCardSettingsComponent() {
     const actionCardContentTypeArray = Object.values(ActionCardContentTypeEnum)
 
     return (
-        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Typography variant="h6">Action Card Settings</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -79,7 +79,9 @@ function ActionCardSettingsComponent() {
                             }
                         >
                             {actionCardContentTypeArray.map((type, index) => (
-                                <MenuItem value={index}>{type}</MenuItem>
+                                <MenuItem key={index} value={index}>
+                                    {type}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -117,7 +119,6 @@ function ActionCardSettingsComponent() {
                             variant="outlined"
                             name="cardSeconds"
                             type="number"
-                            inputProps={{ min: 5 }}
                             value={actionCardSettingsData.cardSeconds}
                             onChange={event =>
                                 handleNumberChange(
