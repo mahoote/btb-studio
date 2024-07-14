@@ -27,7 +27,7 @@ type HorizontalLinearStepperProps = {
  * @param completeMessage
  * @param onReset
  * @param isComplete
- * @param onNext
+ * @param isFormValid
  * @constructor
  */
 function HorizontalLinearStepperComponent({
