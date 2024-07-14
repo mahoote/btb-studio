@@ -15,6 +15,7 @@ type HorizontalLinearStepperProps = {
     completeMessage?: string
     onReset?: () => void
     isComplete?: boolean
+    isFormValid?: () => boolean
 }
 
 /**
@@ -26,6 +27,7 @@ type HorizontalLinearStepperProps = {
  * @param completeMessage
  * @param onReset
  * @param isComplete
+ * @param onNext
  * @constructor
  */
 function HorizontalLinearStepperComponent({
@@ -34,6 +36,7 @@ function HorizontalLinearStepperComponent({
     completeMessage,
     onReset,
     isComplete,
+    isFormValid,
 }: HorizontalLinearStepperProps) {
     const [activeStep, setActiveStep] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
@@ -43,6 +46,8 @@ function HorizontalLinearStepperComponent({
     }
 
     const handleNext = () => {
+        if (isFormValid && !isFormValid()) return
+
         let newSkipped = skipped
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values())

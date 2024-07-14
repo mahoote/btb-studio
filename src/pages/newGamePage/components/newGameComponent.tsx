@@ -10,49 +10,10 @@ import {
     addGameTypesToGame,
     initialNewGameData,
 } from '../../../utils/newGameFormUtils'
-import { Grid } from '@mui/material'
 import NewGameFormComponent from './newGameFormComponent'
-import PreviewWindowComponent from './previewWindowComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
 import AdvancedSettingsComponent from './advancedSettingsComponent'
 import { initialActionCardSettingsData } from '../../../utils/actionCardSettingsUtils'
-
-type NewGameStepProps = {
-    formData: NewGameFormData
-    setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
-    descriptions: string[]
-    setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
-}
-
-/**
- * The first step in the new game form.
- * @param formData
- * @param setFormData
- * @param descriptions
- * @param setDescriptions
- * @constructor
- */
-function NewGameStep({
-    formData,
-    setFormData,
-    descriptions,
-    setDescriptions,
-}: NewGameStepProps) {
-    return (
-        <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-                <NewGameFormComponent formData={formData} setFormData={setFormData} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-                <PreviewWindowComponent
-                    name={formData.name}
-                    descriptions={descriptions}
-                    setDescriptions={setDescriptions}
-                />
-            </Grid>
-        </Grid>
-    )
-}
 
 /**
  * Mostly logic regarding the new game form.
@@ -71,6 +32,7 @@ function NewGameComponent() {
         setSelectedAccessories,
         setActionCardSettingsData,
         setActionCardInputs,
+        activeFormRef,
     } = useNewGameContext()
 
     const { data: gameTypes } = useGameTypes()
@@ -81,16 +43,9 @@ function NewGameComponent() {
     const handleSubmit = async () => {
         setCreatedGame(undefined)
 
-        const updatedDescriptions = newGameData.descriptions.filter(
+        newGameData.descriptions = newGameData.descriptions.filter(
             description => description !== ''
         )
-
-        if (updatedDescriptions.length === 0) {
-            alert('Please add at least one description')
-            return
-        }
-
-        newGameData.descriptions = updatedDescriptions
 
         const newGame = await createGame({
             name: newGameData.name,
@@ -169,7 +124,7 @@ function NewGameComponent() {
                 {
                     label: 'New Game',
                     content: (
-                        <NewGameStep
+                        <NewGameFormComponent
                             formData={newGameData}
                             setFormData={setNewGameData}
                             descriptions={descriptions}
@@ -181,11 +136,26 @@ function NewGameComponent() {
                     label: 'Advanced Settings',
                     content: <AdvancedSettingsComponent />,
                 },
+                {
+                    label: 'Summary',
+                    content: <div>Summary</div>,
+                },
             ]}
             onFinnish={handleFormSubmit}
             onReset={handleResetForm}
             completeMessage={`"${createdGame?.name}" was created.`}
             isComplete={!!createdGame}
+            isFormValid={() => {
+                if (activeFormRef.current) {
+                    if (activeFormRef.current.checkValidity()) {
+                        return true
+                    } else {
+                        activeFormRef.current.reportValidity()
+                        return false
+                    }
+                }
+                return true
+            }}
         />
     )
 }
