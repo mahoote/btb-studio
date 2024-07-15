@@ -13,7 +13,10 @@ import {
 import NewGameFormComponent from './newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
 import AdvancedSettingsComponent from './advancedSettingsComponent'
-import { initialActionCardSettingsData } from '../../../utils/actionCardSettingsUtils'
+import {
+    initialActionCardSettingsData,
+    isSettingsDataValid,
+} from '../../../utils/actionCardSettingsUtils'
 
 /**
  * Mostly logic regarding the new game form.
@@ -30,7 +33,9 @@ function NewGameComponent() {
         selectedGameTypes,
         setSelectedGameTypes,
         setSelectedAccessories,
+        actionCardSettingsData,
         setActionCardSettingsData,
+        actionCardInputs,
         setActionCardInputs,
         activeFormRef,
     } = useNewGameContext()
@@ -135,6 +140,8 @@ function NewGameComponent() {
                 {
                     label: 'Advanced Settings',
                     content: <AdvancedSettingsComponent />,
+                    customValidation: () =>
+                        isSettingsDataValid(actionCardSettingsData, actionCardInputs),
                 },
                 {
                     label: 'Summary',

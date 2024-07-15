@@ -46,11 +46,21 @@ function HorizontalLinearStepperComponent({
         return skipped.has(step)
     }
 
+    /**
+     * Returns is the form is invalid or if the custom validation fails.
+     */
     const handleNext = () => {
         const activeStep = steps[activeStepIndex]
 
         if (isFormValid && !isFormValid()) return
-        if (activeStep.customValidation && !activeStep.customValidation()) return
+        if (activeStep.customValidation) {
+            const validationMessage = activeStep.customValidation()
+
+            if (validationMessage) {
+                alert(validationMessage)
+                return
+            }
+        }
 
         let newSkipped = skipped
         if (isStepSkipped(activeStepIndex)) {
