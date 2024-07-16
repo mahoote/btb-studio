@@ -16,6 +16,8 @@ import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../utils/suggestionUtils'
 import PreviewWindowComponent from './previewWindowComponent'
+import { usePlayerGroupTypes } from '../../../hooks/usePlayerGroupTypes'
+import { useGameAudience } from '../../../hooks/useGameAudience'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -41,6 +43,8 @@ function NewGameFormComponent({
     const { data: categories } = useGameCategories()
     const { data: gameTypes } = useGameTypes()
     const { data: accessories } = useAccessories()
+    const { data: playerGroupTypes } = usePlayerGroupTypes()
+    const { data: gameAudience } = useGameAudience()
 
     return (
         <Grid container spacing={2} component="form" ref={activeFormRef}>
@@ -200,9 +204,14 @@ function NewGameFormComponent({
                                     <MenuItem value={0}>
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={1}>Even</MenuItem>
-                                    <MenuItem value={2}>Odd</MenuItem>
-                                    <MenuItem value={3}>Pairs</MenuItem>
+                                    {playerGroupTypes?.map(playerGroupType => (
+                                        <MenuItem
+                                            key={playerGroupType.id}
+                                            value={playerGroupType.id}
+                                        >
+                                            {playerGroupType.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -221,8 +230,11 @@ function NewGameFormComponent({
                                     <MenuItem value={0}>
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={1}>Friends</MenuItem>
-                                    <MenuItem value={2}>Strangers</MenuItem>
+                                    {gameAudience?.map(audience => (
+                                        <MenuItem key={audience.id} value={audience.id}>
+                                            {audience.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
