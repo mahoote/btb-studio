@@ -14,6 +14,11 @@ export const initialNewGameData: NewGameFormData = {
     name: '',
     playerGroupTypeId: 0,
 }
+
+export const initalAccessoriesData: string[] = []
+
+export const initialGameTypesData: string[] = []
+
 export const drunkLevels: GenericType[] = [
     { id: 0, name: 'Tipsy' },
     { id: 1, name: 'Drunk' },

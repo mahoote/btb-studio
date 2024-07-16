@@ -19,4 +19,5 @@ export type ActionCardSettingsData = {
     cardSeconds?: number
     autoNext?: boolean
     prompt?: string
+    playerCreative?: boolean
 }

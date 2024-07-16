@@ -140,7 +140,16 @@ function ActionCardSettingsComponent() {
                         >
                             <FormControlLabel
                                 disabled={(actionCardSettingsData?.cardSeconds ?? 0) <= 0}
-                                control={<Switch />}
+                                control={
+                                    <Switch
+                                        onChange={event => {
+                                            setActionCardSettingsData({
+                                                ...actionCardSettingsData,
+                                                autoNext: event.target.checked,
+                                            })
+                                        }}
+                                    />
+                                }
                                 label="Auto-next"
                                 labelPlacement="top"
                             />
@@ -149,7 +158,16 @@ function ActionCardSettingsComponent() {
                             title={'If the players will be creative and make their own cards.'}
                         >
                             <FormControlLabel
-                                control={<Switch />}
+                                control={
+                                    <Switch
+                                        onChange={event => {
+                                            setActionCardSettingsData({
+                                                ...actionCardSettingsData,
+                                                playerCreative: event.target.checked,
+                                            })
+                                        }}
+                                    />
+                                }
                                 label="Player Creative"
                                 labelPlacement="top"
                             />

@@ -2,7 +2,15 @@ import React, { createContext, RefObject, useRef, useState } from 'react'
 import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { GameDto } from '../types/game'
 import { ActionCardSettingsData } from '../types/formData'
-import { initialActionCardSettingsData } from '../utils/actionCardSettingsUtils'
+import {
+    initalAccessoriesData,
+    initialGameTypesData,
+    initialNewGameData,
+} from '../constants/newGameFormData'
+import {
+    initialActionCardInputs,
+    initialActionCardSettingsData,
+} from '../constants/actionCardSettingsData'
 
 interface NewGameProviderProps {
     children: React.ReactNode
@@ -11,15 +19,17 @@ interface NewGameProviderProps {
 export const NewGameContext = createContext<NewGameContextType | undefined>(undefined)
 
 const NewGameProvider = ({ children }: NewGameProviderProps) => {
-    const [descriptions, setDescriptions] = useState<string[]>([''])
     const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
-    const [selectedAccessories, setSelectedAccessories] = useState<string[]>([])
-    const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>([])
+
+    const [descriptions, setDescriptions] = useState<string[]>(initialNewGameData.descriptions)
+
+    const [selectedAccessories, setSelectedAccessories] =
+        useState<string[]>(initalAccessoriesData)
+    const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>(initialGameTypesData)
 
     const [actionCardSettingsData, setActionCardSettingsData] =
         useState<ActionCardSettingsData>(initialActionCardSettingsData)
-
-    const [actionCardInputs, setActionCardInputs] = useState<string[]>([''])
+    const [actionCardInputs, setActionCardInputs] = useState<string[]>(initialActionCardInputs)
 
     const [activeFormRef, setActiveFormRef] = useState<RefObject<HTMLFormElement>>(
         useRef(null)

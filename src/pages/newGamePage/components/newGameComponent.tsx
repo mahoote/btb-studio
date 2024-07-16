@@ -9,11 +9,16 @@ import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGame
 import NewGameFormComponent from './newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
 import AdvancedSettingsComponent from './advancedSettingsComponent'
+import { isSettingsDataValid } from '../../../utils/actionCardSettingsUtils'
 import {
+    initalAccessoriesData,
+    initialGameTypesData,
+    initialNewGameData,
+} from '../../../constants/newGameFormData'
+import {
+    initialActionCardInputs,
     initialActionCardSettingsData,
-    isSettingsDataValid,
-} from '../../../utils/actionCardSettingsUtils'
-import { initialNewGameData } from '../../../constants/newGameFormData'
+} from '../../../constants/actionCardSettingsData'
 
 /**
  * Mostly logic regarding the new game form.
@@ -103,12 +108,12 @@ function NewGameComponent() {
 
     const handleResetForm = () => {
         setNewGameData(initialNewGameData)
-        setDescriptions([''])
+        setDescriptions(initialNewGameData.descriptions)
         setCreatedGame(undefined)
-        setSelectedGameTypes([])
-        setSelectedAccessories([])
+        setSelectedGameTypes(initialGameTypesData)
+        setSelectedAccessories(initalAccessoriesData)
         setActionCardSettingsData(initialActionCardSettingsData)
-        setActionCardInputs([''])
+        setActionCardInputs(initialActionCardInputs)
     }
 
     useEffect(() => {
