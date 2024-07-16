@@ -1,4 +1,4 @@
-import { GameCategory } from './gameCategory'
+import { GenericType } from './genericType'
 
 type GameDto = {
     id: number
@@ -12,7 +12,7 @@ type GameDto = {
     minutes?: number
     player_group_type_id?: number
     game_audience_id?: number
-    game_category: GameCategory
+    game_category: GenericType
     accessories: { id: number }[]
     game_types: { id: number }[]
     created_at: string

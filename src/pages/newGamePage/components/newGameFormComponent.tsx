@@ -1,6 +1,14 @@
 import React from 'react'
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import { GameCategory } from '../../../types/gameCategory'
+import {
+    Box,
+    CircularProgress,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+} from '@mui/material'
 import {
     handleNumberChange,
     handleSelectChange,
@@ -14,10 +22,12 @@ import { useAccessories } from '../../../hooks/useAccessories'
 import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../utils/suggestionUtils'
 import PreviewWindowComponent from './previewWindowComponent'
 import { usePlayerGroupTypes } from '../../../hooks/usePlayerGroupTypes'
 import { useGameAudience } from '../../../hooks/useGameAudience'
+import { activityLevels, drunkLevels } from '../../../constants/newGameFormData'
+import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { GenericType } from '../../../types/genericType'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -40,11 +50,25 @@ function NewGameFormComponent({
         activeFormRef,
     } = useNewGame()
 
-    const { data: categories } = useGameCategories()
-    const { data: gameTypes } = useGameTypes()
-    const { data: accessories } = useAccessories()
-    const { data: playerGroupTypes } = usePlayerGroupTypes()
-    const { data: gameAudience } = useGameAudience()
+    const { data: categories, loading: categoriesLoading } = useGameCategories()
+    const { data: gameTypes, loading: gameTypesLoading } = useGameTypes()
+    const { data: accessories, loading: accessoriesLoading } = useAccessories()
+    const { data: playerGroupTypes, loading: playerGroupTypesLoading } = usePlayerGroupTypes()
+    const { data: gameAudience, loading: gameAudienceLoading } = useGameAudience()
+
+    if (
+        categoriesLoading ||
+        gameTypesLoading ||
+        accessoriesLoading ||
+        playerGroupTypesLoading ||
+        gameAudienceLoading
+    ) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                <CircularProgress />
+            </Box>
+        )
+    }
 
     return (
         <Grid container spacing={2} component="form" ref={activeFormRef}>
@@ -77,7 +101,7 @@ function NewGameFormComponent({
                                     }
                                     required
                                 >
-                                    {categories?.map((category: GameCategory) => (
+                                    {categories?.map((category: GenericType) => (
                                         <MenuItem key={category.id} value={category.id}>
                                             {category.name}
                                         </MenuItem>
@@ -101,6 +125,7 @@ function NewGameFormComponent({
                         }
                         multiline
                     />
+
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
                             <TextField
@@ -160,9 +185,11 @@ function NewGameFormComponent({
                                         handleSelectChange(event, formData, setFormData)
                                     }
                                 >
-                                    <MenuItem value={0}>Low</MenuItem>
-                                    <MenuItem value={1}>Medium</MenuItem>
-                                    <MenuItem value={2}>High</MenuItem>
+                                    {activityLevels.map(level => (
+                                        <MenuItem key={level.id} value={level.id}>
+                                            {level.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -178,14 +205,15 @@ function NewGameFormComponent({
                                         handleSelectChange(event, formData, setFormData)
                                     }
                                 >
-                                    <MenuItem value={0}>Tipsy</MenuItem>
-                                    <MenuItem value={1}>Drunk</MenuItem>
-                                    <MenuItem value={2}>Wasted</MenuItem>
+                                    {drunkLevels.map(level => (
+                                        <MenuItem key={level.id} value={level.id}>
+                                            {level.name}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
                     </Grid>
-
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <FormControl variant="outlined" fullWidth>
@@ -239,6 +267,7 @@ function NewGameFormComponent({
                             </FormControl>
                         </Grid>
                     </Grid>
+
                     <ChipsAutocompleteComponent
                         predefinedValues={gameTypes?.map(gameType => gameType.name) ?? []}
                         selectedValues={selectedGameTypes}
