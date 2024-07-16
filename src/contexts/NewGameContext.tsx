@@ -3,7 +3,7 @@ import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { GameDto } from '../types/game'
 import { ActionCardSettingsData } from '../types/formData'
 import {
-    initalAccessoriesData,
+    initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
 } from '../constants/newGameFormData'
@@ -24,7 +24,7 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
     const [descriptions, setDescriptions] = useState<string[]>(initialNewGameData.descriptions)
 
     const [selectedAccessories, setSelectedAccessories] =
-        useState<string[]>(initalAccessoriesData)
+        useState<string[]>(initialAccessoriesData)
     const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>(initialGameTypesData)
 
     const [actionCardSettingsData, setActionCardSettingsData] =

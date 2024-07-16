@@ -11,7 +11,7 @@ import HorizontalLinearStepperComponent from '../../../components/horizontalLine
 import AdvancedSettingsComponent from './advancedSettingsComponent'
 import { isSettingsDataValid } from '../../../utils/actionCardSettingsUtils'
 import {
-    initalAccessoriesData,
+    initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
 } from '../../../constants/newGameFormData'
@@ -111,7 +111,7 @@ function NewGameComponent() {
         setDescriptions(initialNewGameData.descriptions)
         setCreatedGame(undefined)
         setSelectedGameTypes(initialGameTypesData)
-        setSelectedAccessories(initalAccessoriesData)
+        setSelectedAccessories(initialAccessoriesData)
         setActionCardSettingsData(initialActionCardSettingsData)
         setActionCardInputs(initialActionCardInputs)
     }

@@ -15,7 +15,7 @@ export const initialNewGameData: NewGameFormData = {
     playerGroupTypeId: 0,
 }
 
-export const initalAccessoriesData: string[] = []
+export const initialAccessoriesData: string[] = []
 
 export const initialGameTypesData: string[] = []
 
