@@ -15,12 +15,12 @@ export const initialNewGameData: NewGameFormData = {
     playerGroupTypeId: 0,
 }
 export const drunkLevels: GenericType[] = [
-    { id: '0', name: 'Tipsy' },
-    { id: '1', name: 'Drunk' },
-    { id: '2', name: 'Wasted' },
+    { id: 0, name: 'Tipsy' },
+    { id: 1, name: 'Drunk' },
+    { id: 2, name: 'Wasted' },
 ]
 export const activityLevels: GenericType[] = [
-    { id: '0', name: 'Low' },
-    { id: '1', name: 'Medium' },
-    { id: '2', name: 'High' },
+    { id: 0, name: 'Low' },
+    { id: 1, name: 'Medium' },
+    { id: 2, name: 'High' },
 ]

@@ -1,11 +1,11 @@
 import { createGameHasAccessory, createGameHasGameType } from '../services/gameService'
-import { Accessory } from '../types/accessory'
 import { GameDto } from '../types/game'
 import { GameType } from '../types/gameType'
+import { GenericType } from '../types/genericType'
 
 export async function addAccessoriesToGame(
     selectedAccessories: string[],
-    accessories: Accessory[] | null,
+    accessories: GenericType[] | null,
     newGame: GameDto
 ) {
     let errorMessage: null | string = null

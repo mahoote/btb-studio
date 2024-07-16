@@ -1,11 +1,11 @@
 import { supabase } from '../supabaseClient'
-import { Accessory } from '../types/accessory'
+import { GenericType } from '../types/genericType'
 
-export async function getAccessories(): Promise<Accessory[]> {
+export async function getAccessories(): Promise<GenericType[]> {
     const { data, error } = await supabase.from('accessory').select('*')
 
     if (error) {
         throw new Error(error.message)
     }
-    return data as Accessory[]
+    return data as GenericType[]
 }
