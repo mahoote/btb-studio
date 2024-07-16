@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../utils/suggestionUtils'
+import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
 
 type PreviewWindowProps = {
     name: string

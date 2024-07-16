@@ -18,7 +18,7 @@ import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../utils/suggestionUtils'
+import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
