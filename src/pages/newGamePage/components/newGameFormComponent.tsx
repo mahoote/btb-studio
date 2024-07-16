@@ -9,7 +9,6 @@ import {
     Select,
     TextField,
 } from '@mui/material'
-import { GameCategory } from '../../../types/gameCategory'
 import {
     handleNumberChange,
     handleSelectChange,
@@ -28,6 +27,7 @@ import { usePlayerGroupTypes } from '../../../hooks/usePlayerGroupTypes'
 import { useGameAudience } from '../../../hooks/useGameAudience'
 import { activityLevels, drunkLevels } from '../../../constants/newGameFormData'
 import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { GenericType } from '../../../types/genericType'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -101,7 +101,7 @@ function NewGameFormComponent({
                                     }
                                     required
                                 >
-                                    {categories?.map((category: GameCategory) => (
+                                    {categories?.map((category: GenericType) => (
                                         <MenuItem key={category.id} value={category.id}>
                                             {category.name}
                                         </MenuItem>
