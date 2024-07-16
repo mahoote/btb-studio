@@ -8,6 +8,7 @@ import {
     MenuItem,
     Select,
     TextField,
+    Typography,
 } from '@mui/material'
 import {
     handleNumberChange,
@@ -50,19 +51,25 @@ function NewGameFormComponent({
         activeFormRef,
     } = useNewGame()
 
-    const { data: categories, loading: categoriesLoading } = useGameCategories()
-    const { data: gameTypes, loading: gameTypesLoading } = useGameTypes()
-    const { data: accessories, loading: accessoriesLoading } = useAccessories()
-    const { data: playerGroupTypes, loading: playerGroupTypesLoading } = usePlayerGroupTypes()
-    const { data: gameAudience, loading: gameAudienceLoading } = useGameAudience()
+    const { data: categories, loading: cLoading, error: cError } = useGameCategories()
+    const { data: gameTypes, loading: gtLoading, error: gtError } = useGameTypes()
+    const { data: accessories, loading: aLoading, error: aError } = useAccessories()
+    const {
+        data: playerGroupTypes,
+        loading: pgtLoading,
+        error: pgtError,
+    } = usePlayerGroupTypes()
+    const { data: gameAudience, loading: gaLoading, error: gaError } = useGameAudience()
 
-    if (
-        categoriesLoading ||
-        gameTypesLoading ||
-        accessoriesLoading ||
-        playerGroupTypesLoading ||
-        gameAudienceLoading
-    ) {
+    if (cError || gtError || aError || pgtError || gaError) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                <Typography>There was a problem loading data from the database</Typography>
+            </Box>
+        )
+    }
+
+    if (cLoading || gtLoading || aLoading || pgtLoading || gaLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
                 <CircularProgress />
