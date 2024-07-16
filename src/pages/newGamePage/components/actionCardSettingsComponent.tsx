@@ -1,6 +1,7 @@
 import React from 'react'
 import {
     Box,
+    CircularProgress,
     FormControl,
     FormControlLabel,
     Grid,
@@ -19,6 +20,7 @@ import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { useActionCardStates } from '../../../hooks/useActionCardStates'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -32,7 +34,27 @@ function ActionCardSettingsComponent() {
         setActionCardInputs,
     } = useNewGame()
 
+    const {
+        data: actionCardStates,
+        loading: acsLoading,
+        error: acsError,
+    } = useActionCardStates()
+
     const actionCardContentTypeArray = Object.values(ActionCardContentTypeEnum)
+
+    if (acsError)
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                <Typography>There was a problem loading data from the database</Typography>
+            </Box>
+        )
+
+    if (acsLoading)
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                <CircularProgress />
+            </Box>
+        )
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -54,11 +76,11 @@ function ActionCardSettingsComponent() {
                                 )
                             }
                         >
-                            <MenuItem value={0}>All get the same cards</MenuItem>
-                            <MenuItem value={1}>All get different cards</MenuItem>
-                            <MenuItem value={2}>Some get different cards</MenuItem>
-                            <MenuItem value={3}>Random player get card</MenuItem>
-                            <MenuItem value={4}>One player get cards</MenuItem>
+                            {actionCardStates?.map(state => (
+                                <MenuItem key={state.id} value={state.id}>
+                                    {state.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>

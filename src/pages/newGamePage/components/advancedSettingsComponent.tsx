@@ -3,6 +3,7 @@ import useNewGame from '../../../hooks/useNewGame'
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { GameTypeEnum } from '../../../enums/gameTypeEnum'
+import { ActionCardStateProvider } from '../../../contexts/ActionCardStateContext'
 
 function AdvancedSettingsComponent() {
     const { selectedGameTypes, activeFormRef } = useNewGame()
@@ -13,7 +14,9 @@ function AdvancedSettingsComponent() {
                 More settings coming soon!
             </Typography>
             {selectedGameTypes.includes(GameTypeEnum.ActionCard) && (
-                <ActionCardSettingsComponent />
+                <ActionCardStateProvider>
+                    <ActionCardSettingsComponent />
+                </ActionCardStateProvider>
             )}
         </Box>
     )
