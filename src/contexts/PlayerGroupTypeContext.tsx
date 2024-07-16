@@ -1,8 +1,8 @@
 import { createDataContext } from './createDataContext'
-import { PlayerGroupType } from '../types/playerGroupType'
 import { getPlayerGroupTypes } from '../services/playerGroupTypeService'
+import { GenericType } from '../types/genericType'
 
-const { DataProvider, DataContext } = createDataContext<PlayerGroupType[]>(getPlayerGroupTypes)
+const { DataProvider, DataContext } = createDataContext<GenericType[]>(getPlayerGroupTypes)
 
 export const PlayerGroupTypeProvider = DataProvider
 export const PlayerGroupTypeContext = DataContext
