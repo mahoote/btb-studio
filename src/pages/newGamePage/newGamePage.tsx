@@ -5,6 +5,7 @@ import { AccessoryProvider } from '../../contexts/AccessoryContext'
 import NewGameProvider from '../../contexts/NewGameContext'
 import NewGameComponent from './components/newGameComponent'
 import { PlayerGroupTypeProvider } from '../../contexts/PlayerGroupTypeContext'
+import { GameAudienceProvider } from '../../contexts/GameAudienceContext'
 
 function NewGamePage() {
     return (
@@ -13,7 +14,9 @@ function NewGamePage() {
                 <GameTypesProvider>
                     <PlayerGroupTypeProvider>
                         <AccessoryProvider>
-                            <NewGameComponent />
+                            <GameAudienceProvider>
+                                <NewGameComponent />
+                            </GameAudienceProvider>
                         </AccessoryProvider>
                     </PlayerGroupTypeProvider>
                 </GameTypesProvider>
