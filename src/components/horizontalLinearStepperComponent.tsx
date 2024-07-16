@@ -28,6 +28,7 @@ type HorizontalLinearStepperProps = {
  * @param onReset
  * @param isComplete
  * @param isFormValid
+ * @param customValidation
  * @constructor
  */
 function HorizontalLinearStepperComponent({
@@ -38,53 +39,66 @@ function HorizontalLinearStepperComponent({
     isComplete,
     isFormValid,
 }: HorizontalLinearStepperProps) {
-    const [activeStep, setActiveStep] = React.useState(0)
+    const [activeStepIndex, setActiveStepIndex] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
 
     const isStepSkipped = (step: number) => {
         return skipped.has(step)
     }
 
+    /**
+     * Returns is the form is invalid or if the custom validation fails.
+     */
     const handleNext = () => {
-        if (isFormValid && !isFormValid()) return
+        const activeStep = steps[activeStepIndex]
 
-        let newSkipped = skipped
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values())
-            newSkipped.delete(activeStep)
+        if (isFormValid && !isFormValid()) return
+        if (activeStep.customValidation) {
+            const validationMessage = activeStep.customValidation()
+
+            if (validationMessage) {
+                alert(validationMessage)
+                return
+            }
         }
 
-        setActiveStep(prevActiveStep => prevActiveStep + 1)
+        let newSkipped = skipped
+        if (isStepSkipped(activeStepIndex)) {
+            newSkipped = new Set(newSkipped.values())
+            newSkipped.delete(activeStepIndex)
+        }
+
+        setActiveStepIndex(prevActiveStep => prevActiveStep + 1)
         setSkipped(newSkipped)
     }
 
     const handleBack = () => {
-        setActiveStep(prevActiveStep => prevActiveStep - 1)
+        setActiveStepIndex(prevActiveStep => prevActiveStep - 1)
     }
 
     const handleSkip = () => {
-        if (!steps[activeStep].isOptional) {
+        if (!steps[activeStepIndex].isOptional) {
             throw new Error("You can't skip a step that isn't optional.")
         }
 
-        setActiveStep(prevActiveStep => prevActiveStep + 1)
+        setActiveStepIndex(prevActiveStep => prevActiveStep + 1)
         setSkipped(prevSkipped => {
             const newSkipped = new Set(prevSkipped.values())
-            newSkipped.add(activeStep)
+            newSkipped.add(activeStepIndex)
             return newSkipped
         })
     }
 
     const handleReset = () => {
         if (onReset) onReset()
-        setActiveStep(0)
+        setActiveStepIndex(0)
     }
 
     useEffect(() => {
-        if (activeStep === steps.length && onFinnish) {
+        if (activeStepIndex === steps.length && onFinnish) {
             onFinnish()
         }
-    }, [activeStep])
+    }, [activeStepIndex])
 
     const CompleteMessageComponent = () => {
         return (
@@ -104,7 +118,7 @@ function HorizontalLinearStepperComponent({
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Stepper activeStep={activeStep}>
+            <Stepper activeStep={activeStepIndex}>
                 {steps.map((step, index) => {
                     const stepProps: { completed?: boolean } = {}
                     const labelProps: {
@@ -125,7 +139,7 @@ function HorizontalLinearStepperComponent({
                     )
                 })}
             </Stepper>
-            {activeStep === steps.length ? (
+            {activeStepIndex === steps.length ? (
                 isComplete ? (
                     <CompleteMessageComponent />
                 ) : (
@@ -135,24 +149,24 @@ function HorizontalLinearStepperComponent({
                 )
             ) : (
                 <>
-                    <Box paddingY={3}>{steps[activeStep].content}</Box>
+                    <Box paddingY={3}>{steps[activeStepIndex].content}</Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
                             color="inherit"
-                            disabled={activeStep === 0}
+                            disabled={activeStepIndex === 0}
                             onClick={handleBack}
                             sx={{ mr: 1 }}
                         >
                             Back
                         </Button>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        {steps[activeStep].isOptional && (
+                        {steps[activeStepIndex].isOptional && (
                             <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                 Skip
                             </Button>
                         )}
                         <Button onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                            {activeStepIndex === steps.length - 1 ? 'Finish' : 'Next'}
                         </Button>
                     </Box>
                 </>

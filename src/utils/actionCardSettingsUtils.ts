@@ -9,6 +9,28 @@ import { ActionCardSettingsData } from '../types/formData'
 export function isCardInputMultiline(currentValue: number, values: number[]) {
     return values.some(value => value === currentValue)
 }
+
+/**
+ * Validates the Action Card Settings data with the following rules:
+ * - If the content type is "Word" then only one word per card is allowed.
+ * Returns an error message if the data is invalid.
+ * @param data
+ * @param inputs
+ */
+export function isSettingsDataValid(
+    data: ActionCardSettingsData,
+    inputs: string[]
+): string | undefined {
+    if (data.contentId === 0) {
+        const moreThanOneWord = inputs.some(input => input.split(' ').length > 1)
+        return moreThanOneWord
+            ? 'Only one word per card is allowed.\nUpdate the Content Type to "Sentence" to allow multiple.'
+            : undefined
+    }
+
+    return undefined
+}
+
 export const initialActionCardSettingsData: ActionCardSettingsData = {
     stateId: 0,
     contentId: 0,
