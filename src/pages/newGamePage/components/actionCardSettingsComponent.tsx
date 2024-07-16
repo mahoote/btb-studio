@@ -17,10 +17,10 @@ import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtil
 import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
-import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
 import { useActionCardStates } from '../../../hooks/useActionCardStates'
+import { actionCardContentTypes } from '../../../constants/actionCardSettingsData'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -39,8 +39,6 @@ function ActionCardSettingsComponent() {
         loading: acsLoading,
         error: acsError,
     } = useActionCardStates()
-
-    const actionCardContentTypeArray = Object.values(ActionCardContentTypeEnum)
 
     if (acsError)
         return (
@@ -100,9 +98,9 @@ function ActionCardSettingsComponent() {
                                 )
                             }
                         >
-                            {actionCardContentTypeArray.map((type, index) => (
-                                <MenuItem key={index} value={index}>
-                                    {type}
+                            {actionCardContentTypes.map(type => (
+                                <MenuItem key={type.id} value={type.id}>
+                                    {type.name}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -224,9 +222,7 @@ function ActionCardSettingsComponent() {
             <Typography>Cards</Typography>
             <MultiInputComponent
                 wordSuggestions={actionCardSuggestions}
-                isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [
-                    actionCardContentTypeArray.indexOf(ActionCardContentTypeEnum.SENTENCE),
-                ])}
+                isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2])}
                 inputs={actionCardInputs}
                 setInputs={setActionCardInputs}
             />
