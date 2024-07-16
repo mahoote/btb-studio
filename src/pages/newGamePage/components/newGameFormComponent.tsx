@@ -18,6 +18,7 @@ import { actionCardSuggestions } from '../../../utils/suggestionUtils'
 import PreviewWindowComponent from './previewWindowComponent'
 import { usePlayerGroupTypes } from '../../../hooks/usePlayerGroupTypes'
 import { useGameAudience } from '../../../hooks/useGameAudience'
+import { activityLevels, drunkLevels } from '../../../constants/newGameFormData'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -101,6 +102,7 @@ function NewGameFormComponent({
                         }
                         multiline
                     />
+
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
                             <TextField
@@ -160,9 +162,9 @@ function NewGameFormComponent({
                                         handleSelectChange(event, formData, setFormData)
                                     }
                                 >
-                                    <MenuItem value={0}>Low</MenuItem>
-                                    <MenuItem value={1}>Medium</MenuItem>
-                                    <MenuItem value={2}>High</MenuItem>
+                                    {activityLevels.map(level => (
+                                        <MenuItem value={level.id}>{level.name}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -178,14 +180,13 @@ function NewGameFormComponent({
                                         handleSelectChange(event, formData, setFormData)
                                     }
                                 >
-                                    <MenuItem value={0}>Tipsy</MenuItem>
-                                    <MenuItem value={1}>Drunk</MenuItem>
-                                    <MenuItem value={2}>Wasted</MenuItem>
+                                    {drunkLevels.map(level => (
+                                        <MenuItem value={level.id}>{level.name}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Grid>
                     </Grid>
-
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <FormControl variant="outlined" fullWidth>
@@ -239,6 +240,7 @@ function NewGameFormComponent({
                             </FormControl>
                         </Grid>
                     </Grid>
+
                     <ChipsAutocompleteComponent
                         predefinedValues={gameTypes?.map(gameType => gameType.name) ?? []}
                         selectedValues={selectedGameTypes}

@@ -5,11 +5,7 @@ import { useAccessories } from '../../../hooks/useAccessories'
 import { NewGameFormData } from '../../../types/formData'
 import { createGame } from '../../../services/gameService'
 import { GameDto } from '../../../types/game'
-import {
-    addAccessoriesToGame,
-    addGameTypesToGame,
-    initialNewGameData,
-} from '../../../utils/newGameFormUtils'
+import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGameFormUtils'
 import NewGameFormComponent from './newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
 import AdvancedSettingsComponent from './advancedSettingsComponent'
@@ -17,6 +13,7 @@ import {
     initialActionCardSettingsData,
     isSettingsDataValid,
 } from '../../../utils/actionCardSettingsUtils'
+import { initialNewGameData } from '../../../constants/newGameFormData'
 
 /**
  * Mostly logic regarding the new game form.
