@@ -1,6 +1,7 @@
 import React from 'react'
 import {
     Box,
+    CircularProgress,
     FormControl,
     FormControlLabel,
     Grid,
@@ -16,9 +17,10 @@ import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtil
 import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
-import { ActionCardContentTypeEnum } from '../../../enums/actionCardEnum'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { useActionCardStates } from '../../../hooks/useActionCardStates'
+import { actionCardContentTypes } from '../../../constants/actionCardSettingsData'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -32,7 +34,25 @@ function ActionCardSettingsComponent() {
         setActionCardInputs,
     } = useNewGame()
 
-    const actionCardContentTypeArray = Object.values(ActionCardContentTypeEnum)
+    const {
+        data: actionCardStates,
+        loading: acsLoading,
+        error: acsError,
+    } = useActionCardStates()
+
+    if (acsError)
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                <Typography>There was a problem loading data from the database</Typography>
+            </Box>
+        )
+
+    if (acsLoading)
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                <CircularProgress />
+            </Box>
+        )
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -54,11 +74,11 @@ function ActionCardSettingsComponent() {
                                 )
                             }
                         >
-                            <MenuItem value={0}>All get the same cards</MenuItem>
-                            <MenuItem value={1}>All get different cards</MenuItem>
-                            <MenuItem value={2}>Some get different cards</MenuItem>
-                            <MenuItem value={3}>Random player get card</MenuItem>
-                            <MenuItem value={4}>One player get cards</MenuItem>
+                            {actionCardStates?.map(state => (
+                                <MenuItem key={state.id} value={state.id}>
+                                    {state.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -78,9 +98,9 @@ function ActionCardSettingsComponent() {
                                 )
                             }
                         >
-                            {actionCardContentTypeArray.map((type, index) => (
-                                <MenuItem key={index} value={index}>
-                                    {type}
+                            {actionCardContentTypes.map(type => (
+                                <MenuItem key={type.id} value={type.id}>
+                                    {type.name}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -140,7 +160,16 @@ function ActionCardSettingsComponent() {
                         >
                             <FormControlLabel
                                 disabled={(actionCardSettingsData?.cardSeconds ?? 0) <= 0}
-                                control={<Switch />}
+                                control={
+                                    <Switch
+                                        onChange={event => {
+                                            setActionCardSettingsData({
+                                                ...actionCardSettingsData,
+                                                autoNext: event.target.checked,
+                                            })
+                                        }}
+                                    />
+                                }
                                 label="Auto-next"
                                 labelPlacement="top"
                             />
@@ -149,7 +178,16 @@ function ActionCardSettingsComponent() {
                             title={'If the players will be creative and make their own cards.'}
                         >
                             <FormControlLabel
-                                control={<Switch />}
+                                control={
+                                    <Switch
+                                        onChange={event => {
+                                            setActionCardSettingsData({
+                                                ...actionCardSettingsData,
+                                                playerCreative: event.target.checked,
+                                            })
+                                        }}
+                                    />
+                                }
                                 label="Player Creative"
                                 labelPlacement="top"
                             />
@@ -184,9 +222,7 @@ function ActionCardSettingsComponent() {
             <Typography>Cards</Typography>
             <MultiInputComponent
                 wordSuggestions={actionCardSuggestions}
-                isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [
-                    actionCardContentTypeArray.indexOf(ActionCardContentTypeEnum.SENTENCE),
-                ])}
+                isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2])}
                 inputs={actionCardInputs}
                 setInputs={setActionCardInputs}
             />

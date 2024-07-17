@@ -21,7 +21,7 @@ export function isSettingsDataValid(
     data: ActionCardSettingsData,
     inputs: string[]
 ): string | undefined {
-    if (data.contentId === 0) {
+    if (data.contentId === 1) {
         const moreThanOneWord = inputs.some(input => input.split(' ').length > 1)
         return moreThanOneWord
             ? 'Only one word per card is allowed.\nUpdate the Content Type to "Sentence" to allow multiple.'
@@ -29,13 +29,4 @@ export function isSettingsDataValid(
     }
 
     return undefined
-}
-
-export const initialActionCardSettingsData: ActionCardSettingsData = {
-    stateId: 0,
-    contentId: 0,
-    cardLimit: 0,
-    cardSeconds: 0,
-    autoNext: false,
-    prompt: '',
 }
