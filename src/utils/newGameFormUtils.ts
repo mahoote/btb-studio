@@ -54,25 +54,25 @@ export async function submitNewGameForm(
             alert('Error creating game')
         })
 
-    if (newGame) {
-        const { errorMessage: accessoryErrorMessage } = await addAccessoriesToGame(
-            selectedAccessories,
-            accessories,
-            newGame
-        )
-        if (accessoryErrorMessage) alert('Error adding accessory to game')
-
-        const { errorMessage: gameTypeErrorMessage } = await addGameTypesToGame(
-            selectedGameTypes,
-            gameTypes,
-            newGame
-        )
-        if (gameTypeErrorMessage) alert('Error adding game type to game')
-
-        // TODO: Make logic to delete game if an error occurs adding the accessories or game types.
-
+    if (!newGame) {
         return { createdGame }
     }
+
+    const { errorMessage: accessoryErrorMessage } = await addAccessoriesToGame(
+        selectedAccessories,
+        accessories,
+        newGame
+    )
+    if (accessoryErrorMessage) alert('Error adding accessory to game')
+
+    const { errorMessage: gameTypeErrorMessage } = await addGameTypesToGame(
+        selectedGameTypes,
+        gameTypes,
+        newGame
+    )
+    if (gameTypeErrorMessage) alert('Error adding game type to game')
+
+    // TODO: Make logic to delete game if an error occurs adding the accessories or game types.
 
     return { createdGame }
 }
