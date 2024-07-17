@@ -5,8 +5,8 @@ import { ActionCardSettingsData } from '../formData'
 type NewGameContextType = {
     descriptions: string[]
     setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
-    createdGame: GameDto | undefined
-    setCreatedGame: React.Dispatch<React.SetStateAction<GameDto | undefined>>
+    createdGame: GameDto | null
+    setCreatedGame: React.Dispatch<React.SetStateAction<GameDto | null>>
     selectedAccessories: string[]
     setSelectedAccessories: React.Dispatch<React.SetStateAction<string[]>>
     selectedGameTypes: string[]

@@ -15,7 +15,7 @@ interface NewGameProviderProps {
 export const NewGameContext = createContext<NewGameContextType | undefined>(undefined)
 
 const NewGameProvider = ({ children }: NewGameProviderProps) => {
-    const [createdGame, setCreatedGame] = useState<GameDto | undefined>({} as GameDto)
+    const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
 
     const [descriptions, setDescriptions] = useState<string[]>(initialNewGameData.descriptions)
 
