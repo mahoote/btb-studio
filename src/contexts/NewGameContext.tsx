@@ -7,10 +7,6 @@ import {
     initialGameTypesData,
     initialNewGameData,
 } from '../constants/newGameFormData'
-import {
-    initialActionCardInputs,
-    initialActionCardSettingsData,
-} from '../constants/actionCardSettingsData'
 
 interface NewGameProviderProps {
     children: React.ReactNode
@@ -27,9 +23,10 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
         useState<string[]>(initialAccessoriesData)
     const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>(initialGameTypesData)
 
-    const [actionCardSettingsData, setActionCardSettingsData] =
-        useState<ActionCardSettingsData>(initialActionCardSettingsData)
-    const [actionCardInputs, setActionCardInputs] = useState<string[]>(initialActionCardInputs)
+    const [actionCardSettingsData, setActionCardSettingsData] = useState<
+        ActionCardSettingsData | undefined
+    >()
+    const [actionCardInputs, setActionCardInputs] = useState<string[] | undefined>()
 
     const [activeFormRef, setActiveFormRef] = useState<RefObject<HTMLFormElement>>(
         useRef(null)

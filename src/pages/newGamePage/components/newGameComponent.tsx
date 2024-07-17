@@ -9,7 +9,7 @@ import { addAccessoriesToGame, addGameTypesToGame } from '../../../utils/newGame
 import NewGameFormComponent from './newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
 import AdvancedSettingsComponent from './advancedSettingsComponent'
-import { isSettingsDataValid } from '../../../utils/actionCardSettingsUtils'
+import { isActionCardSettingsDataValid } from '../../../utils/actionCardSettingsUtils'
 import {
     initialAccessoriesData,
     initialGameTypesData,
@@ -143,7 +143,10 @@ function NewGameComponent() {
                     label: 'Advanced Settings',
                     content: <AdvancedSettingsComponent />,
                     customValidation: () =>
-                        isSettingsDataValid(actionCardSettingsData, actionCardInputs),
+                        isActionCardSettingsDataValid(
+                            actionCardSettingsData,
+                            actionCardInputs
+                        ),
                 },
                 {
                     label: 'Summary',

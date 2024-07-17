@@ -11,10 +11,12 @@ type NewGameContextType = {
     setSelectedAccessories: React.Dispatch<React.SetStateAction<string[]>>
     selectedGameTypes: string[]
     setSelectedGameTypes: React.Dispatch<React.SetStateAction<string[]>>
-    actionCardSettingsData: ActionCardSettingsData
-    setActionCardSettingsData: React.Dispatch<React.SetStateAction<ActionCardSettingsData>>
-    actionCardInputs: string[]
-    setActionCardInputs: React.Dispatch<React.SetStateAction<string[]>>
+    actionCardSettingsData: ActionCardSettingsData | undefined
+    setActionCardSettingsData: React.Dispatch<
+        React.SetStateAction<ActionCardSettingsData | undefined>
+    >
+    actionCardInputs: string[] | undefined
+    setActionCardInputs: React.Dispatch<React.SetStateAction<string[] | undefined>>
     activeFormRef: RefObject<HTMLFormElement>
     setActiveFormRef: React.Dispatch<React.SetStateAction<RefObject<HTMLFormElement>>>
 }

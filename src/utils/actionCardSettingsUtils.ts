@@ -17,10 +17,12 @@ export function isCardInputMultiline(currentValue: number, values: number[]) {
  * @param data
  * @param inputs
  */
-export function isSettingsDataValid(
-    data: ActionCardSettingsData,
-    inputs: string[]
+export function isActionCardSettingsDataValid(
+    data: ActionCardSettingsData | undefined,
+    inputs: string[] | undefined
 ): string | undefined {
+    if (!data || !inputs) return undefined
+
     if (data.contentId === 1) {
         const moreThanOneWord = inputs.some(input => input.split(' ').length > 1)
         return moreThanOneWord
