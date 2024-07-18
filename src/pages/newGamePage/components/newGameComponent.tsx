@@ -3,7 +3,7 @@ import useNewGameContext from '../../../hooks/useNewGame'
 import { useGameTypes } from '../../../hooks/useGameTypes'
 import { useAccessories } from '../../../hooks/useAccessories'
 import { NewGameFormData } from '../../../types/formData'
-import { submitNewGameForm } from '../../../utils/newGameFormUtils'
+import { createNewGame } from '../../../utils/newGameFormUtils'
 import NewGameFormComponent from './newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
 import AdvancedSettingsComponent from './advancedSettingsComponent'
@@ -13,7 +13,7 @@ import {
     initialGameTypesData,
     initialNewGameData,
 } from '../../../constants/newGameFormData'
-import { createActionCardSettings } from '../../../services/actionCardService'
+import { createAdvancedSettingsData } from '../../../utils/advancedSettingsUtils'
 
 /**
  * Mostly logic regarding the new game form.
@@ -41,7 +41,7 @@ function NewGameComponent() {
     const [newGameData, setNewGameData] = useState<NewGameFormData>(initialNewGameData)
 
     const submitForm = async () => {
-        const { createdGame: createdNewGame } = await submitNewGameForm(
+        const { createdGame: createdNewGame } = await createNewGame(
             newGameData,
             selectedAccessories,
             selectedGameTypes,
@@ -55,20 +55,11 @@ function NewGameComponent() {
             return
         }
 
-        // Submit advanced settings
-        if (actionCardSettingsData && actionCardInputs) {
-            const actionCardSettings = await createActionCardSettings({
-                game_id: createdNewGame?.id,
-                state_id: actionCardSettingsData.stateId,
-                card_limit: actionCardSettingsData.cardLimit,
-                card_seconds: actionCardSettingsData.cardSeconds,
-                is_auto_next: actionCardSettingsData.autoNext,
-                is_player_creative: actionCardSettingsData.playerCreative,
-                prompt: actionCardSettingsData.prompt,
-            })
-
-            alert(actionCardSettings ?? 'Action card settings could not be created')
-        }
+        await createAdvancedSettingsData(
+            createdNewGame,
+            actionCardSettingsData,
+            actionCardInputs
+        )
     }
 
     const handleFormSubmit = () => {

@@ -15,7 +15,15 @@ type AddToGameType = {
     errorMessage: string | null
 }
 
-export async function submitNewGameForm(
+/**
+ * Creates a new game as well as the accessories and game types associated with it.
+ * @param newGameData
+ * @param selectedAccessories
+ * @param selectedGameTypes
+ * @param accessories
+ * @param gameTypes
+ */
+export async function createNewGame(
     newGameData: NewGameFormData,
     selectedAccessories: string[],
     selectedGameTypes: string[],
@@ -77,6 +85,12 @@ export async function submitNewGameForm(
     return { createdGame }
 }
 
+/**
+ * Iterates through the selected accessories and adds them to the new game.
+ * @param selectedAccessories
+ * @param accessories
+ * @param newGame
+ */
 export async function addAccessoriesToGame(
     selectedAccessories: string[],
     accessories: GenericType[] | null,
@@ -97,6 +111,12 @@ export async function addAccessoriesToGame(
     return { errorMessage }
 }
 
+/**
+ * Iterates through the selected game types and adds them to the new game.
+ * @param selectedGameTypes
+ * @param gameTypes
+ * @param newGame
+ */
 export async function addGameTypesToGame(
     selectedGameTypes: string[],
     gameTypes: GenericType[] | null,

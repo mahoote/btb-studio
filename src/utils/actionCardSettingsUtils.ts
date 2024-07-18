@@ -1,4 +1,20 @@
 import { ActionCardSettingsData } from '../types/formData'
+import { createActionCardSettings } from '../services/actionCardService'
+
+export async function createActionCardData(
+    gameId: number,
+    actionCardSettingsData: ActionCardSettingsData
+) {
+    return await createActionCardSettings({
+        game_id: gameId,
+        state_id: actionCardSettingsData.stateId,
+        card_limit: actionCardSettingsData.cardLimit,
+        card_seconds: actionCardSettingsData.cardSeconds,
+        is_auto_next: actionCardSettingsData.autoNext,
+        is_player_creative: actionCardSettingsData.playerCreative,
+        prompt: actionCardSettingsData.prompt,
+    })
+}
 
 /**
  * Checks if the current value is in the list of values.
