@@ -13,6 +13,7 @@ import {
     initialGameTypesData,
     initialNewGameData,
 } from '../../../constants/newGameFormData'
+import { createActionCardSettings } from '../../../services/actionCardService'
 
 /**
  * Mostly logic regarding the new game form.
@@ -49,6 +50,25 @@ function NewGameComponent() {
         )
 
         setCreatedGame(createdNewGame)
+
+        if (!createdNewGame) {
+            return
+        }
+
+        // Submit advanced settings
+        if (actionCardSettingsData && actionCardInputs) {
+            const actionCardSettings = await createActionCardSettings({
+                game_id: createdNewGame?.id,
+                state_id: actionCardSettingsData.stateId,
+                card_limit: actionCardSettingsData.cardLimit,
+                card_seconds: actionCardSettingsData.cardSeconds,
+                is_auto_next: actionCardSettingsData.autoNext,
+                is_player_creative: actionCardSettingsData.playerCreative,
+                prompt: actionCardSettingsData.prompt,
+            })
+
+            alert(actionCardSettings ?? 'Action card settings could not be created')
+        }
     }
 
     const handleFormSubmit = () => {
