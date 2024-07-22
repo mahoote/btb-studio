@@ -14,13 +14,6 @@ export async function createAdvancedSettingsData(
     actionCardInputs?: string[]
 ) {
     if (actionCardSettingsData && actionCardInputs) {
-        const actionCardData = await createActionCardData(
-            createdNewGame.id,
-            actionCardSettingsData,
-            actionCardInputs
-        )
-        if (!actionCardData) {
-            alert('Failed to create action card data')
-        }
+        await createActionCardData(createdNewGame.id, actionCardSettingsData, actionCardInputs)
     }
 }

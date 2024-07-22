@@ -1,11 +1,19 @@
 import { ActionCardSettingsData } from '../types/formData'
-import { createActionCardSettings } from '../services/actionCardService'
+import { createActionCard, createActionCardSettings } from '../services/actionCardService'
 
+/**
+ * Creates the Action Card Settings and Action Cards.
+ * They will be used for one specific game.
+ * @param gameId
+ * @param actionCardSettingsData
+ * @param actionCardInputs
+ */
 export async function createActionCardData(
     gameId: number,
-    actionCardSettingsData: ActionCardSettingsData
+    actionCardSettingsData: ActionCardSettingsData,
+    actionCardInputs: string[]
 ) {
-    return await createActionCardSettings({
+    const settings = await createActionCardSettings({
         game_id: gameId,
         state_id: actionCardSettingsData.stateId,
         card_limit: actionCardSettingsData.cardLimit,
@@ -14,6 +22,10 @@ export async function createActionCardData(
         is_player_creative: actionCardSettingsData.playerCreative,
         prompt: actionCardSettingsData.prompt,
     })
+
+    for (const input of actionCardInputs) {
+        await createActionCard(input, settings.id)
+    }
 }
 
 /**

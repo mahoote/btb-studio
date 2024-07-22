@@ -18,3 +18,8 @@ export type ActionCardSettingsInsertDto = {
     is_player_creative?: boolean
     prompt?: string
 }
+
+export type ActionCardDto = {
+    id: number
+    value: string
+}
