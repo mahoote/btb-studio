@@ -34,8 +34,8 @@ function HeaderBarComponent({ pages }: HeaderBarProps) {
                         <Typography
                             variant="h6"
                             noWrap
-                            component={Link}
-                            to="/"
+                            component="a"
+                            href="/"
                             display="flex"
                             fontFamily="monospace"
                             fontWeight={700}
