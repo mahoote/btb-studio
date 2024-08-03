@@ -7,7 +7,7 @@ import MultiInputBulkComponent from './multiInputBulkComponent'
 
 type MultiInputProps = {
     inputs: string[]
-    setInputs: React.Dispatch<React.SetStateAction<string[]>>
+    setInputs: React.Dispatch<React.SetStateAction<string[] | undefined>>
     isMultiline?: boolean
     wordSuggestions: TextFieldSuggestion[]
 }
@@ -32,7 +32,7 @@ function MultiInputComponent({
     }
 
     const handleInputChange = (index: number, newValue: string) => {
-        setInputs(prevInputs => prevInputs.map((input, i) => (i === index ? newValue : input)))
+        setInputs(inputs.map((input, i) => (i === index ? newValue : input)))
     }
 
     const addInputField = () => {

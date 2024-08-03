@@ -40,6 +40,14 @@ function ActionCardSettingsComponent() {
         error: acsError,
     } = useActionCardStates()
 
+    if (!actionCardInputs || !actionCardSettingsData) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" py={5}>
+                <Typography>Could not load the Action Card settings</Typography>
+            </Box>
+        )
+    }
+
     if (acsError)
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
