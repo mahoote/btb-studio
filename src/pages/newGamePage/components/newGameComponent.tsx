@@ -14,6 +14,8 @@ import {
     initialNewGameData,
 } from '../../../constants/newGameFormData'
 import { createAdvancedSettingsData } from '../../../utils/advancedSettingsUtils'
+import { StepperObject } from '../../../types/StepperObject'
+import { GameTypeEnum } from '../../../enums/gameTypeEnum'
 
 /**
  * Mostly logic regarding the new game form.
@@ -39,6 +41,27 @@ function NewGameComponent() {
     const { data: accessories } = useAccessories()
 
     const [newGameData, setNewGameData] = useState<NewGameFormData>(initialNewGameData)
+
+    const [displayAdvancedSettingsStep, setDisplayAdvancedSettingsStep] =
+        useState<boolean>(false)
+
+    const [createGameSteps] = useState<StepperObject[]>([
+        {
+            label: 'New Game',
+            content: (
+                <NewGameFormComponent
+                    formData={newGameData}
+                    setFormData={setNewGameData}
+                    descriptions={descriptions}
+                    setDescriptions={setDescriptions}
+                />
+            ),
+        },
+        {
+            label: 'Summary',
+            content: <div>Summary</div>,
+        },
+    ])
 
     const submitForm = async () => {
         const { createdGame: createdNewGame } = await createNewGame(
@@ -76,6 +99,32 @@ function NewGameComponent() {
         setSelectedAccessories(initialAccessoriesData)
     }
 
+    /**
+     * Checks if the advanced settings step should be displayed.
+     */
+    const updateCreateGameSteps = () => {
+        const showAdvancedSettings = selectedGameTypes.includes(GameTypeEnum.ActionCard)
+
+        if (displayAdvancedSettingsStep === showAdvancedSettings) {
+            return createGameSteps
+        }
+
+        setDisplayAdvancedSettingsStep(showAdvancedSettings)
+
+        if (showAdvancedSettings) {
+            createGameSteps.splice(1, 0, {
+                label: 'Advanced Settings',
+                content: <AdvancedSettingsComponent />,
+                customValidation: () =>
+                    isActionCardSettingsDataValid(actionCardSettingsData, actionCardInputs),
+            })
+        } else {
+            createGameSteps.splice(1, 1)
+        }
+
+        return createGameSteps
+    }
+
     useEffect(() => {
         setNewGameData((prevState: NewGameFormData) => {
             return {
@@ -85,34 +134,13 @@ function NewGameComponent() {
         })
     }, [setNewGameData, descriptions])
 
+    useEffect(() => {
+        updateCreateGameSteps()
+    }, [selectedGameTypes])
+
     return (
         <HorizontalLinearStepperComponent
-            steps={[
-                {
-                    label: 'New Game',
-                    content: (
-                        <NewGameFormComponent
-                            formData={newGameData}
-                            setFormData={setNewGameData}
-                            descriptions={descriptions}
-                            setDescriptions={setDescriptions}
-                        />
-                    ),
-                },
-                {
-                    label: 'Advanced Settings',
-                    content: <AdvancedSettingsComponent />,
-                    customValidation: () =>
-                        isActionCardSettingsDataValid(
-                            actionCardSettingsData,
-                            actionCardInputs
-                        ),
-                },
-                {
-                    label: 'Summary',
-                    content: <div>Summary</div>,
-                },
-            ]}
+            steps={createGameSteps}
             onFinnish={handleFormSubmit}
             onReset={handleResetForm}
             completeMessage={`"${createdGame?.name}" was created.`}
