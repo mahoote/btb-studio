@@ -4,5 +4,5 @@ import { getActionCardStates } from '../services/actionCardService'
 
 const { DataProvider, DataContext } = createDataContext<GenericType[]>(getActionCardStates)
 
-export const ActionCardStateProvider = DataProvider
+export const ActionCardSettingsProvider = DataProvider
 export const ActionCardStateContext = DataContext

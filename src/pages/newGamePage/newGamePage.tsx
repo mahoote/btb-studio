@@ -6,6 +6,7 @@ import NewGameProvider from '../../contexts/NewGameContext'
 import NewGameComponent from './components/newGameComponent'
 import { PlayerGroupTypeProvider } from '../../contexts/PlayerGroupTypeContext'
 import { GameAudienceProvider } from '../../contexts/GameAudienceContext'
+import { ActionCardSettingsProvider } from '../../contexts/ActionCardStateContext'
 
 function NewGamePage() {
     return (
@@ -15,7 +16,9 @@ function NewGamePage() {
                     <PlayerGroupTypeProvider>
                         <AccessoryProvider>
                             <GameAudienceProvider>
-                                <NewGameComponent />
+                                <ActionCardSettingsProvider>
+                                    <NewGameComponent />
+                                </ActionCardSettingsProvider>
                             </GameAudienceProvider>
                         </AccessoryProvider>
                     </PlayerGroupTypeProvider>
