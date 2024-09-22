@@ -4,6 +4,7 @@ import { Add, Clear, Delete, List } from '@mui/icons-material'
 import TextFieldSuggestionsComponent from '../textFieldSuggestionsComponent'
 import { TextFieldSuggestion } from '../../types/textFieldSuggestion'
 import MultiInputBulkComponent from './multiInputBulkComponent'
+import { noWhiteSpaceInput } from '../../utils/inputUtils'
 
 type MultiInputProps = {
     inputs: string[]
@@ -78,7 +79,11 @@ function MultiInputComponent({
                             name={`input-${index + 1}`}
                             variant="outlined"
                             value={input}
-                            setValue={(newValue: string) => handleInputChange(index, newValue)}
+                            setValue={(newValue: string) => {
+                                let newInputValue = newValue
+                                if (!isMultiline) newInputValue = noWhiteSpaceInput(newValue)
+                                return handleInputChange(index, newInputValue)
+                            }}
                             multiline={isMultiline}
                             required
                             fullWidth
