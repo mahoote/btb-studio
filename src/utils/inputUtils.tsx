@@ -62,3 +62,11 @@ export const handleSelectChange = (
         [name]: value,
     })
 }
+
+/**
+ * Removes all white spaces from the input
+ * @param input
+ */
+export const noWhiteSpaceInput = (input: string) => {
+    return input.replace(/\s/g, '')
+}
