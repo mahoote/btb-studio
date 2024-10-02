@@ -9,12 +9,14 @@ import { GenericType } from '../types/genericType'
 interface GameOptionsDataProviderProps {
     children: React.ReactNode
 }
-
 export const GameOptionsDataContext = createContext<GameOptionsDataContextType | undefined>(
     undefined
 )
 
 const GameOptionsDataProvider = ({ children }: GameOptionsDataProviderProps) => {
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<Error | null>(null)
+
     const [gameCategories, setGameCategories] = useState<GenericType[]>([])
     const [gameTypes, setGameTypes] = useState<GenericType[]>([])
     const [playerGroupTypes, setPlayerGroupTypes] = useState<GenericType[]>([])
@@ -22,28 +24,49 @@ const GameOptionsDataProvider = ({ children }: GameOptionsDataProviderProps) => 
     const [gameAudience, setGameAudience] = useState<GenericType[]>([])
 
     useEffect(() => {
-        const fetchData = async () => {
-            const gameCategories = await getGameCategories()
-            const gameTypes = await getGameTypes()
-            const playerGroupTypes = await getGameTypes()
-            const accessories = await getAccessories()
-            const gameAudience = await getGameAudience()
+        const fetchData = async (): Promise<void> => {
+            try {
+                const [
+                    gameCategoriesResponse,
+                    gameTypesResponse,
+                    playerGroupTypesResponse,
+                    accessoriesResponse,
+                    gameAudienceResponse,
+                ] = await Promise.all([
+                    getGameCategories(),
+                    getGameTypes(),
+                    getGameTypes(),
+                    getAccessories(),
+                    getGameAudience(),
+                ])
 
-            setGameCategories(gameCategories)
-            setGameTypes(gameTypes)
-            setPlayerGroupTypes(playerGroupTypes)
-            setAccessories(accessories)
-            setGameAudience(gameAudience)
+                setGameCategories(gameCategoriesResponse)
+                setGameTypes(gameTypesResponse)
+                setPlayerGroupTypes(playerGroupTypesResponse)
+                setAccessories(accessoriesResponse)
+                setGameAudience(gameAudienceResponse)
+            } catch (error) {
+                console.error('Failed to fetch game data: ', error)
+                setError(error as Error)
+            } finally {
+                setLoading(false)
+            }
         }
 
-        fetchData().catch((error: Error) => {
-            console.error(`Error fetching game data: ${error.message}`)
-        })
+        void fetchData()
     }, [])
 
     return (
         <GameOptionsDataContext.Provider
-            value={{ gameCategories, gameTypes, playerGroupTypes, accessories, gameAudience }}
+            value={{
+                loading,
+                error,
+                gameCategories,
+                gameTypes,
+                playerGroupTypes,
+                accessories,
+                gameAudience,
+            }}
         >
             {children}
         </GameOptionsDataContext.Provider>

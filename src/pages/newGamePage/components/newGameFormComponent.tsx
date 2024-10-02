@@ -17,18 +17,14 @@ import {
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
-import { useGameCategories } from '../../../hooks/useGameCategories'
-import { useGameTypes } from '../../../hooks/useGameTypes'
-import { useAccessories } from '../../../hooks/useAccessories'
 import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import PreviewWindowComponent from './previewWindowComponent'
-import { usePlayerGroupTypes } from '../../../hooks/usePlayerGroupTypes'
-import { useGameAudience } from '../../../hooks/useGameAudience'
 import { activityLevels, drunkLevels } from '../../../constants/newGameFormData'
 import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
 import { GenericType } from '../../../types/genericType'
+import useGameOptionsData from '../../../hooks/useGameOptionsData'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -51,17 +47,17 @@ function NewGameFormComponent({
         activeFormRef,
     } = useNewGame()
 
-    const { data: categories, loading: cLoading, error: cError } = useGameCategories()
-    const { data: gameTypes, loading: gtLoading, error: gtError } = useGameTypes()
-    const { data: accessories, loading: aLoading, error: aError } = useAccessories()
     const {
-        data: playerGroupTypes,
-        loading: pgtLoading,
-        error: pgtError,
-    } = usePlayerGroupTypes()
-    const { data: gameAudience, loading: gaLoading, error: gaError } = useGameAudience()
+        loading,
+        error,
+        gameCategories,
+        gameTypes,
+        playerGroupTypes,
+        accessories,
+        gameAudience,
+    } = useGameOptionsData()
 
-    if (cError || gtError || aError || pgtError || gaError) {
+    if (error) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
                 <Typography>There was a problem loading data from the database</Typography>
@@ -69,7 +65,7 @@ function NewGameFormComponent({
         )
     }
 
-    if (cLoading || gtLoading || aLoading || pgtLoading || gaLoading) {
+    if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
                 <CircularProgress />
@@ -108,7 +104,7 @@ function NewGameFormComponent({
                                     }
                                     required
                                 >
-                                    {categories?.map((category: GenericType) => (
+                                    {gameCategories?.map((category: GenericType) => (
                                         <MenuItem key={category.id} value={category.id}>
                                             {category.name}
                                         </MenuItem>
