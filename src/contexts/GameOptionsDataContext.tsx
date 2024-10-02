@@ -5,6 +5,7 @@ import { getGameTypes } from '../services/gameTypeService'
 import { getAccessories } from '../services/accessoryService'
 import { getGameAudience } from '../services/gameAudienceService'
 import { GenericType } from '../types/genericType'
+import { getPlayerGroupTypes } from '../services/playerGroupTypeService'
 
 interface GameOptionsDataProviderProps {
     children: React.ReactNode
@@ -16,15 +17,19 @@ export const GameOptionsDataContext = createContext<GameOptionsDataContextType |
 const GameOptionsDataProvider = ({ children }: GameOptionsDataProviderProps) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<Error | null>(null)
-
     const [gameCategories, setGameCategories] = useState<GenericType[]>([])
     const [gameTypes, setGameTypes] = useState<GenericType[]>([])
     const [playerGroupTypes, setPlayerGroupTypes] = useState<GenericType[]>([])
     const [accessories, setAccessories] = useState<GenericType[]>([])
     const [gameAudience, setGameAudience] = useState<GenericType[]>([])
 
+    const hasFetched = React.useRef(false)
+
     useEffect(() => {
-        const fetchData = async (): Promise<void> => {
+        if (hasFetched.current) return
+        hasFetched.current = true
+
+        const fetchData = async () => {
             try {
                 const [
                     gameCategoriesResponse,
@@ -35,7 +40,7 @@ const GameOptionsDataProvider = ({ children }: GameOptionsDataProviderProps) => 
                 ] = await Promise.all([
                     getGameCategories(),
                     getGameTypes(),
-                    getGameTypes(),
+                    getPlayerGroupTypes(),
                     getAccessories(),
                     getGameAudience(),
                 ])
