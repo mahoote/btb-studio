@@ -3,7 +3,6 @@ import useNewGame from '../../../hooks/useNewGame'
 import { Box, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { GameTypeEnum } from '../../../enums/gameTypeEnum'
-import { ActionCardStateProvider } from '../../../contexts/ActionCardStateContext'
 import {
     initialActionCardInputs,
     initialActionCardSettingsData,
@@ -38,11 +37,7 @@ function AdvancedSettingsComponent() {
             <Typography variant="h6" textAlign="center" mb={2}>
                 More settings coming soon!
             </Typography>
-            {includesActionCard && (
-                <ActionCardStateProvider>
-                    <ActionCardSettingsComponent />
-                </ActionCardStateProvider>
-            )}
+            {includesActionCard && <ActionCardSettingsComponent />}
         </Box>
     )
 }

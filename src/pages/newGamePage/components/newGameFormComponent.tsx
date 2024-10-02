@@ -17,18 +17,14 @@ import {
 } from '../../../utils/inputUtils'
 import { NewGameFormData } from '../../../types/formData'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
-import { useGameCategories } from '../../../hooks/useGameCategories'
-import { useGameTypes } from '../../../hooks/useGameTypes'
-import { useAccessories } from '../../../hooks/useAccessories'
 import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import PreviewWindowComponent from './previewWindowComponent'
-import { usePlayerGroupTypes } from '../../../hooks/usePlayerGroupTypes'
-import { useGameAudience } from '../../../hooks/useGameAudience'
 import { activityLevels, drunkLevels } from '../../../constants/newGameFormData'
 import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
 import { GenericType } from '../../../types/genericType'
+import useGameOptionsData from '../../../hooks/useGameOptionsData'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -51,17 +47,17 @@ function NewGameFormComponent({
         activeFormRef,
     } = useNewGame()
 
-    const { data: categories, loading: cLoading, error: cError } = useGameCategories()
-    const { data: gameTypes, loading: gtLoading, error: gtError } = useGameTypes()
-    const { data: accessories, loading: aLoading, error: aError } = useAccessories()
     const {
-        data: playerGroupTypes,
-        loading: pgtLoading,
-        error: pgtError,
-    } = usePlayerGroupTypes()
-    const { data: gameAudience, loading: gaLoading, error: gaError } = useGameAudience()
+        loading,
+        error,
+        gameCategories,
+        gameTypes,
+        playerGroupTypes,
+        accessories,
+        gameAudience,
+    } = useGameOptionsData()
 
-    if (cError || gtError || aError || pgtError || gaError) {
+    if (error) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
                 <Typography>There was a problem loading data from the database</Typography>
@@ -69,7 +65,7 @@ function NewGameFormComponent({
         )
     }
 
-    if (cLoading || gtLoading || aLoading || pgtLoading || gaLoading) {
+    if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
                 <CircularProgress />
@@ -85,7 +81,7 @@ function NewGameFormComponent({
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Name"
-                                variant="outlined"
+                                variant="filled"
                                 name="name"
                                 value={formData.name}
                                 onChange={event =>
@@ -107,8 +103,9 @@ function NewGameFormComponent({
                                         handleSelectChange(event, formData, setFormData)
                                     }
                                     required
+                                    variant={'filled'}
                                 >
-                                    {categories?.map((category: GenericType) => (
+                                    {gameCategories?.map((category: GenericType) => (
                                         <MenuItem key={category.id} value={category.id}>
                                             {category.name}
                                         </MenuItem>
@@ -145,7 +142,6 @@ function NewGameFormComponent({
                                 onChange={event =>
                                     handleNumberChange(event, formData, setFormData)
                                 }
-                                required
                                 fullWidth
                             />
                         </Grid>
@@ -166,7 +162,7 @@ function NewGameFormComponent({
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 label="Minutes"
-                                variant="outlined"
+                                variant="filled"
                                 name="minutes"
                                 type="number"
                                 inputProps={{ min: 0 }}
@@ -191,6 +187,7 @@ function NewGameFormComponent({
                                     onChange={event =>
                                         handleSelectChange(event, formData, setFormData)
                                     }
+                                    variant={'filled'}
                                 >
                                     {activityLevels.map(level => (
                                         <MenuItem key={level.id} value={level.id}>
@@ -211,6 +208,7 @@ function NewGameFormComponent({
                                     onChange={event =>
                                         handleSelectChange(event, formData, setFormData)
                                     }
+                                    variant={'filled'}
                                 >
                                     {drunkLevels.map(level => (
                                         <MenuItem key={level.id} value={level.id}>
@@ -228,6 +226,7 @@ function NewGameFormComponent({
                                     Player Group Type
                                 </InputLabel>
                                 <Select
+                                    variant={'outlined'}
                                     labelId="player-group-type-label"
                                     label="Player Group Type"
                                     name="playerGroupTypeId"
@@ -254,6 +253,7 @@ function NewGameFormComponent({
                             <FormControl variant="outlined" fullWidth>
                                 <InputLabel id="game-audience-label">Game Audience</InputLabel>
                                 <Select
+                                    variant={'outlined'}
                                     labelId="game-audience-label"
                                     label="Game Audience"
                                     name="gameAudienceId"
@@ -282,6 +282,7 @@ function NewGameFormComponent({
                         label="Game Types"
                         required={true}
                         optionCombinations={getGameTypeCombinations()}
+                        variant={'filled'}
                     />
                     <ChipsAutocompleteComponent
                         predefinedValues={accessories?.map(accessory => accessory.name) ?? []}

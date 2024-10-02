@@ -9,6 +9,7 @@ type ChipsAutocompleteProps = {
     label: string
     required?: boolean
     optionCombinations?: string[][]
+    variant?: 'outlined' | 'filled'
 }
 
 function ChipsAutocompleteComponent({
@@ -18,6 +19,7 @@ function ChipsAutocompleteComponent({
     label,
     required,
     optionCombinations,
+    variant = 'outlined',
 }: ChipsAutocompleteProps) {
     const isRequired = selectedValues.length === 0 && required
 
@@ -38,7 +40,7 @@ function ChipsAutocompleteComponent({
             renderInput={params => (
                 <TextField
                     {...params}
-                    variant="outlined"
+                    variant={variant}
                     label={label}
                     placeholder="Choose..."
                     required={isRequired}

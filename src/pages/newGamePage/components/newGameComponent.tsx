@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import useNewGameContext from '../../../hooks/useNewGame'
-import { useGameTypes } from '../../../hooks/useGameTypes'
-import { useAccessories } from '../../../hooks/useAccessories'
 import { NewGameFormData } from '../../../types/formData'
 import { createNewGame } from '../../../utils/newGameFormUtils'
 import NewGameFormComponent from './newGameFormComponent'
@@ -14,6 +12,7 @@ import {
     initialNewGameData,
 } from '../../../constants/newGameFormData'
 import { createAdvancedSettingsData } from '../../../utils/advancedSettingsUtils'
+import useGameOptionsData from '../../../hooks/useGameOptionsData'
 
 /**
  * Mostly logic regarding the new game form.
@@ -35,8 +34,7 @@ function NewGameComponent() {
         activeFormRef,
     } = useNewGameContext()
 
-    const { data: gameTypes } = useGameTypes()
-    const { data: accessories } = useAccessories()
+    const { gameTypes, accessories } = useGameOptionsData()
 
     const [newGameData, setNewGameData] = useState<NewGameFormData>(initialNewGameData)
 
