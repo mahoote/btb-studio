@@ -7,6 +7,7 @@ import {
     initialActionCardInputs,
     initialActionCardSettingsData,
 } from '../../../constants/actionCardSettingsData'
+import WritingSettingsComponent from './writingSettingsComponent'
 
 function AdvancedSettingsComponent() {
     const {
@@ -19,6 +20,7 @@ function AdvancedSettingsComponent() {
     } = useNewGame()
 
     const includesActionCard = selectedGameTypes.includes(GameTypeEnum.ActionCard)
+    const includesWriting = selectedGameTypes.includes(GameTypeEnum.Writing)
 
     useEffect(() => {
         if (includesActionCard) {
@@ -38,6 +40,7 @@ function AdvancedSettingsComponent() {
                 More settings coming soon!
             </Typography>
             {includesActionCard && <ActionCardSettingsComponent />}
+            {includesWriting && <WritingSettingsComponent />}
         </Box>
     )
 }
