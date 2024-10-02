@@ -19,7 +19,7 @@ import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
-import { useActionCardStates } from '../../../hooks/useActionCardStates'
+import { useActionCardSettings } from '../../../hooks/useActionCardSettings'
 import { actionCardContentTypes } from '../../../constants/actionCardSettingsData'
 
 /**
@@ -38,7 +38,7 @@ function ActionCardSettingsComponent() {
         data: actionCardStates,
         loading: acsLoading,
         error: acsError,
-    } = useActionCardStates()
+    } = useActionCardSettings()
 
     if (!actionCardInputs || !actionCardSettingsData) {
         return (
@@ -70,6 +70,7 @@ function ActionCardSettingsComponent() {
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel id="state">State</InputLabel>
                         <Select
+                            variant="filled"
                             labelId="state-id"
                             label="State"
                             name="stateId"
@@ -94,6 +95,7 @@ function ActionCardSettingsComponent() {
                     <FormControl variant="outlined" fullWidth>
                         <InputLabel id="state">Content Type</InputLabel>
                         <Select
+                            variant="filled"
                             labelId="content-id"
                             label="Content Type"
                             name="contentId"
@@ -233,6 +235,7 @@ function ActionCardSettingsComponent() {
                 isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2])}
                 inputs={actionCardInputs}
                 setInputs={setActionCardInputs}
+                variant="filled"
             />
         </Box>
     )

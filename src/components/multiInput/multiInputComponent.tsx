@@ -11,6 +11,7 @@ type MultiInputProps = {
     setInputs: React.Dispatch<React.SetStateAction<string[] | undefined>>
     isMultiline?: boolean
     wordSuggestions: TextFieldSuggestion[]
+    variant?: 'outlined' | 'filled'
 }
 
 /**
@@ -23,6 +24,7 @@ function MultiInputComponent({
     inputs,
     setInputs,
     wordSuggestions,
+    variant,
 }: MultiInputProps) {
     const [openBulk, setOpenBulk] = React.useState<boolean>(false)
     const handleOpenBulk = () => setOpenBulk(true)
@@ -77,7 +79,7 @@ function MultiInputComponent({
                             wordSuggestions={wordSuggestions}
                             label={`Input ${index + 1}`}
                             name={`input-${index + 1}`}
-                            variant="outlined"
+                            variant={variant}
                             value={input}
                             setValue={(newValue: string) => {
                                 let newInputValue = newValue
