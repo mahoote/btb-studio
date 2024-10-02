@@ -14,6 +14,13 @@ export const GameOptionsDataContext = createContext<GameOptionsDataContextType |
     undefined
 )
 
+/**
+ * Provides game options like categories, types and more.
+ * Fetches the data from the backend and provides it to the children.
+ * Uses a hasFetch ref to prevent multiple fetches.
+ * @param children
+ * @constructor
+ */
 const GameOptionsDataProvider = ({ children }: GameOptionsDataProviderProps) => {
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<Error | null>(null)

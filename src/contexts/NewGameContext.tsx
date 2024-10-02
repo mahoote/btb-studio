@@ -14,6 +14,11 @@ interface NewGameProviderProps {
 
 export const NewGameContext = createContext<NewGameContextType | undefined>(undefined)
 
+/**
+ * A provider holding the state for creating a new game.
+ * @param children
+ * @constructor
+ */
 const NewGameProvider = ({ children }: NewGameProviderProps) => {
     const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
 
