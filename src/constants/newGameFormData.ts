@@ -9,8 +9,8 @@ export const initialNewGameData: NewGameFormData = {
     gameAudienceId: undefined,
     introDescription: '',
     maxPlayers: undefined,
-    minPlayers: 2,
-    minutes: 0,
+    minPlayers: undefined,
+    minutes: undefined,
     name: '',
     playerGroupTypeId: undefined,
 }

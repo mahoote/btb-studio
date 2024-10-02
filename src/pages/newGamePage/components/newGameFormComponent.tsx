@@ -81,7 +81,7 @@ function NewGameFormComponent({
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Name"
-                                variant="outlined"
+                                variant="filled"
                                 name="name"
                                 value={formData.name}
                                 onChange={event =>
@@ -103,6 +103,7 @@ function NewGameFormComponent({
                                         handleSelectChange(event, formData, setFormData)
                                     }
                                     required
+                                    variant={'filled'}
                                 >
                                     {gameCategories?.map((category: GenericType) => (
                                         <MenuItem key={category.id} value={category.id}>
@@ -141,7 +142,6 @@ function NewGameFormComponent({
                                 onChange={event =>
                                     handleNumberChange(event, formData, setFormData)
                                 }
-                                required
                                 fullWidth
                             />
                         </Grid>
@@ -162,7 +162,7 @@ function NewGameFormComponent({
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 label="Minutes"
-                                variant="outlined"
+                                variant="filled"
                                 name="minutes"
                                 type="number"
                                 inputProps={{ min: 0 }}
@@ -187,6 +187,7 @@ function NewGameFormComponent({
                                     onChange={event =>
                                         handleSelectChange(event, formData, setFormData)
                                     }
+                                    variant={'filled'}
                                 >
                                     {activityLevels.map(level => (
                                         <MenuItem key={level.id} value={level.id}>
@@ -207,6 +208,7 @@ function NewGameFormComponent({
                                     onChange={event =>
                                         handleSelectChange(event, formData, setFormData)
                                     }
+                                    variant={'filled'}
                                 >
                                     {drunkLevels.map(level => (
                                         <MenuItem key={level.id} value={level.id}>
@@ -224,6 +226,7 @@ function NewGameFormComponent({
                                     Player Group Type
                                 </InputLabel>
                                 <Select
+                                    variant={'outlined'}
                                     labelId="player-group-type-label"
                                     label="Player Group Type"
                                     name="playerGroupTypeId"
@@ -250,6 +253,7 @@ function NewGameFormComponent({
                             <FormControl variant="outlined" fullWidth>
                                 <InputLabel id="game-audience-label">Game Audience</InputLabel>
                                 <Select
+                                    variant={'outlined'}
                                     labelId="game-audience-label"
                                     label="Game Audience"
                                     name="gameAudienceId"
@@ -278,6 +282,7 @@ function NewGameFormComponent({
                         label="Game Types"
                         required={true}
                         optionCombinations={getGameTypeCombinations()}
+                        variant={'filled'}
                     />
                     <ChipsAutocompleteComponent
                         predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
