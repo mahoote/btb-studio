@@ -60,12 +60,6 @@ function NewGameComponent() {
         )
     }
 
-    const handleFormSubmit = () => {
-        submitForm().catch(error => {
-            console.error('Error submitting form:', error)
-        })
-    }
-
     const handleResetForm = () => {
         setNewGameData(initialNewGameData)
         setDescriptions(initialNewGameData.descriptions)
@@ -111,7 +105,7 @@ function NewGameComponent() {
                     content: <div>Summary</div>,
                 },
             ]}
-            onFinnish={handleFormSubmit}
+            onFinnish={() => void submitForm()}
             onReset={handleResetForm}
             completeMessage={`"${createdGame?.name}" was created.`}
             isComplete={!!createdGame}

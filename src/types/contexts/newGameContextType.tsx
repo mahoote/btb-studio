@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react'
 import { GameDto } from '../game'
-import { ActionCardSettingsData } from '../formData'
+import { ActionCardSettingsData, WritingSettingsData } from '../formData'
 
 type NewGameContextType = {
     descriptions: string[]
@@ -19,6 +19,10 @@ type NewGameContextType = {
     setActionCardInputs: React.Dispatch<React.SetStateAction<string[] | undefined>>
     activeFormRef: RefObject<HTMLFormElement>
     setActiveFormRef: React.Dispatch<React.SetStateAction<RefObject<HTMLFormElement>>>
+    writingSettingsData: WritingSettingsData | undefined
+    setWritingSettingsData: React.Dispatch<
+        React.SetStateAction<WritingSettingsData | undefined>
+    >
 }
 
 export type { NewGameContextType }

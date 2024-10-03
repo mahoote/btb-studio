@@ -21,3 +21,8 @@ export type ActionCardSettingsData = {
     prompt?: string
     playerCreative?: boolean
 }
+
+export type WritingSettingsData = {
+    writesAmount: number
+    writeSeconds: number
+}

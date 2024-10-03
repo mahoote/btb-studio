@@ -7,6 +7,8 @@ import {
     initialActionCardInputs,
     initialActionCardSettingsData,
 } from '../../../constants/actionCardSettingsData'
+import WritingSettingsComponent from './writingSettingsComponent'
+import { initialWritingSettingsData } from '../../../constants/writingSettingsData'
 
 function AdvancedSettingsComponent() {
     const {
@@ -16,9 +18,12 @@ function AdvancedSettingsComponent() {
         setActionCardInputs,
         actionCardSettingsData,
         setActionCardSettingsData,
+        writingSettingsData,
+        setWritingSettingsData,
     } = useNewGame()
 
     const includesActionCard = selectedGameTypes.includes(GameTypeEnum.ActionCard)
+    const includesWriting = selectedGameTypes.includes(GameTypeEnum.Writing)
 
     useEffect(() => {
         if (includesActionCard) {
@@ -30,14 +35,25 @@ function AdvancedSettingsComponent() {
             setActionCardSettingsData(undefined)
             setActionCardInputs(undefined)
         }
+
+        if (includesWriting) {
+            if (!writingSettingsData) {
+                setWritingSettingsData(initialWritingSettingsData)
+            }
+        } else {
+            setWritingSettingsData(undefined)
+        }
     }, [])
 
     return (
         <Box component="form" ref={activeFormRef}>
-            <Typography variant="h6" textAlign="center" mb={2}>
-                More settings coming soon!
-            </Typography>
+            {!includesActionCard && !includesWriting && (
+                <Typography variant="h6" textAlign="center">
+                    No advanced settings available
+                </Typography>
+            )}
             {includesActionCard && <ActionCardSettingsComponent />}
+            {includesWriting && <WritingSettingsComponent />}
         </Box>
     )
 }
