@@ -36,9 +36,11 @@ function AdvancedSettingsComponent() {
 
     return (
         <Box component="form" ref={activeFormRef}>
-            <Typography variant="h6" textAlign="center" mb={2}>
-                More settings coming soon!
-            </Typography>
+            {!includesActionCard && !includesWriting && (
+                <Typography variant="h6" textAlign="center">
+                    No advanced settings available
+                </Typography>
+            )}
             {includesActionCard && <ActionCardSettingsComponent />}
             {includesWriting && <WritingSettingsComponent />}
         </Box>
