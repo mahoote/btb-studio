@@ -1,12 +1,13 @@
 import React, { createContext, RefObject, useRef, useState } from 'react'
 import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { GameDto } from '../types/game'
-import { ActionCardSettingsData } from '../types/formData'
+import { ActionCardSettingsData, WritingSettingsData } from '../types/formData'
 import {
     initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
 } from '../constants/newGameFormData'
+import { initialWritingSettingsData } from '../constants/writingSettingsData'
 
 interface NewGameProviderProps {
     children: React.ReactNode
@@ -37,6 +38,10 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
         useRef(null)
     )
 
+    const [writingSettingsData, setWritingSettingsData] = useState<
+        WritingSettingsData | undefined
+    >(initialWritingSettingsData)
+
     return (
         <NewGameContext.Provider
             value={{
@@ -54,6 +59,8 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
                 setActionCardInputs,
                 activeFormRef,
                 setActiveFormRef,
+                writingSettingsData,
+                setWritingSettingsData,
             }}
         >
             {children}

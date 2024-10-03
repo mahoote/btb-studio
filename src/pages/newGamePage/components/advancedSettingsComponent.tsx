@@ -8,6 +8,7 @@ import {
     initialActionCardSettingsData,
 } from '../../../constants/actionCardSettingsData'
 import WritingSettingsComponent from './writingSettingsComponent'
+import { initialWritingSettingsData } from '../../../constants/writingSettingsData'
 
 function AdvancedSettingsComponent() {
     const {
@@ -17,6 +18,8 @@ function AdvancedSettingsComponent() {
         setActionCardInputs,
         actionCardSettingsData,
         setActionCardSettingsData,
+        writingSettingsData,
+        setWritingSettingsData,
     } = useNewGame()
 
     const includesActionCard = selectedGameTypes.includes(GameTypeEnum.ActionCard)
@@ -31,6 +34,14 @@ function AdvancedSettingsComponent() {
         } else {
             setActionCardSettingsData(undefined)
             setActionCardInputs(undefined)
+        }
+
+        if (includesWriting) {
+            if (!writingSettingsData) {
+                setWritingSettingsData(initialWritingSettingsData)
+            }
+        } else {
+            setWritingSettingsData(undefined)
         }
     }, [])
 

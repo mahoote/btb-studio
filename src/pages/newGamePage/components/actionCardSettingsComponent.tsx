@@ -43,16 +43,23 @@ function ActionCardSettingsComponent() {
 
     if (!actionCardInputs || !actionCardSettingsData) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" py={5}>
-                <Typography>Could not load the Action Card settings</Typography>
-            </Box>
+            <>
+                <Box my={3}>
+                    <Divider />
+                </Box>
+                <Box display="flex" justifyContent="center" alignItems="center">
+                    <Typography>Could not load the Action Card settings</Typography>
+                </Box>
+            </>
         )
     }
 
     if (acsError)
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <Typography>There was a problem loading data from the database</Typography>
+                <Typography>
+                    There was a problem loading Action Card data from the database
+                </Typography>
             </Box>
         )
 
@@ -150,7 +157,7 @@ function ActionCardSettingsComponent() {
                     <Grid item xs={12} sm={3}>
                         <Tooltip title={'How long each card is displayed.'}>
                             <TextField
-                                label="Card Seconds"
+                                label="Card Time (Seconds)"
                                 variant="outlined"
                                 name="cardSeconds"
                                 type="number"
