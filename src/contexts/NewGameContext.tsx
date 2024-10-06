@@ -1,14 +1,13 @@
 import React, { createContext, RefObject, useRef, useState } from 'react'
 import { NewGameContextType } from '../types/contexts/newGameContextType'
-import { GameDto } from '../types/game'
-import { ActionCardSettingsData, WritingSettingsData } from '../types/newGameFormData'
+import { GameDto } from '../types/gameDto'
+import { ActionCardSettings, AdvancedSettings, WritingSettings } from '../types/newGame'
 import {
     initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
 } from '../constants/NEW_GAME_FORM_DATA'
 import { initialWritingSettingsData } from '../constants/WRITING_SETTINGS_DATA'
-import { AdvancedSettingsData } from '../types/AdvancedSettingsData'
 import { initialAdvancedSettingsData } from '../constants/ADVANCED_SETTINGS_DATA'
 
 interface NewGameProviderProps {
@@ -32,7 +31,7 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
     const [selectedGameTypes, setSelectedGameTypes] = useState<string[]>(initialGameTypesData)
 
     const [actionCardSettingsData, setActionCardSettingsData] = useState<
-        ActionCardSettingsData | undefined
+        ActionCardSettings | undefined
     >()
     const [actionCardInputs, setActionCardInputs] = useState<string[] | undefined>()
 
@@ -41,11 +40,11 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
     )
 
     const [writingSettingsData, setWritingSettingsData] = useState<
-        WritingSettingsData | undefined
+        WritingSettings | undefined
     >(initialWritingSettingsData)
 
     const [advancedSettingsData, setAdvancedSettingsData] = useState<
-        AdvancedSettingsData | undefined
+        AdvancedSettings | undefined
     >(initialAdvancedSettingsData)
 
     return (

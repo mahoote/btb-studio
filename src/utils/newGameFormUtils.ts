@@ -3,10 +3,9 @@ import {
     createGameHasAccessory,
     createGameHasGameType,
 } from '../services/gameService'
-import { GameDto } from '../types/game'
+import { GameDto } from '../types/gameDto'
 import { GenericType } from '../types/genericType'
-import { NewGameFormData } from '../types/newGameFormData'
-import { AdvancedSettingsData } from '../types/AdvancedSettingsData'
+import { AdvancedSettings, NewGame } from '../types/newGame'
 
 type SubmitNewGameFormType = {
     createdGame: GameDto | null
@@ -26,12 +25,12 @@ type AddToGameType = {
  * @param advancedDefaultSettings
  */
 export async function createNewGame(
-    newGameData: NewGameFormData,
+    newGameData: NewGame,
     selectedAccessories: string[],
     selectedGameTypes: string[],
     accessories: GenericType[] | null,
     gameTypes: GenericType[] | null,
-    advancedDefaultSettings: AdvancedSettingsData | undefined
+    advancedDefaultSettings: AdvancedSettings | undefined
 ): Promise<SubmitNewGameFormType> {
     let createdGame: GameDto | null = null
 
@@ -43,11 +42,11 @@ export async function createNewGame(
         name: newGameData.name,
         intro_description: newGameData.introDescription,
         descriptions: newGameData.descriptions,
-        min_players: newGameData.minPlayers ?? 2,
+        min_players: newGameData.minPlayers,
         max_players: newGameData.maxPlayers,
         activity_level: newGameData.activityLevel,
         drunk_level: newGameData.drunkLevel,
-        minutes: newGameData.minutes ?? 0,
+        minutes: newGameData.minutes,
         player_group_type_id: newGameData.playerGroupTypeId,
         game_audience_id: newGameData.gameAudienceId,
         game_category_id: newGameData.categoryId,

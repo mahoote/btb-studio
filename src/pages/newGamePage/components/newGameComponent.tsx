@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useNewGame from '../../../hooks/useNewGame'
-import { NewGameFormData } from '../../../types/newGameFormData'
+import { NewGame } from '../../../types/newGame'
 import { createNewGame } from '../../../utils/newGameFormUtils'
 import NewGameFormComponent from './newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
@@ -37,7 +37,7 @@ function NewGameComponent() {
 
     const { gameTypes, accessories } = useGameOptionsData()
 
-    const [newGameData, setNewGameData] = useState<NewGameFormData>(initialNewGameData)
+    const [newGameData, setNewGameData] = useState<NewGame>(initialNewGameData)
 
     const submitForm = async () => {
         const { createdGame: createdNewGame } = await createNewGame(
@@ -71,7 +71,7 @@ function NewGameComponent() {
     }
 
     useEffect(() => {
-        setNewGameData((prevState: NewGameFormData) => {
+        setNewGameData((prevState: NewGame) => {
             return {
                 ...prevState,
                 descriptions: descriptions,
