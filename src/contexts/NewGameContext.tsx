@@ -8,6 +8,7 @@ import {
     initialNewGameData,
 } from '../constants/NEW_GAME_FORM_DATA'
 import { initialWritingSettingsData } from '../constants/WRITING_SETTINGS_DATA'
+import { AdvancedSettingsData } from '../types/AdvancedSettingsData'
 
 interface NewGameProviderProps {
     children: React.ReactNode
@@ -42,6 +43,10 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
         WritingSettingsData | undefined
     >(initialWritingSettingsData)
 
+    const [advancedSettingsData, setAdvancedSettingsData] = useState<
+        AdvancedSettingsData | undefined
+    >(undefined)
+
     return (
         <NewGameContext.Provider
             value={{
@@ -61,6 +66,8 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
                 setActiveFormRef,
                 writingSettingsData,
                 setWritingSettingsData,
+                advancedSettingsData,
+                setAdvancedSettingsData,
             }}
         >
             {children}

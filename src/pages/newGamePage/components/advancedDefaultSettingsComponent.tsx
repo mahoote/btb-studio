@@ -1,7 +1,16 @@
 import { Box, Grid, TextField, Tooltip } from '@mui/material'
 import React from 'react'
+import useNewGame from '../../../hooks/useNewGame'
+import { handleTextChange } from '../../../utils/inputUtils'
+import ErrorMessage from '../../../components/errorMessage'
 
 function AdvancedDefaultSettingsComponent() {
+    const { advancedSettingsData, setAdvancedSettingsData } = useNewGame()
+
+    if (!advancedSettingsData) {
+        return <ErrorMessage message="Could not load the Advanced Default settings" />
+    }
+
     return (
         <Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -13,6 +22,14 @@ function AdvancedDefaultSettingsComponent() {
                                 variant="outlined"
                                 name="custom-end-game-sentence"
                                 fullWidth
+                                value={advancedSettingsData?.customEndGameSentence}
+                                onChange={event =>
+                                    handleTextChange(
+                                        event,
+                                        advancedSettingsData,
+                                        setAdvancedSettingsData
+                                    )
+                                }
                             />
                         </Tooltip>
                     </Grid>

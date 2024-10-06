@@ -1,15 +1,5 @@
 import React from 'react'
-import {
-    Box,
-    CircularProgress,
-    FormControl,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    TextField,
-    Typography,
-} from '@mui/material'
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import {
     handleNumberChange,
     handleSelectChange,
@@ -25,6 +15,8 @@ import { activityLevels, drunkLevels } from '../../../constants/NEW_GAME_FORM_DA
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { GenericType } from '../../../types/genericType'
 import useGameOptionsData from '../../../hooks/useGameOptionsData'
+import ErrorMessage from '../../../components/errorMessage'
+import PageLoader from '../../../components/pageLoader'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -58,19 +50,11 @@ function NewGameFormComponent({
     } = useGameOptionsData()
 
     if (error) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <Typography>There was a problem loading data from the database</Typography>
-            </Box>
-        )
+        return <ErrorMessage />
     }
 
     if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <CircularProgress />
-            </Box>
-        )
+        return <PageLoader />
     }
 
     return (
