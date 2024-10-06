@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useNewGameContext from '../../../hooks/useNewGame'
-import { NewGameFormData } from '../../../types/formData'
+import { NewGameFormData } from '../../../types/newGameFormData'
 import { createNewGame } from '../../../utils/newGameFormUtils'
 import NewGameFormComponent from './newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../../components/horizontalLinearStepperComponent'
@@ -10,7 +10,7 @@ import {
     initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
-} from '../../../constants/newGameFormData'
+} from '../../../constants/NEW_GAME_FORM_DATA'
 import { createAdvancedSettingsData } from '../../../utils/advancedSettingsUtils'
 import useGameOptionsData from '../../../hooks/useGameOptionsData'
 

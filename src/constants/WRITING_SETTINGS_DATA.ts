@@ -1,4 +1,4 @@
-import { WritingSettingsData } from '../types/formData'
+import { WritingSettingsData } from '../types/newGameFormData'
 
 export const initialWritingSettingsData: WritingSettingsData = {
     writesAmount: 1,

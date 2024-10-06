@@ -19,9 +19,9 @@ import MultiInputComponent from '../../../components/multiInput/multiInputCompon
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { useActionCardSettings } from '../../../hooks/useActionCardSettings'
-import { actionCardContentTypes } from '../../../constants/actionCardSettingsData'
+import { actionCardContentTypes } from '../../../constants/ACTION_CARD_SETTINGS_DATA'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.

@@ -1,4 +1,4 @@
-import { ActionCardSettingsData } from '../types/formData'
+import { ActionCardSettingsData } from '../types/newGameFormData'
 import { createActionCard, createActionCardSettings } from '../services/actionCardService'
 
 /**

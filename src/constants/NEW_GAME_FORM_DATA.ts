@@ -1,5 +1,5 @@
 import { GenericType } from '../types/genericType'
-import { NewGameFormData } from '../types/formData'
+import { NewGameFormData } from '../types/newGameFormData'
 
 export const initialNewGameData: NewGameFormData = {
     activityLevel: 0,

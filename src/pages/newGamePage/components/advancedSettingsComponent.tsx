@@ -6,9 +6,9 @@ import { GameTypeEnum } from '../../../enums/gameTypeEnum'
 import {
     initialActionCardInputs,
     initialActionCardSettingsData,
-} from '../../../constants/actionCardSettingsData'
+} from '../../../constants/ACTION_CARD_SETTINGS_DATA'
 import WritingSettingsComponent from './writingSettingsComponent'
-import { initialWritingSettingsData } from '../../../constants/writingSettingsData'
+import { initialWritingSettingsData } from '../../../constants/WRITING_SETTINGS_DATA'
 import AdvancedDefaultSettingsComponent from './advancedDefaultSettingsComponent'
 
 function AdvancedSettingsComponent() {

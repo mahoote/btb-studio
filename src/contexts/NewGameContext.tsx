@@ -1,13 +1,13 @@
 import React, { createContext, RefObject, useRef, useState } from 'react'
 import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { GameDto } from '../types/game'
-import { ActionCardSettingsData, WritingSettingsData } from '../types/formData'
+import { ActionCardSettingsData, WritingSettingsData } from '../types/newGameFormData'
 import {
     initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
-} from '../constants/newGameFormData'
-import { initialWritingSettingsData } from '../constants/writingSettingsData'
+} from '../constants/NEW_GAME_FORM_DATA'
+import { initialWritingSettingsData } from '../constants/WRITING_SETTINGS_DATA'
 
 interface NewGameProviderProps {
     children: React.ReactNode

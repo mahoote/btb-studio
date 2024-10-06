@@ -5,7 +5,7 @@ import {
 } from '../services/gameService'
 import { GameDto } from '../types/game'
 import { GenericType } from '../types/genericType'
-import { NewGameFormData } from '../types/formData'
+import { NewGameFormData } from '../types/newGameFormData'
 
 type SubmitNewGameFormType = {
     createdGame: GameDto | null

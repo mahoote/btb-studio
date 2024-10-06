@@ -15,14 +15,14 @@ import {
     handleSelectChange,
     handleTextChange,
 } from '../../../utils/inputUtils'
-import { NewGameFormData } from '../../../types/formData'
+import { NewGameFormData } from '../../../types/newGameFormData'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import PreviewWindowComponent from './previewWindowComponent'
-import { activityLevels, drunkLevels } from '../../../constants/newGameFormData'
-import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { activityLevels, drunkLevels } from '../../../constants/NEW_GAME_FORM_DATA'
+import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { GenericType } from '../../../types/genericType'
 import useGameOptionsData from '../../../hooks/useGameOptionsData'
 

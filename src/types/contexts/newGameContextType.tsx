@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react'
 import { GameDto } from '../game'
-import { ActionCardSettingsData, WritingSettingsData } from '../formData'
+import { ActionCardSettingsData, WritingSettingsData } from '../newGameFormData'
 
 type NewGameContextType = {
     descriptions: string[]

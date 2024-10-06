@@ -1,4 +1,4 @@
-import { ActionCardSettingsData } from '../types/formData'
+import { ActionCardSettingsData } from '../types/newGameFormData'
 import { GameDto } from '../types/game'
 import { createActionCardData } from './actionCardSettingsUtils'
 
