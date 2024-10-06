@@ -9,6 +9,7 @@ import {
 } from '../constants/NEW_GAME_FORM_DATA'
 import { initialWritingSettingsData } from '../constants/WRITING_SETTINGS_DATA'
 import { AdvancedSettingsData } from '../types/AdvancedSettingsData'
+import { initialAdvancedSettingsData } from '../constants/ADVANCED_SETTINGS_DATA'
 
 interface NewGameProviderProps {
     children: React.ReactNode
@@ -45,7 +46,7 @@ const NewGameProvider = ({ children }: NewGameProviderProps) => {
 
     const [advancedSettingsData, setAdvancedSettingsData] = useState<
         AdvancedSettingsData | undefined
-    >(undefined)
+    >(initialAdvancedSettingsData)
 
     return (
         <NewGameContext.Provider
