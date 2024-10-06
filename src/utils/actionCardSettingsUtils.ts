@@ -1,4 +1,4 @@
-import { ActionCardSettingsData } from '../types/newGameFormData'
+import { ActionCardSettings } from '../types/newGame'
 import { createActionCard, createActionCardSettings } from '../services/actionCardService'
 
 /**
@@ -10,7 +10,7 @@ import { createActionCard, createActionCardSettings } from '../services/actionCa
  */
 export async function createActionCardData(
     gameId: number,
-    actionCardSettingsData: ActionCardSettingsData,
+    actionCardSettingsData: ActionCardSettings,
     actionCardInputs: string[]
 ) {
     const settings = await createActionCardSettings({
@@ -46,7 +46,7 @@ export function isCardInputMultiline(currentValue: number, values: number[]) {
  * @param inputs
  */
 export function isActionCardSettingsDataValid(
-    data: ActionCardSettingsData | undefined,
+    data: ActionCardSettings | undefined,
     inputs: string[] | undefined
 ): string | undefined {
     if (!data || !inputs) return undefined

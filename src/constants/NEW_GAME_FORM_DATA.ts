@@ -1,7 +1,7 @@
 import { GenericType } from '../types/genericType'
-import { NewGameFormData } from '../types/newGameFormData'
+import { NewGame } from '../types/newGame'
 
-export const initialNewGameData: NewGameFormData = {
+export const initialNewGameData: NewGame = {
     activityLevel: 0,
     categoryId: 1,
     descriptions: [],

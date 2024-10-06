@@ -1,7 +1,7 @@
-import { ActionCardSettingsData } from '../types/newGameFormData'
+import { ActionCardSettings } from '../types/newGame'
 import { GenericType } from '../types/genericType'
 
-export const initialActionCardSettingsData: ActionCardSettingsData = {
+export const initialActionCardSettingsData: ActionCardSettings = {
     stateId: 1,
     contentId: 1,
     prompt: '',

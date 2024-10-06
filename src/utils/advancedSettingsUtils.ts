@@ -1,5 +1,5 @@
-import { ActionCardSettingsData } from '../types/newGameFormData'
-import { GameDto } from '../types/game'
+import { ActionCardSettings } from '../types/newGame'
+import { GameDto } from '../types/gameDto'
 import { createActionCardData } from './actionCardSettingsUtils'
 
 /**
@@ -10,7 +10,7 @@ import { createActionCardData } from './actionCardSettingsUtils'
  */
 export async function createAdvancedSettingsData(
     createdNewGame: GameDto,
-    actionCardSettingsData?: ActionCardSettingsData,
+    actionCardSettingsData?: ActionCardSettings,
     actionCardInputs?: string[]
 ) {
     if (actionCardSettingsData && actionCardInputs) {

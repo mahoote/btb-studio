@@ -5,7 +5,7 @@ import {
     handleSelectChange,
     handleTextChange,
 } from '../../../utils/inputUtils'
-import { NewGameFormData } from '../../../types/newGameFormData'
+import { NewGame } from '../../../types/newGame'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
@@ -19,8 +19,8 @@ import ErrorMessage from '../../../components/errorMessage'
 import PageLoader from '../../../components/pageLoader'
 
 type NewGameFormProps = {
-    formData: NewGameFormData
-    setFormData: React.Dispatch<React.SetStateAction<NewGameFormData>>
+    formData: NewGame
+    setFormData: React.Dispatch<React.SetStateAction<NewGame>>
     descriptions: string[]
     setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
 }

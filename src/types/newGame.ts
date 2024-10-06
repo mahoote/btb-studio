@@ -1,4 +1,4 @@
-export type NewGameFormData = {
+export type NewGame = {
     activityLevel: number
     categoryId: number
     descriptions: string[]
@@ -12,7 +12,11 @@ export type NewGameFormData = {
     gameAudienceId?: number
 }
 
-export type ActionCardSettingsData = {
+export type AdvancedSettings = {
+    customEndGameSentence: string
+}
+
+export type ActionCardSettings = {
     stateId: number
     contentId: number
     cardLimit?: number
@@ -21,8 +25,7 @@ export type ActionCardSettingsData = {
     prompt?: string
     playerCreative?: boolean
 }
-
-export type WritingSettingsData = {
+export type WritingSettings = {
     writesAmount: number
     writeSeconds: number
 }

@@ -5,7 +5,7 @@ import {
     ActionCardDto,
     ActionCardSettingsDto,
     ActionCardSettingsInsertDto,
-} from '../types/actionCard'
+} from '../types/actionCardDto'
 
 /**
  * Fetches all the action card states.

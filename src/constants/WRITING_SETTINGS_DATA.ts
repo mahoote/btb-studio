@@ -1,6 +1,6 @@
-import { WritingSettingsData } from '../types/newGameFormData'
+import { WritingSettings } from '../types/newGame'
 
-export const initialWritingSettingsData: WritingSettingsData = {
+export const initialWritingSettingsData: WritingSettings = {
     writesAmount: 1,
     writeSeconds: 30,
 }

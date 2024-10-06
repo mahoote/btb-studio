@@ -1,5 +1,5 @@
-import { AdvancedSettingsData } from '../types/AdvancedSettingsData'
+import { AdvancedSettings } from '../types/newGame'
 
-export const initialAdvancedSettingsData: AdvancedSettingsData = {
+export const initialAdvancedSettingsData: AdvancedSettings = {
     customEndGameSentence: '',
 }

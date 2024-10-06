@@ -1,7 +1,6 @@
 import React, { RefObject } from 'react'
-import { GameDto } from '../game'
-import { ActionCardSettingsData, WritingSettingsData } from '../newGameFormData'
-import { AdvancedSettingsData } from '../AdvancedSettingsData'
+import { GameDto } from '../gameDto'
+import { ActionCardSettings, AdvancedSettings, WritingSettings } from '../newGame'
 
 type NewGameContextType = {
     descriptions: string[]
@@ -12,22 +11,18 @@ type NewGameContextType = {
     setSelectedAccessories: React.Dispatch<React.SetStateAction<string[]>>
     selectedGameTypes: string[]
     setSelectedGameTypes: React.Dispatch<React.SetStateAction<string[]>>
-    actionCardSettingsData: ActionCardSettingsData | undefined
+    actionCardSettingsData: ActionCardSettings | undefined
     setActionCardSettingsData: React.Dispatch<
-        React.SetStateAction<ActionCardSettingsData | undefined>
+        React.SetStateAction<ActionCardSettings | undefined>
     >
     actionCardInputs: string[] | undefined
     setActionCardInputs: React.Dispatch<React.SetStateAction<string[] | undefined>>
     activeFormRef: RefObject<HTMLFormElement>
     setActiveFormRef: React.Dispatch<React.SetStateAction<RefObject<HTMLFormElement>>>
-    writingSettingsData: WritingSettingsData | undefined
-    setWritingSettingsData: React.Dispatch<
-        React.SetStateAction<WritingSettingsData | undefined>
-    >
-    advancedSettingsData: AdvancedSettingsData | undefined
-    setAdvancedSettingsData: React.Dispatch<
-        React.SetStateAction<AdvancedSettingsData | undefined>
-    >
+    writingSettingsData: WritingSettings | undefined
+    setWritingSettingsData: React.Dispatch<React.SetStateAction<WritingSettings | undefined>>
+    advancedSettingsData: AdvancedSettings | undefined
+    setAdvancedSettingsData: React.Dispatch<React.SetStateAction<AdvancedSettings | undefined>>
 }
 
 export type { NewGameContextType }

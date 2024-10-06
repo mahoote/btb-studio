@@ -1,7 +1,7 @@
 import { supabase } from '../supabaseClient'
-import { GameDto, GameInsertDto } from '../types/game'
+import { GameDto, GameInsertDto } from '../types/gameDto'
 import { SupabaseResponse } from '../types/supabaseResponse'
-import { GameHasAccessoryDto } from '../types/gameHasAccessory'
+import { GameHasAccessoryDto } from '../types/gameHasAccessoryDto'
 
 export async function createGame(game: GameInsertDto): Promise<GameDto | null> {
     const { data, error }: SupabaseResponse<GameDto> = await supabase
