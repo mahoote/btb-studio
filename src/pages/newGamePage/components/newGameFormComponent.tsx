@@ -50,7 +50,7 @@ function NewGameFormComponent({
     } = useGameOptionsData()
 
     if (error) {
-        return <ErrorMessage />
+        return <ErrorMessage message="There was a problem loading data from the database." />
     }
 
     if (loading) {
