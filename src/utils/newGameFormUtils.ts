@@ -6,6 +6,7 @@ import {
 import { GameDto } from '../types/game'
 import { GenericType } from '../types/genericType'
 import { NewGameFormData } from '../types/newGameFormData'
+import { AdvancedSettingsData } from '../types/AdvancedSettingsData'
 
 type SubmitNewGameFormType = {
     createdGame: GameDto | null
@@ -22,13 +23,15 @@ type AddToGameType = {
  * @param selectedGameTypes
  * @param accessories
  * @param gameTypes
+ * @param advancedDefaultSettings
  */
 export async function createNewGame(
     newGameData: NewGameFormData,
     selectedAccessories: string[],
     selectedGameTypes: string[],
     accessories: GenericType[] | null,
-    gameTypes: GenericType[] | null
+    gameTypes: GenericType[] | null,
+    advancedDefaultSettings: AdvancedSettingsData | undefined
 ): Promise<SubmitNewGameFormType> {
     let createdGame: GameDto | null = null
 
@@ -48,6 +51,7 @@ export async function createNewGame(
         player_group_type_id: newGameData.playerGroupTypeId,
         game_audience_id: newGameData.gameAudienceId,
         game_category_id: newGameData.categoryId,
+        custom_end_game_sentence: advancedDefaultSettings?.customEndGameSentence,
     })
         .then((response: GameDto | null) => {
             if (!response) {

@@ -20,9 +20,9 @@ function AdvancedDefaultSettingsComponent() {
                             <TextField
                                 label="Custom 'How to End the Game' Sentence"
                                 variant="outlined"
-                                name="custom-end-game-sentence"
+                                name="customEndGameSentence"
                                 fullWidth
-                                value={advancedSettingsData?.customEndGameSentence}
+                                value={advancedSettingsData.customEndGameSentence}
                                 onChange={event =>
                                     handleTextChange(
                                         event,

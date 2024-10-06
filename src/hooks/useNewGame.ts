@@ -2,7 +2,7 @@ import { NewGameContextType } from '../types/contexts/newGameContextType'
 import { useContext } from 'react'
 import { NewGameContext } from '../contexts/NewGameContext'
 
-const useNewGameContext = (): NewGameContextType => {
+const useNewGame = (): NewGameContextType => {
     const context = useContext(NewGameContext)
     if (context === undefined) {
         throw new Error('useNewGameContext must be used within a NewGameProvider')
@@ -10,4 +10,4 @@ const useNewGameContext = (): NewGameContextType => {
     return context
 }
 
-export default useNewGameContext
+export default useNewGame
