@@ -1,14 +1,15 @@
 import ActionCardSettingsComponent from './actionCardSettingsComponent'
 import useNewGame from '../../../hooks/useNewGame'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import React, { useEffect } from 'react'
 import { GameTypeEnum } from '../../../enums/gameTypeEnum'
 import {
     initialActionCardInputs,
     initialActionCardSettingsData,
-} from '../../../constants/actionCardSettingsData'
+} from '../../../constants/ACTION_CARD_SETTINGS_DATA'
 import WritingSettingsComponent from './writingSettingsComponent'
-import { initialWritingSettingsData } from '../../../constants/writingSettingsData'
+import { initialWritingSettingsData } from '../../../constants/WRITING_SETTINGS_DATA'
+import AdvancedDefaultSettingsComponent from './advancedDefaultSettingsComponent'
 
 function AdvancedSettingsComponent() {
     const {
@@ -47,11 +48,7 @@ function AdvancedSettingsComponent() {
 
     return (
         <Box component="form" ref={activeFormRef}>
-            {!includesActionCard && !includesWriting && (
-                <Typography variant="h6" textAlign="center">
-                    No advanced settings available
-                </Typography>
-            )}
+            <AdvancedDefaultSettingsComponent />
             {includesActionCard && <ActionCardSettingsComponent />}
             {includesWriting && <WritingSettingsComponent />}
         </Box>

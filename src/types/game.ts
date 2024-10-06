@@ -30,6 +30,7 @@ type GameInsertDto = {
     player_group_type_id?: number
     game_audience_id?: number
     game_category_id: number
+    custom_end_game_sentence?: string
 }
 
 export type { GameDto, GameInsertDto }

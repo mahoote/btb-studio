@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     Box,
-    CircularProgress,
     Divider,
     FormControl,
     FormControlLabel,
@@ -19,9 +18,11 @@ import MultiInputComponent from '../../../components/multiInput/multiInputCompon
 import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { useActionCardSettings } from '../../../hooks/useActionCardSettings'
-import { actionCardContentTypes } from '../../../constants/actionCardSettingsData'
+import { actionCardContentTypes } from '../../../constants/ACTION_CARD_SETTINGS_DATA'
+import ErrorMessage from '../../../components/errorMessage'
+import PageLoader from '../../../components/pageLoader'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -47,28 +48,18 @@ function ActionCardSettingsComponent() {
                 <Box my={3}>
                     <Divider />
                 </Box>
-                <Box display="flex" justifyContent="center" alignItems="center">
-                    <Typography>Could not load the Action Card settings</Typography>
-                </Box>
+                <ErrorMessage message="Could not load the Action Card settings" />
             </>
         )
     }
 
-    if (acsError)
+    if (acsError) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <Typography>
-                    There was a problem loading Action Card data from the database
-                </Typography>
-            </Box>
+            <ErrorMessage message="There was a problem loading Action Card data from the database" />
         )
+    }
 
-    if (acsLoading)
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <CircularProgress />
-            </Box>
-        )
+    if (acsLoading) return <PageLoader />
 
     return (
         <>

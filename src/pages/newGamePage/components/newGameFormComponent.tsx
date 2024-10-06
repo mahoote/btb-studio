@@ -1,30 +1,22 @@
 import React from 'react'
-import {
-    Box,
-    CircularProgress,
-    FormControl,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Select,
-    TextField,
-    Typography,
-} from '@mui/material'
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import {
     handleNumberChange,
     handleSelectChange,
     handleTextChange,
 } from '../../../utils/inputUtils'
-import { NewGameFormData } from '../../../types/formData'
+import { NewGameFormData } from '../../../types/newGameFormData'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import PreviewWindowComponent from './previewWindowComponent'
-import { activityLevels, drunkLevels } from '../../../constants/newGameFormData'
-import { actionCardSuggestions } from '../../../constants/wordSuggestionData'
+import { activityLevels, drunkLevels } from '../../../constants/NEW_GAME_FORM_DATA'
+import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { GenericType } from '../../../types/genericType'
 import useGameOptionsData from '../../../hooks/useGameOptionsData'
+import ErrorMessage from '../../../components/errorMessage'
+import PageLoader from '../../../components/pageLoader'
 
 type NewGameFormProps = {
     formData: NewGameFormData
@@ -58,19 +50,11 @@ function NewGameFormComponent({
     } = useGameOptionsData()
 
     if (error) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <Typography>There was a problem loading data from the database</Typography>
-            </Box>
-        )
+        return <ErrorMessage message="There was a problem loading data from the database." />
     }
 
     if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <CircularProgress />
-            </Box>
-        )
+        return <PageLoader />
     }
 
     return (

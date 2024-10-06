@@ -1,4 +1,4 @@
-import { ActionCardSettingsData } from '../types/formData'
+import { ActionCardSettingsData } from '../types/newGameFormData'
 import { GenericType } from '../types/genericType'
 
 export const initialActionCardSettingsData: ActionCardSettingsData = {
