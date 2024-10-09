@@ -8,7 +8,7 @@ import { noWhiteSpaceInput } from '../../utils/inputUtils'
 
 type MultiInputProps = {
     inputs: string[]
-    setInputs: React.Dispatch<React.SetStateAction<string[] | undefined>>
+    setInputs: (inputs: string[] | undefined) => void
     isMultiline?: boolean
     wordSuggestions: TextFieldSuggestion[]
     variant?: 'outlined' | 'filled'

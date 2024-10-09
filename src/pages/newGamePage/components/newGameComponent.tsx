@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import useNewGame from '../../../hooks/useNewGame'
 import { NewGame } from '../../../types/newGame'
 import { createNewGame } from '../../../utils/newGameFormUtils'
 import NewGameFormComponent from './newGameFormComponent'
@@ -13,6 +12,7 @@ import {
 } from '../../../constants/NEW_GAME_FORM_DATA'
 import { createAdvancedSettingsData } from '../../../utils/advancedSettingsUtils'
 import useGameOptionsData from '../../../hooks/useGameOptionsData'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 /**
  * Mostly logic regarding the new game form.
@@ -33,7 +33,7 @@ function NewGameComponent() {
         actionCardInputs,
         activeFormRef,
         advancedSettingsData,
-    } = useNewGame()
+    } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsData()
 
@@ -112,7 +112,7 @@ function NewGameComponent() {
             completeMessage={`"${createdGame?.name}" was created.`}
             isComplete={!!createdGame}
             isFormValid={() => {
-                if (activeFormRef.current) {
+                if (activeFormRef?.current) {
                     if (activeFormRef.current.checkValidity()) {
                         return true
                     } else {

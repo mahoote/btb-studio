@@ -1,5 +1,4 @@
 import ActionCardSettingsComponent from './actionCardSettingsComponent'
-import useNewGame from '../../../hooks/useNewGame'
 import { Box } from '@mui/material'
 import React, { useEffect } from 'react'
 import { GameTypeEnum } from '../../../enums/gameTypeEnum'
@@ -10,6 +9,7 @@ import {
 import WritingSettingsComponent from './writingSettingsComponent'
 import { initialWritingSettingsData } from '../../../constants/WRITING_SETTINGS_DATA'
 import AdvancedDefaultSettingsComponent from './advancedDefaultSettingsComponent'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 function AdvancedSettingsComponent() {
     const {
@@ -21,7 +21,7 @@ function AdvancedSettingsComponent() {
         setActionCardSettingsData,
         writingSettingsData,
         setWritingSettingsData,
-    } = useNewGame()
+    } = useNewGameStore()
 
     const includesActionCard = selectedGameTypes.includes(GameTypeEnum.ActionCard)
     const includesWriting = selectedGameTypes.includes(GameTypeEnum.Writing)

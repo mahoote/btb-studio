@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import {
     handleNumberChange,
@@ -7,7 +7,6 @@ import {
 } from '../../../utils/inputUtils'
 import { NewGame } from '../../../types/newGame'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
-import useNewGame from '../../../hooks/useNewGame'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import PreviewWindowComponent from './previewWindowComponent'
@@ -17,12 +16,13 @@ import { GenericType } from '../../../types/genericType'
 import useGameOptionsData from '../../../hooks/useGameOptionsData'
 import ErrorMessage from '../../../components/errorMessage'
 import PageLoader from '../../../components/pageLoader'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 type NewGameFormProps = {
     formData: NewGame
     setFormData: React.Dispatch<React.SetStateAction<NewGame>>
     descriptions: string[]
-    setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
+    setDescriptions: (descriptions: string[]) => void
 }
 
 function NewGameFormComponent({
@@ -37,7 +37,8 @@ function NewGameFormComponent({
         selectedGameTypes,
         setSelectedGameTypes,
         activeFormRef,
-    } = useNewGame()
+        setActiveFormRef,
+    } = useNewGameStore()
 
     const {
         loading,
@@ -48,6 +49,12 @@ function NewGameFormComponent({
         accessories,
         gameAudience,
     } = useGameOptionsData()
+
+    // Set active form ref if it doesn't exist
+    const formRef = useRef(null)
+    if (!activeFormRef) {
+        setActiveFormRef(formRef)
+    }
 
     if (error) {
         return <ErrorMessage message="There was a problem loading data from the database." />

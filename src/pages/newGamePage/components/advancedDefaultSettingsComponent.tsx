@@ -1,11 +1,11 @@
 import { Box, Grid, TextField, Tooltip } from '@mui/material'
 import React from 'react'
-import useNewGame from '../../../hooks/useNewGame'
 import { handleTextChange } from '../../../utils/inputUtils'
 import ErrorMessage from '../../../components/errorMessage'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 function AdvancedDefaultSettingsComponent() {
-    const { advancedSettingsData, setAdvancedSettingsData } = useNewGame()
+    const { advancedSettingsData, setAdvancedSettingsData } = useNewGameStore()
 
     if (!advancedSettingsData) {
         return <ErrorMessage message="Could not load the Advanced Default settings" />

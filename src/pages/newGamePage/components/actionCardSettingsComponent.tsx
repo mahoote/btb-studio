@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
 import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
-import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
@@ -23,6 +22,7 @@ import { useActionCardSettings } from '../../../hooks/useActionCardSettings'
 import { actionCardContentTypes } from '../../../constants/ACTION_CARD_SETTINGS_DATA'
 import ErrorMessage from '../../../components/errorMessage'
 import PageLoader from '../../../components/pageLoader'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -34,7 +34,7 @@ function ActionCardSettingsComponent() {
         setActionCardSettingsData,
         actionCardInputs,
         setActionCardInputs,
-    } = useNewGame()
+    } = useNewGameStore()
 
     const {
         data: actionCardStates,
