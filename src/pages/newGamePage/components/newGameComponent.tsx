@@ -11,8 +11,8 @@ import {
     initialNewGameData,
 } from '../../../constants/NEW_GAME_FORM_DATA'
 import { createAdvancedSettingsData } from '../../../utils/advancedSettingsUtils'
-import useGameOptionsData from '../../../hooks/useGameOptionsData'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import { useGameOptionsStore } from '../../../hooks/useGameOptionsStore'
 
 /**
  * Mostly logic regarding the new game form.
@@ -35,7 +35,7 @@ function NewGameComponent() {
         advancedSettingsData,
     } = useNewGameStore()
 
-    const { gameTypes, accessories } = useGameOptionsData()
+    const { gameTypes, accessories } = useGameOptionsStore()
 
     const [newGameData, setNewGameData] = useState<NewGame>(initialNewGameData)
 

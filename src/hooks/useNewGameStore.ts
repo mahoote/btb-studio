@@ -40,7 +40,7 @@ export const useNewGameStore = create<NewGameState>()(
             setAdvancedSettingsData: settings => set({ advancedSettingsData: settings }),
         }),
         {
-            name: 'new-game-storage',
+            name: 'newGameStorage',
             partialize: state => ({
                 ...state,
                 activeFormRef: undefined, // Exclude non-serializable values like refs

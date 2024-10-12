@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import {
     handleNumberChange,
@@ -13,10 +13,10 @@ import PreviewWindowComponent from './previewWindowComponent'
 import { activityLevels, drunkLevels } from '../../../constants/NEW_GAME_FORM_DATA'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { GenericType } from '../../../types/genericType'
-import useGameOptionsData from '../../../hooks/useGameOptionsData'
 import ErrorMessage from '../../../components/errorMessage'
 import PageLoader from '../../../components/pageLoader'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import { useGameOptionsStore } from '../../../hooks/useGameOptionsStore'
 
 type NewGameFormProps = {
     formData: NewGame
@@ -41,6 +41,7 @@ function NewGameFormComponent({
     } = useNewGameStore()
 
     const {
+        fetchGameOptions,
         loading,
         error,
         gameCategories,
@@ -48,13 +49,17 @@ function NewGameFormComponent({
         playerGroupTypes,
         accessories,
         gameAudience,
-    } = useGameOptionsData()
+    } = useGameOptionsStore()
 
     // Set active form ref if it doesn't exist
     const formRef = useRef(null)
     if (!activeFormRef) {
         setActiveFormRef(formRef)
     }
+
+    useEffect(() => {
+        fetchGameOptions()
+    }, [fetchGameOptions])
 
     if (error) {
         return <ErrorMessage message="There was a problem loading data from the database." />
