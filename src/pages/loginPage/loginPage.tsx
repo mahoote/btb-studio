@@ -6,9 +6,13 @@ import { LoadingButton } from '@mui/lab'
 import { supabase } from '../../supabaseClient'
 import { AuthError } from '@supabase/supabase-js'
 
-function LoginPage() {
-    const [loadingSignIn, setLoadingSignIn] = useState<boolean>(false)
-    const [error, setError] = useState<AuthError | null>(null)
+type LoginPageProps = {
+    authError: Error | null
+}
+
+function LoginPage({ authError }: LoginPageProps) {
+    const [loginLoading, setLoginLoading] = useState<boolean>(false)
+    const [loginError, setLoginError] = useState<AuthError | null>(null)
 
     const [formData, setFormData] = useState<Login>({
         email: '',
@@ -18,7 +22,7 @@ function LoginPage() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        setLoadingSignIn(true)
+        setLoginLoading(true)
 
         const { error } = await supabase.auth.signInWithPassword({
             email: formData.email,
@@ -26,8 +30,8 @@ function LoginPage() {
         })
 
         if (error) {
-            setLoadingSignIn(false)
-            setError(error)
+            setLoginLoading(false)
+            setLoginError(error)
         }
     }
 
@@ -70,6 +74,15 @@ function LoginPage() {
                 <Typography aria-label="Sign in" variant="h5" mb={1}>
                     Sign in
                 </Typography>
+
+                {authError && (
+                    <Typography color="lightblue">
+                        There was a problem trying to authenticate you.
+                    </Typography>
+                )}
+
+                {loginError && <Typography color="lightblue">{loginError.message}</Typography>}
+
                 <TextField
                     label="Email"
                     variant="outlined"
@@ -90,13 +103,11 @@ function LoginPage() {
                     type="password"
                 />
 
-                {error && <Typography color="lightblue">{error.message}</Typography>}
-
                 <LoadingButton
                     type="submit"
                     variant="contained"
                     fullWidth
-                    loading={loadingSignIn}
+                    loading={loginLoading}
                 >
                     Sign in
                 </LoadingButton>

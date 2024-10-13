@@ -6,7 +6,6 @@ import AppLayoutComponent from './components/appLayoutComponent'
 import NewGamePage from './pages/newGamePage/newGamePage'
 import LoginPage from './pages/loginPage/loginPage'
 import { useAuthStore } from './hooks/useAuthStore'
-import ErrorMessage from './components/errorMessage'
 import PageLoader from './components/pageLoader'
 
 function App() {
@@ -24,10 +23,6 @@ function AuthRoutes() {
         initializeAuth()
     }, [initializeAuth])
 
-    if (error) {
-        return <ErrorMessage message="There was a problem trying to authenticate you." />
-    }
-
     if (loading) {
         return <PageLoader />
     }
@@ -40,7 +35,7 @@ function AuthRoutes() {
                     <Route path="*" element={<div>This page does not exist</div>} />
                 </Route>
             ) : (
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/" element={<LoginPage authError={error} />} />
             )}
         </Routes>
     )
