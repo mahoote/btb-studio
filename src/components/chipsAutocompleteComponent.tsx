@@ -5,7 +5,7 @@ import { isOptionDisabled } from '../utils/chipsAutocompleteUtils'
 type ChipsAutocompleteProps = {
     predefinedValues: string[]
     selectedValues: string[]
-    setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>
+    setSelectedValues: (values: string[]) => void
     label: string
     required?: boolean
     optionCombinations?: string[][]

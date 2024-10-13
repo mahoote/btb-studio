@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
 
 import AppLayoutComponent from './components/appLayoutComponent'
 import NewGamePage from './pages/newGamePage/newGamePage'
 import LoginPage from './pages/loginPage/loginPage'
-import { useAuth } from './hooks/useAuth'
-import { Box, CircularProgress } from '@mui/material'
+import { useAuthStore } from './hooks/useAuthStore'
+import PageLoader from './components/pageLoader'
 
 function App() {
     return (
@@ -17,14 +17,14 @@ function App() {
 }
 
 function AuthRoutes() {
-    const { user, loading } = useAuth()
+    const { initializeAuth, user, loading, error } = useAuthStore()
+
+    useEffect(() => {
+        initializeAuth()
+    }, [initializeAuth])
 
     if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-                <CircularProgress />
-            </Box>
-        )
+        return <PageLoader />
     }
 
     return (
@@ -35,7 +35,7 @@ function AuthRoutes() {
                     <Route path="*" element={<div>This page does not exist</div>} />
                 </Route>
             ) : (
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/" element={<LoginPage authError={error} />} />
             )}
         </Routes>
     )

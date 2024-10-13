@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Box,
     Divider,
@@ -15,14 +15,14 @@ import {
 } from '@mui/material'
 import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
 import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
-import useNewGame from '../../../hooks/useNewGame'
 import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import { useActionCardSettings } from '../../../hooks/useActionCardSettings'
 import { actionCardContentTypes } from '../../../constants/ACTION_CARD_SETTINGS_DATA'
 import ErrorMessage from '../../../components/errorMessage'
 import PageLoader from '../../../components/pageLoader'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import { useActionCardStore } from '../../../hooks/useActionCardStore'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.
@@ -34,13 +34,13 @@ function ActionCardSettingsComponent() {
         setActionCardSettingsData,
         actionCardInputs,
         setActionCardInputs,
-    } = useNewGame()
+    } = useNewGameStore()
 
-    const {
-        data: actionCardStates,
-        loading: acsLoading,
-        error: acsError,
-    } = useActionCardSettings()
+    const { actionCardStates, loading, error, fetchApi } = useActionCardStore()
+
+    useEffect(() => {
+        fetchApi()
+    }, [fetchApi])
 
     if (!actionCardInputs || !actionCardSettingsData) {
         return (
@@ -53,13 +53,13 @@ function ActionCardSettingsComponent() {
         )
     }
 
-    if (acsError) {
+    if (error) {
         return (
             <ErrorMessage message="There was a problem loading Action Card data from the database" />
         )
     }
 
-    if (acsLoading) return <PageLoader />
+    if (loading) return <PageLoader />
 
     return (
         <>

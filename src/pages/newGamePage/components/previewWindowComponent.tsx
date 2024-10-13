@@ -7,18 +7,16 @@ import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 type PreviewWindowProps = {
     name: string
     descriptions: string[]
-    setDescriptions: React.Dispatch<React.SetStateAction<string[]>>
+    setDescriptions: (descriptions: string[]) => void
 }
 
 function PreviewWindowComponent({ name, descriptions, setDescriptions }: PreviewWindowProps) {
     const [descriptionIndex, setDescriptionIndex] = useState<number>(0)
 
     const handleDescriptionChange = (newValue: string) => {
-        setDescriptions(prevState => {
-            const newState = [...prevState]
-            newState[descriptionIndex] = newValue
-            return newState
-        })
+        const newDescriptions = [...descriptions]
+        newDescriptions[descriptionIndex] = newValue
+        setDescriptions(newDescriptions)
     }
 
     const handleNext = () => {
@@ -27,12 +25,10 @@ function PreviewWindowComponent({ name, descriptions, setDescriptions }: Preview
             return
         }
 
-        setDescriptions(prevState => {
-            const newState = [...prevState]
-            newState.push('')
-            setDescriptionIndex(newState.length - 1)
-            return newState
-        })
+        const newDescriptions = [...descriptions]
+        newDescriptions.push('')
+        setDescriptions(newDescriptions)
+        setDescriptionIndex(descriptionIndex + 1)
     }
 
     const handleBack = () => {

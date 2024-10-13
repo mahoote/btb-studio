@@ -1,11 +1,11 @@
 import { Box, Divider, Grid, TextField, Tooltip, Typography } from '@mui/material'
 import React from 'react'
-import useNewGame from '../../../hooks/useNewGame'
 import { handleNumberChange } from '../../../utils/inputUtils'
 import ErrorMessage from '../../../components/errorMessage'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 function WritingSettingsComponent() {
-    const { writingSettingsData, setWritingSettingsData } = useNewGame()
+    const { writingSettingsData, setWritingSettingsData } = useNewGameStore()
 
     if (!writingSettingsData) {
         return (

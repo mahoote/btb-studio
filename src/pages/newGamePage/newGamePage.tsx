@@ -1,18 +1,128 @@
-import React from 'react'
-import NewGameProvider from '../../contexts/NewGameContext'
-import NewGameComponent from './components/newGameComponent'
-import { ActionCardSettingsProvider } from '../../contexts/ActionCardSettingsContext'
-import GameOptionsDataProvider from '../../contexts/GameOptionsDataContext'
+import React, { useEffect, useState } from 'react'
+import { NewGame } from '../../types/newGame'
+import { createNewGame } from '../../utils/newGameFormUtils'
+import NewGameFormComponent from './components/newGameFormComponent'
+import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
+import AdvancedSettingsComponent from './components/advancedSettingsComponent'
+import { isActionCardSettingsDataValid } from '../../utils/actionCardSettingsUtils'
+import {
+    initialAccessoriesData,
+    initialGameTypesData,
+    initialNewGameData,
+} from '../../constants/NEW_GAME_FORM_DATA'
+import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
+import { useNewGameStore } from '../../hooks/useNewGameStore'
+import { useGameOptionsStore } from '../../hooks/useGameOptionsStore'
 
+/**
+ * Mostly logic regarding the new game form.
+ * Builds the different steps in the form.
+ * @constructor
+ */
 function NewGamePage() {
+    const {
+        setCreatedGame,
+        createdGame,
+        selectedAccessories,
+        setDescriptions,
+        descriptions,
+        selectedGameTypes,
+        setSelectedGameTypes,
+        setSelectedAccessories,
+        actionCardSettingsData,
+        actionCardInputs,
+        activeFormRef,
+        advancedSettingsData,
+    } = useNewGameStore()
+
+    const { gameTypes, accessories } = useGameOptionsStore()
+
+    const [newGameData, setNewGameData] = useState<NewGame>(initialNewGameData)
+
+    const submitForm = async () => {
+        const { createdGame: createdNewGame } = await createNewGame(
+            newGameData,
+            selectedAccessories,
+            selectedGameTypes,
+            accessories,
+            gameTypes,
+            advancedSettingsData
+        )
+
+        setCreatedGame(createdNewGame)
+
+        if (!createdNewGame) {
+            return
+        }
+
+        await createAdvancedSettingsData(
+            createdNewGame,
+            actionCardSettingsData,
+            actionCardInputs
+        )
+    }
+
+    const handleResetForm = () => {
+        setNewGameData(initialNewGameData)
+        setDescriptions(initialNewGameData.descriptions)
+        setCreatedGame(null)
+        setSelectedGameTypes(initialGameTypesData)
+        setSelectedAccessories(initialAccessoriesData)
+    }
+
+    useEffect(() => {
+        setNewGameData((prevState: NewGame) => {
+            return {
+                ...prevState,
+                descriptions: descriptions,
+            }
+        })
+    }, [setNewGameData, descriptions])
+
     return (
-        <NewGameProvider>
-            <GameOptionsDataProvider>
-                <ActionCardSettingsProvider>
-                    <NewGameComponent />
-                </ActionCardSettingsProvider>
-            </GameOptionsDataProvider>
-        </NewGameProvider>
+        <HorizontalLinearStepperComponent
+            steps={[
+                {
+                    label: 'New Game',
+                    content: (
+                        <NewGameFormComponent
+                            formData={newGameData}
+                            setFormData={setNewGameData}
+                            descriptions={descriptions}
+                            setDescriptions={setDescriptions}
+                        />
+                    ),
+                },
+                {
+                    label: 'Advanced Settings',
+                    content: <AdvancedSettingsComponent />,
+                    customValidation: () =>
+                        isActionCardSettingsDataValid(
+                            actionCardSettingsData,
+                            actionCardInputs
+                        ),
+                },
+                {
+                    label: 'Summary',
+                    content: <div>Summary</div>,
+                },
+            ]}
+            onFinnish={() => void submitForm()}
+            onReset={handleResetForm}
+            completeMessage={`"${createdGame?.name}" was created.`}
+            isComplete={!!createdGame}
+            isFormValid={() => {
+                if (activeFormRef?.current) {
+                    if (activeFormRef.current.checkValidity()) {
+                        return true
+                    } else {
+                        activeFormRef.current.reportValidity()
+                        return false
+                    }
+                }
+                return true
+            }}
+        />
     )
 }
 
