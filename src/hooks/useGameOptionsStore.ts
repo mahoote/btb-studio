@@ -7,7 +7,7 @@ import { getGameTypes } from '../services/gameTypeService'
 import { getPlayerGroupTypes } from '../services/playerGroupTypeService'
 import { getAccessories } from '../services/accessoryService'
 import { getGameAudience } from '../services/gameAudienceService'
-import { hasMoreThan24HoursPassed } from '../utils/timeUtils'
+import { canFetchData } from '../utils/apiUtils'
 
 export const useGameOptionsStore = create<GameOptionsState>()(
     persist(
@@ -35,9 +35,7 @@ export const useGameOptionsStore = create<GameOptionsState>()(
             setGameAudience: (gameAudience: GenericType[]) => set({ gameAudience }),
 
             fetchApi: () => {
-                const lastFetched = localStorage.getItem('gameOptionsLastFetched')
-
-                if (!lastFetched || hasMoreThan24HoursPassed(Number(lastFetched))) {
+                if (canFetchData('gameOptionsLastFetched')) {
                     set({ loading: true })
 
                     void fetchGameOptionsAsync(set).finally(() => {

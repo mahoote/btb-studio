@@ -1,8 +1,8 @@
 import { ActionCardState } from '../states/actionCardState'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { hasMoreThan24HoursPassed } from '../utils/timeUtils'
 import { getActionCardStates } from '../services/actionCardService'
+import { canFetchData } from '../utils/apiUtils'
 
 export const useActionCardStore = create<ActionCardState>()(
     persist(
@@ -17,8 +17,7 @@ export const useActionCardStore = create<ActionCardState>()(
             setActionCardStates: actionCardStates => set({ actionCardStates }),
 
             fetchApi: () => {
-                const lastFetched = localStorage.getItem('actionCardOptionsLastFetched')
-                if (!lastFetched || hasMoreThan24HoursPassed(Number(lastFetched))) {
+                if (canFetchData('gameOptionsLastFetched')) {
                     set({ loading: true })
                     void fetchActionCardOptionsAsync(set).finally(() => {
                         set({ loading: false })
