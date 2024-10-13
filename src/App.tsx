@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
 
 import AppLayoutComponent from './components/appLayoutComponent'
 import NewGamePage from './pages/newGamePage/newGamePage'
 import LoginPage from './pages/loginPage/loginPage'
-import { useAuth } from './hooks/useAuth'
-import { Box, CircularProgress } from '@mui/material'
+import { useAuthStore } from './hooks/useAuthStore'
+import ErrorMessage from './components/errorMessage'
+import PageLoader from './components/pageLoader'
 
 function App() {
     return (
@@ -17,14 +18,18 @@ function App() {
 }
 
 function AuthRoutes() {
-    const { user, loading } = useAuth()
+    const { initializeAuth, user, loading, error } = useAuthStore()
+
+    useEffect(() => {
+        initializeAuth()
+    }, [initializeAuth])
+
+    if (error) {
+        return <ErrorMessage message="There was a problem trying to authenticate you." />
+    }
 
     if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-                <CircularProgress />
-            </Box>
-        )
+        return <PageLoader />
     }
 
     return (
