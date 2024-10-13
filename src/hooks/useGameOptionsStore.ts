@@ -34,7 +34,7 @@ export const useGameOptionsStore = create<GameOptionsState>()(
             gameAudience: [],
             setGameAudience: (gameAudience: GenericType[]) => set({ gameAudience }),
 
-            fetchGameOptions: () => {
+            fetchApi: () => {
                 const lastFetched = localStorage.getItem('gameOptionsLastFetched')
 
                 if (!lastFetched || hasMoreThan24HoursPassed(Number(lastFetched))) {

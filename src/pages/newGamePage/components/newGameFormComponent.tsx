@@ -41,7 +41,7 @@ function NewGameFormComponent({
     } = useNewGameStore()
 
     const {
-        fetchGameOptions,
+        fetchApi,
         loading,
         error,
         gameCategories,
@@ -58,8 +58,8 @@ function NewGameFormComponent({
     }
 
     useEffect(() => {
-        fetchGameOptions()
-    }, [fetchGameOptions])
+        fetchApi()
+    }, [fetchApi])
 
     if (error) {
         return <ErrorMessage message="There was a problem loading data from the database." />

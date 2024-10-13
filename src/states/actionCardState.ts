@@ -1,14 +1,7 @@
 import { GenericType } from '../types/genericType'
+import { ApiState } from './apiState'
 
-export interface ActionCardState {
-    loading: boolean
-    setLoading: (loading: boolean) => void
-
-    error: Error | null
-    setError: (error: Error | null) => void
-
+export interface ActionCardState extends ApiState {
     actionCardStates: GenericType[]
     setActionCardStates: (actionCardStates: GenericType[]) => void
-
-    fetchActionCardOptions: () => void
 }

@@ -36,11 +36,11 @@ function ActionCardSettingsComponent() {
         setActionCardInputs,
     } = useNewGameStore()
 
-    const { actionCardStates, loading, error, fetchActionCardOptions } = useActionCardStore()
+    const { actionCardStates, loading, error, fetchApi } = useActionCardStore()
 
     useEffect(() => {
-        fetchActionCardOptions()
-    }, [fetchActionCardOptions])
+        fetchApi()
+    }, [fetchApi])
 
     if (!actionCardInputs || !actionCardSettingsData) {
         return (

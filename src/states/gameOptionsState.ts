@@ -1,12 +1,7 @@
 import { GenericType } from '../types/genericType'
+import { ApiState } from './apiState'
 
-export interface GameOptionsState {
-    loading: boolean
-    setLoading: (loading: boolean) => void
-
-    error: Error | null
-    setError: (error: Error | null) => void
-
+export interface GameOptionsState extends ApiState {
     gameCategories: GenericType[]
     setGameCategories: (gameCategories: GenericType[]) => void
 
@@ -21,6 +16,4 @@ export interface GameOptionsState {
 
     gameAudience: GenericType[]
     setGameAudience: (gameAudience: GenericType[]) => void
-
-    fetchGameOptions: () => void
 }

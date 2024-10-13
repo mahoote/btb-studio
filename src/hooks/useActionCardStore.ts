@@ -16,7 +16,7 @@ export const useActionCardStore = create<ActionCardState>()(
             actionCardStates: [],
             setActionCardStates: actionCardStates => set({ actionCardStates }),
 
-            fetchActionCardOptions: () => {
+            fetchApi: () => {
                 const lastFetched = localStorage.getItem('actionCardOptionsLastFetched')
                 if (!lastFetched || hasMoreThan24HoursPassed(Number(lastFetched))) {
                     set({ loading: true })
