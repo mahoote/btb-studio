@@ -110,6 +110,50 @@ function NewGameFormComponent({
                             </FormControl>
                         </Grid>
                     </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel id="activity-label">Activity Level</InputLabel>
+                                <Select
+                                    labelId="activity-label"
+                                    label="Activity Level"
+                                    name="activityLevel"
+                                    value={formData.activityLevel}
+                                    onChange={event =>
+                                        handleSelectChange(event, formData, setFormData)
+                                    }
+                                    variant={'filled'}
+                                >
+                                    {activityLevels.map(level => (
+                                        <MenuItem key={level.id} value={level.id}>
+                                            {level.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel id="drunk-label">Drunk Level</InputLabel>
+                                <Select
+                                    labelId="drunk-label"
+                                    label="Drunk Level"
+                                    name="drunkLevel"
+                                    value={formData.drunkLevel}
+                                    onChange={event =>
+                                        handleSelectChange(event, formData, setFormData)
+                                    }
+                                    variant={'filled'}
+                                >
+                                    {drunkLevels.map(level => (
+                                        <MenuItem key={level.id} value={level.id}>
+                                            {level.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
 
                     <TextFieldSuggestionsComponent
                         wordSuggestions={actionCardSuggestions}
@@ -174,50 +218,6 @@ function NewGameFormComponent({
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="activity-label">Activity Level</InputLabel>
-                                <Select
-                                    labelId="activity-label"
-                                    label="Activity Level"
-                                    name="activityLevel"
-                                    value={formData.activityLevel}
-                                    onChange={event =>
-                                        handleSelectChange(event, formData, setFormData)
-                                    }
-                                    variant={'filled'}
-                                >
-                                    {activityLevels.map(level => (
-                                        <MenuItem key={level.id} value={level.id}>
-                                            {level.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="drunk-label">Drunk Level</InputLabel>
-                                <Select
-                                    labelId="drunk-label"
-                                    label="Drunk Level"
-                                    name="drunkLevel"
-                                    value={formData.drunkLevel}
-                                    onChange={event =>
-                                        handleSelectChange(event, formData, setFormData)
-                                    }
-                                    variant={'filled'}
-                                >
-                                    {drunkLevels.map(level => (
-                                        <MenuItem key={level.id} value={level.id}>
-                                            {level.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl variant="outlined" fullWidth>
                                 <InputLabel id="player-group-type-label">
                                     Player Group Type
                                 </InputLabel>
@@ -276,9 +276,7 @@ function NewGameFormComponent({
                         selectedValues={selectedGameTypes}
                         setSelectedValues={setSelectedGameTypes}
                         label="Game Types"
-                        required={true}
                         optionCombinations={getGameTypeCombinations()}
-                        variant={'filled'}
                     />
                     <ChipsAutocompleteComponent
                         predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
