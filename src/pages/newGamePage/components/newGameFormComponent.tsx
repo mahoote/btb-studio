@@ -21,16 +21,9 @@ import { useGameOptionsStore } from '../../../hooks/useGameOptionsStore'
 type NewGameFormProps = {
     formData: NewGame
     setFormData: (game: NewGame) => void
-    descriptions: string[]
-    setDescriptions: (descriptions: string[]) => void
 }
 
-function NewGameFormComponent({
-    formData,
-    setFormData,
-    descriptions,
-    setDescriptions,
-}: NewGameFormProps) {
+function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
     const {
         selectedAccessories,
         setSelectedAccessories,
@@ -287,11 +280,7 @@ function NewGameFormComponent({
                 </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-                <PreviewWindowComponent
-                    name={formData.name}
-                    descriptions={descriptions}
-                    setDescriptions={setDescriptions}
-                />
+                <PreviewWindowComponent name={formData.name} />
             </Grid>
         </Grid>
     )

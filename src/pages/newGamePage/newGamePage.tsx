@@ -12,6 +12,9 @@ import {
 import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
 import { useNewGameStore } from '../../hooks/useNewGameStore'
 import { useGameOptionsStore } from '../../hooks/useGameOptionsStore'
+import { Box, IconButton, Tooltip } from '@mui/material'
+import { RestartAlt } from '@mui/icons-material'
+import { initialAdvancedSettingsData } from '../../constants/ADVANCED_SETTINGS_DATA'
 
 /**
  * Mostly logic regarding the new game form.
@@ -34,6 +37,7 @@ function NewGamePage() {
         actionCardInputs,
         activeFormRef,
         advancedSettingsData,
+        setAdvancedSettingsData,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
@@ -67,6 +71,8 @@ function NewGamePage() {
         setCreatedGame(null)
         setSelectedGameTypes(initialGameTypesData)
         setSelectedAccessories(initialAccessoriesData)
+        setAdvancedSettingsData(initialAdvancedSettingsData)
+        window.location.reload()
     }
 
     useEffect(() => {
@@ -77,49 +83,56 @@ function NewGamePage() {
     }, [setNewGame, descriptions])
 
     return (
-        <HorizontalLinearStepperComponent
-            steps={[
-                {
-                    label: 'New Game',
-                    content: (
-                        <NewGameFormComponent
-                            formData={newGame}
-                            setFormData={setNewGame}
-                            descriptions={descriptions}
-                            setDescriptions={setDescriptions}
-                        />
-                    ),
-                },
-                {
-                    label: 'Advanced Settings',
-                    content: <AdvancedSettingsComponent />,
-                    customValidation: () =>
-                        isActionCardSettingsDataValid(
-                            actionCardSettingsData,
-                            actionCardInputs
+        <Box>
+            <Box display="flex" justifyContent="center" mb={1}>
+                <Tooltip title="Restart form.">
+                    <IconButton aria-label="reset" onClick={handleResetForm}>
+                        <RestartAlt />
+                    </IconButton>
+                </Tooltip>
+            </Box>
+            <HorizontalLinearStepperComponent
+                steps={[
+                    {
+                        label: 'New Game',
+                        content: (
+                            <NewGameFormComponent
+                                formData={newGame}
+                                setFormData={setNewGame}
+                            />
                         ),
-                },
-                {
-                    label: 'Summary',
-                    content: <div>Summary</div>,
-                },
-            ]}
-            onFinnish={() => void submitForm()}
-            onReset={handleResetForm}
-            completeMessage={`"${createdGame?.name}" was created.`}
-            isComplete={!!createdGame}
-            isFormValid={() => {
-                if (activeFormRef?.current) {
-                    if (activeFormRef.current.checkValidity()) {
-                        return true
-                    } else {
-                        activeFormRef.current.reportValidity()
-                        return false
+                    },
+                    {
+                        label: 'Advanced Settings',
+                        content: <AdvancedSettingsComponent />,
+                        customValidation: () =>
+                            isActionCardSettingsDataValid(
+                                actionCardSettingsData,
+                                actionCardInputs
+                            ),
+                    },
+                    {
+                        label: 'Summary',
+                        content: <div>Summary</div>,
+                    },
+                ]}
+                onFinnish={() => void submitForm()}
+                onReset={handleResetForm}
+                completeMessage={`"${createdGame?.name}" was created.`}
+                isComplete={!!createdGame}
+                isFormValid={() => {
+                    if (activeFormRef?.current) {
+                        if (activeFormRef.current.checkValidity()) {
+                            return true
+                        } else {
+                            activeFormRef.current.reportValidity()
+                            return false
+                        }
                     }
-                }
-                return true
-            }}
-        />
+                    return true
+                }}
+            />
+        </Box>
     )
 }
 
