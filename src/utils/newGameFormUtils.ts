@@ -30,7 +30,7 @@ export async function createNewGame(
     selectedGameTypes: string[],
     accessories: GenericType[] | null,
     gameTypes: GenericType[] | null,
-    advancedDefaultSettings: AdvancedSettings | undefined
+    advancedDefaultSettings: AdvancedSettings
 ): Promise<SubmitNewGameFormType> {
     let createdGame: GameDto | null = null
 
@@ -50,7 +50,8 @@ export async function createNewGame(
         player_group_type_id: newGameData.playerGroupTypeId,
         game_audience_id: newGameData.gameAudienceId,
         game_category_id: newGameData.categoryId,
-        custom_end_game_sentence: advancedDefaultSettings?.customEndGameSentence,
+        custom_end_game_sentence: advancedDefaultSettings.customEndGameSentence,
+        game_end_type: advancedDefaultSettings.gameEndType,
     })
         .then((response: GameDto | null) => {
             if (!response) {

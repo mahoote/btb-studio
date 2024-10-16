@@ -14,6 +14,7 @@ export type NewGame = {
 
 export type AdvancedSettings = {
     customEndGameSentence: string
+    gameEndType: string
 }
 
 export type ActionCardSettings = {
