@@ -12,6 +12,9 @@ import { persist } from 'zustand/middleware'
 export const useNewGameStore = create<NewGameState>()(
     persist(
         set => ({
+            newGame: initialNewGameData,
+            setNewGame: game => set({ newGame: game }),
+
             createdGame: null,
             setCreatedGame: game => set({ createdGame: game }),
 

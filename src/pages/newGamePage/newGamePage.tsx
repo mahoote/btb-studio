@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { NewGame } from '../../types/newGame'
+import React, { useEffect } from 'react'
 import { createNewGame } from '../../utils/newGameFormUtils'
 import NewGameFormComponent from './components/newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
@@ -21,6 +20,8 @@ import { useGameOptionsStore } from '../../hooks/useGameOptionsStore'
  */
 function NewGamePage() {
     const {
+        newGame,
+        setNewGame,
         setCreatedGame,
         createdGame,
         selectedAccessories,
@@ -37,11 +38,9 @@ function NewGamePage() {
 
     const { gameTypes, accessories } = useGameOptionsStore()
 
-    const [newGameData, setNewGameData] = useState<NewGame>(initialNewGameData)
-
     const submitForm = async () => {
         const { createdGame: createdNewGame } = await createNewGame(
-            newGameData,
+            newGame,
             selectedAccessories,
             selectedGameTypes,
             accessories,
@@ -63,7 +62,7 @@ function NewGamePage() {
     }
 
     const handleResetForm = () => {
-        setNewGameData(initialNewGameData)
+        setNewGame(initialNewGameData)
         setDescriptions(initialNewGameData.descriptions)
         setCreatedGame(null)
         setSelectedGameTypes(initialGameTypesData)
@@ -71,13 +70,11 @@ function NewGamePage() {
     }
 
     useEffect(() => {
-        setNewGameData((prevState: NewGame) => {
-            return {
-                ...prevState,
-                descriptions: descriptions,
-            }
+        setNewGame({
+            ...newGame,
+            descriptions: descriptions,
         })
-    }, [setNewGameData, descriptions])
+    }, [setNewGame, descriptions])
 
     return (
         <HorizontalLinearStepperComponent
@@ -86,8 +83,8 @@ function NewGamePage() {
                     label: 'New Game',
                     content: (
                         <NewGameFormComponent
-                            formData={newGameData}
-                            setFormData={setNewGameData}
+                            formData={newGame}
+                            setFormData={setNewGame}
                             descriptions={descriptions}
                             setDescriptions={setDescriptions}
                         />

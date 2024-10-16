@@ -20,7 +20,7 @@ import { useGameOptionsStore } from '../../../hooks/useGameOptionsStore'
 
 type NewGameFormProps = {
     formData: NewGame
-    setFormData: React.Dispatch<React.SetStateAction<NewGame>>
+    setFormData: (game: NewGame) => void
     descriptions: string[]
     setDescriptions: (descriptions: string[]) => void
 }

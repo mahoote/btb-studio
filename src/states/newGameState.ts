@@ -1,8 +1,16 @@
 import { GameDto } from '../types/gameDto'
-import { ActionCardSettings, AdvancedSettings, WritingSettings } from '../types/newGame'
+import {
+    ActionCardSettings,
+    AdvancedSettings,
+    NewGame,
+    WritingSettings,
+} from '../types/newGame'
 import { RefObject } from 'react'
 
 export interface NewGameState {
+    newGame: NewGame
+    setNewGame: (game: NewGame) => void
+
     createdGame: GameDto | null
     setCreatedGame: (game: GameDto | null) => void
 
