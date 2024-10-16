@@ -35,6 +35,6 @@ export interface NewGameState {
     writingSettingsData: WritingSettings | undefined
     setWritingSettingsData: (settings: WritingSettings | undefined) => void
 
-    advancedSettingsData: AdvancedSettings | undefined
-    setAdvancedSettingsData: (settings: AdvancedSettings | undefined) => void
+    advancedSettingsData: AdvancedSettings
+    setAdvancedSettingsData: (settings: AdvancedSettings) => void
 }
