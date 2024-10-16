@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
+import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 type PreviewWindowProps = {
     name: string
-    descriptions: string[]
-    setDescriptions: (descriptions: string[]) => void
 }
 
-function PreviewWindowComponent({ name, descriptions, setDescriptions }: PreviewWindowProps) {
+function PreviewWindowComponent({ name }: PreviewWindowProps) {
+    const { descriptions, setDescriptions } = useNewGameStore()
     const [descriptionIndex, setDescriptionIndex] = useState<number>(0)
 
     const handleDescriptionChange = (newValue: string) => {
@@ -35,6 +35,13 @@ function PreviewWindowComponent({ name, descriptions, setDescriptions }: Preview
         if (descriptionIndex === 0) return
         setDescriptionIndex(descriptionIndex - 1)
     }
+
+    useEffect(() => {
+        if (descriptions.length === 0) {
+            setDescriptions([''])
+            setDescriptionIndex(0)
+        }
+    }, [setDescriptions, descriptions.length])
 
     return (
         <Box
