@@ -22,9 +22,10 @@ export type ActionCardSettings = {
     contentId: number
     cardLimit?: number
     cardSeconds?: number
-    autoNext?: boolean
+    isAutoNext?: boolean
     prompt?: string
-    playerCreative?: boolean
+    isPlayerCreative?: boolean
+    hasBuzzer?: boolean
 }
 export type WritingSettings = {
     writesAmount: number

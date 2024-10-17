@@ -152,6 +152,7 @@ function ActionCardSettingsComponent() {
                                 variant="outlined"
                                 name="cardSeconds"
                                 type="number"
+                                inputProps={{ min: 0 }}
                                 value={actionCardSettingsData.cardSeconds}
                                 onChange={event =>
                                     handleNumberChange(
@@ -178,12 +179,33 @@ function ActionCardSettingsComponent() {
                                             onChange={event => {
                                                 setActionCardSettingsData({
                                                     ...actionCardSettingsData,
-                                                    autoNext: event.target.checked,
+                                                    isAutoNext: event.target.checked,
                                                 })
                                             }}
                                         />
                                     }
                                     label="Auto-next"
+                                    labelPlacement="top"
+                                />
+                            </Tooltip>
+                            <Tooltip
+                                title={
+                                    'If one player gets the cards, all other players will be given a buzzer for the game.'
+                                }
+                            >
+                                <FormControlLabel
+                                    disabled={actionCardSettingsData.stateId !== 5}
+                                    control={
+                                        <Switch
+                                            onChange={event => {
+                                                setActionCardSettingsData({
+                                                    ...actionCardSettingsData,
+                                                    hasBuzzer: event.target.checked,
+                                                })
+                                            }}
+                                        />
+                                    }
+                                    label="Buzzer"
                                     labelPlacement="top"
                                 />
                             </Tooltip>
@@ -198,7 +220,7 @@ function ActionCardSettingsComponent() {
                                             onChange={event => {
                                                 setActionCardSettingsData({
                                                     ...actionCardSettingsData,
-                                                    playerCreative: event.target.checked,
+                                                    isPlayerCreative: event.target.checked,
                                                 })
                                             }}
                                         />
