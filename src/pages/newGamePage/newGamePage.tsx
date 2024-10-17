@@ -62,6 +62,7 @@ function NewGamePage() {
 
         await createAdvancedSettingsData(
             createdNewGame,
+            advancedSettingsData,
             actionCardSettingsData,
             actionCardInputs
         )
