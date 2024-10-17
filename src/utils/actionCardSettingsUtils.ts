@@ -18,9 +18,10 @@ export async function createActionCardData(
         state_id: actionCardSettingsData.stateId,
         card_limit: actionCardSettingsData.cardLimit,
         card_seconds: actionCardSettingsData.cardSeconds,
-        is_auto_next: actionCardSettingsData.autoNext,
-        is_player_creative: actionCardSettingsData.playerCreative,
+        is_auto_next: actionCardSettingsData.isAutoNext,
+        is_player_creative: actionCardSettingsData.isPlayerCreative,
         prompt: actionCardSettingsData.prompt,
+        has_buzzer: actionCardSettingsData.hasBuzzer,
     })
 
     for (const input of actionCardInputs) {

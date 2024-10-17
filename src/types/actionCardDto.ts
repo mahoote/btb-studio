@@ -7,6 +7,7 @@ export type ActionCardSettingsDto = {
     is_auto_next?: boolean
     is_player_creative?: boolean
     prompt?: string
+    has_buzzer?: boolean
 }
 
 export type ActionCardSettingsInsertDto = {
@@ -17,6 +18,7 @@ export type ActionCardSettingsInsertDto = {
     is_auto_next?: boolean
     is_player_creative?: boolean
     prompt?: string
+    has_buzzer?: boolean
 }
 
 export type ActionCardDto = {

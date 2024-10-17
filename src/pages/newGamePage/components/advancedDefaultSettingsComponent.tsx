@@ -24,7 +24,7 @@ function AdvancedDefaultSettingsComponent() {
     return (
         <Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Grid container spacing={2}>
+                <Grid container>
                     <Grid item xs={12}>
                         <Tooltip title="If the game requires a more custom description on how to end the game.">
                             <TextField
@@ -40,12 +40,13 @@ function AdvancedDefaultSettingsComponent() {
                                         setAdvancedSettingsData
                                     )
                                 }
+                                multiline={true}
                             />
                         </Tooltip>
                     </Grid>
                 </Grid>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} sm={6}>
                         <FormControl>
                             <FormLabel id="advanced-settings-game-end-type-label">
                                 Game End Type

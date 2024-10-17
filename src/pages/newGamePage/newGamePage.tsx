@@ -15,6 +15,7 @@ import { useGameOptionsStore } from '../../hooks/useGameOptionsStore'
 import { Box, IconButton, Tooltip } from '@mui/material'
 import { RestartAlt } from '@mui/icons-material'
 import { initialAdvancedSettingsData } from '../../constants/ADVANCED_SETTINGS_DATA'
+import { initialActionCardSettingsData } from '../../constants/ACTION_CARD_SETTINGS_DATA'
 
 /**
  * Mostly logic regarding the new game form.
@@ -34,6 +35,7 @@ function NewGamePage() {
         setSelectedGameTypes,
         setSelectedAccessories,
         actionCardSettingsData,
+        setActionCardSettingsData,
         actionCardInputs,
         activeFormRef,
         advancedSettingsData,
@@ -66,12 +68,17 @@ function NewGamePage() {
     }
 
     const handleResetForm = () => {
+        // Default settings
         setNewGame(initialNewGameData)
         setDescriptions(initialNewGameData.descriptions)
-        setCreatedGame(null)
         setSelectedGameTypes(initialGameTypesData)
         setSelectedAccessories(initialAccessoriesData)
+        setCreatedGame(null)
+
+        // Advanced settings
         setAdvancedSettingsData(initialAdvancedSettingsData)
+        setActionCardSettingsData(initialActionCardSettingsData)
+
         window.location.reload()
     }
 
