@@ -11,7 +11,7 @@ type ImageUploaderProps = {
     setImageBase64: (image?: string) => void
 }
 
-function ImageUploader({ imageBase64, setImageBase64 }: ImageUploaderProps) {
+function ImageUploaderComponent({ imageBase64, setImageBase64 }: ImageUploaderProps) {
     const [error, setError] = useState<string | null>(null)
     const [hovering, setHovering] = useState<boolean>(false)
     /**
@@ -127,4 +127,4 @@ function ImageUploader({ imageBase64, setImageBase64 }: ImageUploaderProps) {
     )
 }
 
-export default ImageUploader
+export default ImageUploaderComponent

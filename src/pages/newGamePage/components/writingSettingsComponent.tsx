@@ -1,7 +1,7 @@
 import { Box, Divider, Grid, TextField, Tooltip, Typography } from '@mui/material'
 import React from 'react'
 import { handleNumberChange } from '../../../utils/inputUtils'
-import ErrorMessage from '../../../components/errorMessage'
+import ErrorMessageComponent from '../../../components/errorMessageComponent'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
 function WritingSettingsComponent() {
@@ -13,7 +13,7 @@ function WritingSettingsComponent() {
                 <Box my={3}>
                     <Divider />
                 </Box>
-                <ErrorMessage message="Could not load the Writing settings" />
+                <ErrorMessageComponent message="Could not load the Writing settings" />
             </>
         )
     }

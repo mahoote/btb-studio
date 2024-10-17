@@ -11,15 +11,15 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { handleInputChange, handleTextChange } from '../../../utils/inputUtils'
-import ErrorMessage from '../../../components/errorMessage'
+import ErrorMessageComponent from '../../../components/errorMessageComponent'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
-import ImageUploader from '../../../components/imageUploader'
+import ImageUploaderComponent from '../../../components/imageUploaderComponent'
 
 function AdvancedDefaultSettingsComponent() {
     const { advancedSettingsData, setAdvancedSettingsData } = useNewGameStore()
 
     if (!advancedSettingsData) {
-        return <ErrorMessage message="Could not load the Advanced Default settings" />
+        return <ErrorMessageComponent message="Could not load the Advanced Default settings" />
     }
 
     return (
@@ -85,7 +85,7 @@ function AdvancedDefaultSettingsComponent() {
                 </Grid>
                 <Grid container>
                     <Grid item xs={12} alignContent="center">
-                        <ImageUploader
+                        <ImageUploaderComponent
                             imageBase64={advancedSettingsData.customRulesImageBase64}
                             setImageBase64={image =>
                                 setAdvancedSettingsData({
