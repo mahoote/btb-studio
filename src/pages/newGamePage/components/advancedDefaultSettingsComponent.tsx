@@ -85,7 +85,15 @@ function AdvancedDefaultSettingsComponent() {
                 </Grid>
                 <Grid container>
                     <Grid item xs={12} alignContent="center">
-                        <ImageUploader />
+                        <ImageUploader
+                            imageBase64={advancedSettingsData.customRulesImageBase64}
+                            setImageBase64={image =>
+                                setAdvancedSettingsData({
+                                    ...advancedSettingsData,
+                                    customRulesImageBase64: image,
+                                })
+                            }
+                        />
                     </Grid>
                 </Grid>
             </Box>
