@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from '@mui/material'
 import React from 'react'
 
-function PageLoader() {
+function PageLoaderComponent() {
     return (
         <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
             <CircularProgress />
@@ -9,4 +9,4 @@ function PageLoader() {
     )
 }
 
-export default PageLoader
+export default PageLoaderComponent

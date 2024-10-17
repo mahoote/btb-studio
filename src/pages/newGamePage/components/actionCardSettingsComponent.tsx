@@ -19,8 +19,8 @@ import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { actionCardContentTypes } from '../../../constants/ACTION_CARD_SETTINGS_DATA'
-import ErrorMessage from '../../../components/errorMessage'
-import PageLoader from '../../../components/pageLoader'
+import ErrorMessageComponent from '../../../components/errorMessageComponent'
+import PageLoaderComponent from '../../../components/pageLoaderComponent'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
 import { useActionCardStore } from '../../../hooks/useActionCardStore'
 
@@ -48,18 +48,18 @@ function ActionCardSettingsComponent() {
                 <Box my={3}>
                     <Divider />
                 </Box>
-                <ErrorMessage message="Could not load the Action Card settings" />
+                <ErrorMessageComponent message="Could not load the Action Card settings" />
             </>
         )
     }
 
     if (error) {
         return (
-            <ErrorMessage message="There was a problem loading Action Card data from the database" />
+            <ErrorMessageComponent message="There was a problem loading Action Card data from the database" />
         )
     }
 
-    if (loading) return <PageLoader />
+    if (loading) return <PageLoaderComponent />
 
     return (
         <>

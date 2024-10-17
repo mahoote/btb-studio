@@ -11,14 +11,15 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { handleInputChange, handleTextChange } from '../../../utils/inputUtils'
-import ErrorMessage from '../../../components/errorMessage'
+import ErrorMessageComponent from '../../../components/errorMessageComponent'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import ImageUploaderComponent from '../../../components/imageUploaderComponent'
 
 function AdvancedDefaultSettingsComponent() {
     const { advancedSettingsData, setAdvancedSettingsData } = useNewGameStore()
 
     if (!advancedSettingsData) {
-        return <ErrorMessage message="Could not load the Advanced Default settings" />
+        return <ErrorMessageComponent message="Could not load the Advanced Default settings" />
     }
 
     return (
@@ -45,8 +46,8 @@ function AdvancedDefaultSettingsComponent() {
                         </Tooltip>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                <Grid container>
+                    <Grid item xs={12}>
                         <FormControl>
                             <FormLabel id="advanced-settings-game-end-type-label">
                                 Game End Type
@@ -80,6 +81,19 @@ function AdvancedDefaultSettingsComponent() {
                                 </Tooltip>
                             </RadioGroup>
                         </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item xs={12} alignContent="center">
+                        <ImageUploaderComponent
+                            imageBase64={advancedSettingsData.customRulesImageBase64}
+                            setImageBase64={image =>
+                                setAdvancedSettingsData({
+                                    ...advancedSettingsData,
+                                    customRulesImageBase64: image,
+                                })
+                            }
+                        />
                     </Grid>
                 </Grid>
             </Box>

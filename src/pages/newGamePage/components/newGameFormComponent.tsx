@@ -13,8 +13,8 @@ import PreviewWindowComponent from './previewWindowComponent'
 import { activityLevels, drunkLevels } from '../../../constants/NEW_GAME_FORM_DATA'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import { GenericType } from '../../../types/genericType'
-import ErrorMessage from '../../../components/errorMessage'
-import PageLoader from '../../../components/pageLoader'
+import ErrorMessageComponent from '../../../components/errorMessageComponent'
+import PageLoaderComponent from '../../../components/pageLoaderComponent'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
 import { useGameOptionsStore } from '../../../hooks/useGameOptionsStore'
 
@@ -55,11 +55,13 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
     }, [fetchApi])
 
     if (error) {
-        return <ErrorMessage message="There was a problem loading data from the database." />
+        return (
+            <ErrorMessageComponent message="There was a problem loading data from the database." />
+        )
     }
 
     if (loading) {
-        return <PageLoader />
+        return <PageLoaderComponent />
     }
 
     return (

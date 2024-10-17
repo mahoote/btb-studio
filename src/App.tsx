@@ -6,7 +6,7 @@ import AppLayoutComponent from './components/appLayoutComponent'
 import NewGamePage from './pages/newGamePage/newGamePage'
 import LoginPage from './pages/loginPage/loginPage'
 import { useAuthStore } from './hooks/useAuthStore'
-import PageLoader from './components/pageLoader'
+import PageLoaderComponent from './components/pageLoaderComponent'
 
 function App() {
     return (
@@ -24,7 +24,7 @@ function AuthRoutes() {
     }, [initializeAuth])
 
     if (loading) {
-        return <PageLoader />
+        return <PageLoaderComponent />
     }
 
     return (

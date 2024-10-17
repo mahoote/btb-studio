@@ -13,8 +13,9 @@ export type NewGame = {
 }
 
 export type AdvancedSettings = {
-    customEndGameSentence: string
+    customEndGameSentence?: string
     gameEndType: string
+    customRulesImageBase64?: string
 }
 
 export type ActionCardSettings = {
