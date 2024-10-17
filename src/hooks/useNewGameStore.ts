@@ -15,9 +15,6 @@ export const useNewGameStore = create<NewGameState>()(
             newGame: initialNewGameData,
             setNewGame: game => set({ newGame: game }),
 
-            createdGame: null,
-            setCreatedGame: game => set({ createdGame: game }),
-
             descriptions: initialNewGameData.descriptions,
             setDescriptions: descriptions => set({ descriptions }),
 

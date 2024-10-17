@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createNewGame } from '../../utils/newGameFormUtils'
 import NewGameFormComponent from './components/newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
@@ -16,6 +16,7 @@ import { Box, IconButton, Tooltip } from '@mui/material'
 import { RestartAlt } from '@mui/icons-material'
 import { initialAdvancedSettingsData } from '../../constants/ADVANCED_SETTINGS_DATA'
 import { initialActionCardSettingsData } from '../../constants/ACTION_CARD_SETTINGS_DATA'
+import { GameDto } from '../../types/gameDto'
 
 /**
  * Mostly logic regarding the new game form.
@@ -26,8 +27,6 @@ function NewGamePage() {
     const {
         newGame,
         setNewGame,
-        setCreatedGame,
-        createdGame,
         selectedAccessories,
         setDescriptions,
         descriptions,
@@ -43,6 +42,8 @@ function NewGamePage() {
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
+
+    const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
 
     const submitForm = async () => {
         const { createdGame: createdNewGame } = await createNewGame(
@@ -66,21 +67,22 @@ function NewGamePage() {
             actionCardSettingsData,
             actionCardInputs
         )
+
+        handleResetForm(false)
     }
 
-    const handleResetForm = () => {
+    const handleResetForm = (reloadPage: boolean = true) => {
         // Default settings
         setNewGame(initialNewGameData)
         setDescriptions(initialNewGameData.descriptions)
         setSelectedGameTypes(initialGameTypesData)
         setSelectedAccessories(initialAccessoriesData)
-        setCreatedGame(null)
 
         // Advanced settings
         setAdvancedSettingsData(initialAdvancedSettingsData)
         setActionCardSettingsData(initialActionCardSettingsData)
 
-        window.location.reload()
+        if (reloadPage) window.location.reload()
     }
 
     useEffect(() => {
@@ -94,7 +96,7 @@ function NewGamePage() {
         <Box>
             <Box display="flex" justifyContent="center" mb={1}>
                 <Tooltip title="Restart form.">
-                    <IconButton aria-label="reset" onClick={handleResetForm}>
+                    <IconButton aria-label="reset" onClick={() => handleResetForm()}>
                         <RestartAlt />
                     </IconButton>
                 </Tooltip>

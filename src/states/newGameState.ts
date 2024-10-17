@@ -1,4 +1,3 @@
-import { GameDto } from '../types/gameDto'
 import {
     ActionCardSettings,
     AdvancedSettings,
@@ -10,9 +9,6 @@ import { RefObject } from 'react'
 export interface NewGameState {
     newGame: NewGame
     setNewGame: (game: NewGame) => void
-
-    createdGame: GameDto | null
-    setCreatedGame: (game: GameDto | null) => void
 
     descriptions: string[]
     setDescriptions: (descriptions: string[]) => void
