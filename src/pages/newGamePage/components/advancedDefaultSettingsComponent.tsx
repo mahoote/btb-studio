@@ -13,6 +13,7 @@ import React from 'react'
 import { handleInputChange, handleTextChange } from '../../../utils/inputUtils'
 import ErrorMessage from '../../../components/errorMessage'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import ImageUploader from '../../../components/imageUploader'
 
 function AdvancedDefaultSettingsComponent() {
     const { advancedSettingsData, setAdvancedSettingsData } = useNewGameStore()
@@ -45,8 +46,8 @@ function AdvancedDefaultSettingsComponent() {
                         </Tooltip>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                <Grid container>
+                    <Grid item xs={12}>
                         <FormControl>
                             <FormLabel id="advanced-settings-game-end-type-label">
                                 Game End Type
@@ -80,6 +81,11 @@ function AdvancedDefaultSettingsComponent() {
                                 </Tooltip>
                             </RadioGroup>
                         </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item xs={12} alignContent="center">
+                        <ImageUploader />
                     </Grid>
                 </Grid>
             </Box>
