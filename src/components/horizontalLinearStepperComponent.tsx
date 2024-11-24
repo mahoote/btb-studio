@@ -149,7 +149,6 @@ function HorizontalLinearStepperComponent({
                 )
             ) : (
                 <>
-                    <Box paddingY={3}>{steps[activeStepIndex].content}</Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
                             color="inherit"
@@ -169,6 +168,7 @@ function HorizontalLinearStepperComponent({
                             {activeStepIndex === steps.length - 1 ? 'Finish' : 'Next'}
                         </Button>
                     </Box>
+                    <Box paddingY={3}>{steps[activeStepIndex].content}</Box>
                 </>
             )}
         </Box>
