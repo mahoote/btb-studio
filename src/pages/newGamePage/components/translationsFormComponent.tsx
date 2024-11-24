@@ -4,6 +4,7 @@ import { useNewGameStore } from '../../../hooks/useNewGameStore'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import MultilineComponent from '../../../components/multilineComponent'
+import TranslateDescriptionsComponent from './translateDescriptionsComponent'
 
 const TranslationsFormComponent = () => {
     const { newGame, advancedSettingsData, activeFormRef } = useNewGameStore()
@@ -62,6 +63,23 @@ const TranslationsFormComponent = () => {
                         <Divider />
                     </>
                 )}
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <h3>Description</h3>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        {languages.map(language => (
+                            <>
+                                <Box fontSize={18} color="darkgray">
+                                    {language} *
+                                </Box>
+                                <TranslateDescriptionsComponent
+                                    descriptions={newGame.descriptions}
+                                />
+                            </>
+                        ))}
+                    </Box>
+                </Box>
+                <Divider />
 
                 {advancedSettingsData.customEndGameSentence && (
                     <>
