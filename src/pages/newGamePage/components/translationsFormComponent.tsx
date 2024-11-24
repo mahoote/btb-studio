@@ -1,11 +1,13 @@
 import React from 'react'
-import { Box, TextField } from '@mui/material'
+import { Box, Divider, TextField } from '@mui/material'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
+import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 
 const TranslationsFormComponent = () => {
     const { newGame, activeFormRef } = useNewGameStore()
 
-    const languages = ['Norwegian', 'French', 'Spanish']
+    const languages = ['Norwegian', 'German']
 
     return (
         <Box>
@@ -23,15 +25,37 @@ const TranslationsFormComponent = () => {
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     <div>
-                        <b>NAME:</b> {newGame.name}
+                        <h3>Name</h3>
+                        <div>{newGame.name}</div>
                     </div>
                     {languages.map(language => (
                         <TextField
                             label={language}
                             variant="filled"
-                            name={`${language}-name`}
+                            name={`${language}Name`}
                             required
                             fullWidth
+                        />
+                    ))}
+                </Box>
+                <Divider />
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <div>
+                        <h3>Intro Description</h3>
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: newGame.introDescription?.replace(/\n/g, '<br>') ?? '',
+                            }}
+                        />
+                    </div>
+                    {languages.map(language => (
+                        <TextFieldSuggestionsComponent
+                            wordSuggestions={actionCardSuggestions}
+                            label={language}
+                            name={`${language}IntroDescription`}
+                            variant="filled"
+                            multiline
+                            required
                         />
                     ))}
                 </Box>
