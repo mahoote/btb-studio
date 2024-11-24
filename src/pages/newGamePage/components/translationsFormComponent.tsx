@@ -3,9 +3,10 @@ import { Box, Divider, TextField } from '@mui/material'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
+import MultilineComponent from '../../../components/multilineComponent'
 
 const TranslationsFormComponent = () => {
-    const { newGame, activeFormRef } = useNewGameStore()
+    const { newGame, advancedSettingsData, activeFormRef } = useNewGameStore()
 
     const languages = ['Norwegian', 'German']
 
@@ -20,8 +21,8 @@ const TranslationsFormComponent = () => {
             </Box>
             <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
-                ref={activeFormRef}
                 component="form"
+                ref={activeFormRef}
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     <div>
@@ -39,26 +40,52 @@ const TranslationsFormComponent = () => {
                     ))}
                 </Box>
                 <Divider />
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <div>
-                        <h3>Intro Description</h3>
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: newGame.introDescription?.replace(/\n/g, '<br>') ?? '',
-                            }}
-                        />
-                    </div>
-                    {languages.map(language => (
-                        <TextFieldSuggestionsComponent
-                            wordSuggestions={actionCardSuggestions}
-                            label={language}
-                            name={`${language}IntroDescription`}
-                            variant="filled"
-                            multiline
-                            required
-                        />
-                    ))}
-                </Box>
+
+                {newGame.introDescription && (
+                    <>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <div>
+                                <h3>Intro Description</h3>
+                                <MultilineComponent text={newGame.introDescription} />
+                            </div>
+                            {languages.map(language => (
+                                <TextFieldSuggestionsComponent
+                                    wordSuggestions={actionCardSuggestions}
+                                    label={language}
+                                    name={`${language}IntroDescription`}
+                                    variant="filled"
+                                    multiline
+                                    required
+                                />
+                            ))}
+                        </Box>
+                        <Divider />
+                    </>
+                )}
+
+                {advancedSettingsData.customEndGameSentence && (
+                    <>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <div>
+                                <h3>Custom 'How to End the Game' Sentence</h3>
+                                <MultilineComponent
+                                    text={advancedSettingsData.customEndGameSentence}
+                                />
+                            </div>
+                            {languages.map(language => (
+                                <TextField
+                                    label={language}
+                                    variant="filled"
+                                    name={`${language}CustomEndGameSentence`}
+                                    fullWidth
+                                    multiline
+                                    required
+                                />
+                            ))}
+                        </Box>
+                        <Divider />
+                    </>
+                )}
             </Box>
         </Box>
     )
