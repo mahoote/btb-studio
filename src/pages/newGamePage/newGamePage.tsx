@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { createNewGame } from '../../utils/newGameFormUtils'
 import NewGameFormComponent from './components/newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
-import AdvancedSettingsComponent from './components/advancedSettingsComponent'
+import AdvancedSettingsFormComponent from './components/advancedSettingsFormComponent'
 import { isActionCardSettingsDataValid } from '../../utils/actionCardSettingsUtils'
 import {
     initialAccessoriesData,
@@ -17,6 +17,7 @@ import { RestartAlt } from '@mui/icons-material'
 import { initialAdvancedSettingsData } from '../../constants/ADVANCED_SETTINGS_DATA'
 import { initialActionCardSettingsData } from '../../constants/ACTION_CARD_SETTINGS_DATA'
 import { GameDto } from '../../types/gameDto'
+import TranslationsFormComponent from './components/translationsFormComponent'
 
 /**
  * Mostly logic regarding the new game form.
@@ -109,12 +110,16 @@ function NewGamePage() {
                     },
                     {
                         label: 'Advanced Settings',
-                        content: <AdvancedSettingsComponent />,
+                        content: <AdvancedSettingsFormComponent />,
                         customValidation: () =>
                             isActionCardSettingsDataValid(
                                 actionCardSettingsData,
                                 actionCardInputs
                             ),
+                    },
+                    {
+                        label: 'Translations',
+                        content: <TranslationsFormComponent />,
                     },
                     {
                         label: 'Summary',

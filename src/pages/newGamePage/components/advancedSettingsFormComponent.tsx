@@ -11,7 +11,7 @@ import { initialWritingSettingsData } from '../../../constants/WRITING_SETTINGS_
 import AdvancedDefaultSettingsComponent from './advancedDefaultSettingsComponent'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
 
-function AdvancedSettingsComponent() {
+function AdvancedSettingsFormComponent() {
     const {
         selectedGameTypes,
         activeFormRef,
@@ -55,4 +55,4 @@ function AdvancedSettingsComponent() {
     )
 }
 
-export default AdvancedSettingsComponent
+export default AdvancedSettingsFormComponent
