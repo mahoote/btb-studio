@@ -105,12 +105,7 @@ function NewGamePage() {
                 steps={[
                     {
                         label: 'New Game',
-                        content: (
-                            <NewGameFormComponent
-                                formData={newGame}
-                                setFormData={setNewGame}
-                            />
-                        ),
+                        content: <NewGameFormComponent />,
                     },
                     {
                         label: 'Advanced Settings',
