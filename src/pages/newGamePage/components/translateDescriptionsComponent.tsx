@@ -5,15 +5,19 @@ import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import MultilineComponent from '../../../components/multilineComponent'
 
 type TranslateDescriptionsComponentProps = {
-    descriptions: string[]
+    values: string[]
+    minRows?: number
+    minHeight?: string
 }
 
 const TranslateDescriptionsComponent = ({
-    descriptions,
+    values,
+    minRows,
+    minHeight,
 }: TranslateDescriptionsComponentProps) => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {descriptions
+            {values
                 .filter(description => description !== '')
                 .map((description, index) => (
                     <Box key={index}>
@@ -23,7 +27,7 @@ const TranslateDescriptionsComponent = ({
                             bgcolor="grey.900"
                             borderRadius={2}
                             color="text.primary"
-                            minHeight="13rem"
+                            minHeight={minHeight}
                             flexDirection="column"
                             padding={2}
                             sx={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
@@ -33,13 +37,13 @@ const TranslateDescriptionsComponent = ({
                         <Box>
                             <TextFieldSuggestionsComponent
                                 wordSuggestions={actionCardSuggestions}
-                                label={`Page ${index + 1}`}
+                                label={`Input ${index + 1}`}
                                 name={`descriptionPage${index}`}
                                 variant="filled"
                                 multiline
                                 required
                                 fullWidth
-                                minRows={4}
+                                minRows={minRows}
                             />
                         </Box>
                     </Box>
