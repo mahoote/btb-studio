@@ -1,7 +1,6 @@
 import { Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { Add } from '@mui/icons-material'
-import { isJSONStringArray } from '../../utils/jsonUtils'
 
 type MultiInputBulkProps = {
     open: boolean
@@ -10,7 +9,8 @@ type MultiInputBulkProps = {
 }
 
 /**
- * Lets you type in an array of strings in a JSON format for quick adding of multiple inputs.
+ * Lets you type in an array of strings for quick adding of multiple inputs.
+ * Just separate the strings with a comma.
  * @param open
  * @param handleClose
  * @param handleAdd
@@ -18,23 +18,20 @@ type MultiInputBulkProps = {
  */
 function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBulkProps) {
     const [jsonObject, setJsonObject] = useState<string>('')
-    const [isCorrectFormat, setIsCorrectFormat] = useState<boolean>(true)
 
     /**
-     * Verifies that the content is correct before calling the handleAdd function.
+     * Converts the string to an array of strings and adds them to the inputs.
      * @param event
      */
     const handleModalAdd = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
 
-        const isJsonStringArray = isJSONStringArray(jsonObject)
-        setIsCorrectFormat(isJsonStringArray)
+        const jsonArray = jsonObject
+            .split(',')
+            .map(item => item.trim())
+            .filter(item => item !== '')
 
-        if (!isJsonStringArray) {
-            return
-        }
-
-        handleAdd(JSON.parse(jsonObject) as string[])
+        handleAdd(jsonArray)
         setJsonObject('')
         handleClose()
     }
@@ -72,15 +69,6 @@ function MultiInputBulkComponent({ open, handleClose, handleAdd }: MultiInputBul
                     <Typography id="bulk-modal-description" sx={{ mt: 1 }}>
                         Paste a JSON array of action cards here.
                     </Typography>
-                    {!isCorrectFormat && (
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ mt: 1 }}
-                            color="indianred"
-                        >
-                            Incorrect JSON format
-                        </Typography>
-                    )}
 
                     <TextField
                         sx={{ mt: 2 }}
