@@ -15,7 +15,10 @@ import { useGameOptionsStore } from '../../hooks/useGameOptionsStore'
 import { Box, IconButton, Tooltip } from '@mui/material'
 import { RestartAlt } from '@mui/icons-material'
 import { initialAdvancedSettingsData } from '../../constants/ADVANCED_SETTINGS_DATA'
-import { initialActionCardSettingsData } from '../../constants/ACTION_CARD_SETTINGS_DATA'
+import {
+    initialActionCardInputs,
+    initialActionCardSettingsData,
+} from '../../constants/ACTION_CARD_SETTINGS_DATA'
 import { GameDto } from '../../types/gameDto'
 import TranslationsFormComponent from './components/translationsFormComponent'
 
@@ -40,6 +43,7 @@ function NewGamePage() {
         activeFormRef,
         advancedSettingsData,
         setAdvancedSettingsData,
+        setActionCardInputs,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
@@ -82,6 +86,7 @@ function NewGamePage() {
         // Advanced settings
         setAdvancedSettingsData(initialAdvancedSettingsData)
         setActionCardSettingsData(initialActionCardSettingsData)
+        setActionCardInputs(initialActionCardInputs)
 
         if (reloadPage) window.location.reload()
     }
