@@ -15,7 +15,7 @@ const TranslationsFormComponent = () => {
         activeFormRef,
     } = useNewGameStore()
 
-    const languages = ['Norwegian', 'German', 'Spanish']
+    const languages = ['Norwegian']
 
     return (
         <Box>
@@ -81,20 +81,20 @@ const TranslationsFormComponent = () => {
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     <h3>Description</h3>
-                    <Grid container spacing={2}>
-                        {languages.map(language => (
-                            <Grid item xs={12} md={6}>
-                                <Typography fontSize={18} color="darkgray" mb={2}>
-                                    {language} *
-                                </Typography>
-                                <TranslateDescriptionsComponent
-                                    values={newGame.descriptions}
-                                    minRows={4}
-                                    minHeight="13rem"
-                                />
-                            </Grid>
-                        ))}
-                    </Grid>
+                    {languages.map(language => (
+                        <>
+                            <Typography fontSize={18} color="darkgray">
+                                {language} *
+                            </Typography>
+                            <TranslateDescriptionsComponent
+                                values={newGame.descriptions}
+                                minRows={4}
+                                minHeight="13rem"
+                                gridXs={12}
+                                gridMd={6}
+                            />
+                        </>
+                    ))}
                 </Box>
                 <Divider />
 
@@ -152,18 +152,18 @@ const TranslationsFormComponent = () => {
                     <>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                             <h3>Action Cards</h3>
-                            <Grid container spacing={2}>
-                                {languages.map(language => (
-                                    <Grid item xs={12} sm={6}>
-                                        <Typography fontSize={18} color="darkgray" mb={2}>
-                                            {language} *
-                                        </Typography>
-                                        <TranslateDescriptionsComponent
-                                            values={actionCardInputs}
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
+                            {languages.map(language => (
+                                <>
+                                    <Typography fontSize={18} color="darkgray" mb={2}>
+                                        {language} *
+                                    </Typography>
+                                    <TranslateDescriptionsComponent
+                                        values={actionCardInputs}
+                                        gridXs={12}
+                                        gridSm={6}
+                                    />
+                                </>
+                            ))}
                         </Box>
                         <Divider />
                     </>
