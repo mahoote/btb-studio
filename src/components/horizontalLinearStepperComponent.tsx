@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { StepperObject } from '../types/StepperObject'
 import { useEffect } from 'react'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Theme, useMediaQuery } from '@mui/material'
 
 type HorizontalLinearStepperProps = {
     steps: StepperObject[]
@@ -41,6 +41,7 @@ function HorizontalLinearStepperComponent({
 }: HorizontalLinearStepperProps) {
     const [activeStepIndex, setActiveStepIndex] = React.useState(0)
     const [skipped, setSkipped] = React.useState(new Set<number>())
+    const isMobileSize = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
     const isStepSkipped = (step: number) => {
         return skipped.has(step)
@@ -118,7 +119,11 @@ function HorizontalLinearStepperComponent({
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Stepper activeStep={activeStepIndex}>
+            <Stepper
+                activeStep={activeStepIndex}
+                sx={{ overflowX: 'auto' }}
+                orientation={isMobileSize ? 'vertical' : 'horizontal'}
+            >
                 {steps.map((step, index) => {
                     const stepProps: { completed?: boolean } = {}
                     const labelProps: {
