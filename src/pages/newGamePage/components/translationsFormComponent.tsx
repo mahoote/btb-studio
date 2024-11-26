@@ -47,10 +47,12 @@ const TranslationsFormComponent = () => {
             English: {
                 name: newGame.name,
                 introDescription: newGame.introDescription,
-                descriptions: newGame.descriptions,
+                descriptions: newGame.descriptions.filter(
+                    description => description.length > 0
+                ),
                 customEndGameSentence: advancedSettingsData.customEndGameSentence,
                 prompt: actionCardSettingsData?.prompt,
-                actionCardInputs: actionCardInputs,
+                actionCardInputs: actionCardInputs?.filter(input => input.length > 0),
             },
         }
 
