@@ -41,7 +41,7 @@ function AdvancedDefaultSettingsComponent() {
                                         setAdvancedSettingsData
                                     )
                                 }
-                                multiline={true}
+                                multiline
                             />
                         </Tooltip>
                     </Grid>

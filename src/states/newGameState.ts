@@ -2,6 +2,7 @@ import {
     ActionCardSettings,
     AdvancedSettings,
     NewGame,
+    NewGameTranslations,
     WritingSettings,
 } from '../types/newGame'
 import { RefObject } from 'react'
@@ -33,4 +34,7 @@ export interface NewGameState {
 
     advancedSettingsData: AdvancedSettings
     setAdvancedSettingsData: (settings: AdvancedSettings) => void
+
+    newGameTranslations: NewGameTranslations
+    setNewGameTranslations: (translations: NewGameTranslations) => void
 }

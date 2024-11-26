@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { createNewGame } from '../../utils/newGameFormUtils'
 import NewGameFormComponent from './components/newGameFormComponent'
 import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
-import AdvancedSettingsComponent from './components/advancedSettingsComponent'
+import AdvancedSettingsFormComponent from './components/advancedSettingsFormComponent'
 import { isActionCardSettingsDataValid } from '../../utils/actionCardSettingsUtils'
 import {
     initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
+    initialNewGameTranslations,
 } from '../../constants/NEW_GAME_FORM_DATA'
 import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
 import { useNewGameStore } from '../../hooks/useNewGameStore'
@@ -15,8 +16,12 @@ import { useGameOptionsStore } from '../../hooks/useGameOptionsStore'
 import { Box, IconButton, Tooltip } from '@mui/material'
 import { RestartAlt } from '@mui/icons-material'
 import { initialAdvancedSettingsData } from '../../constants/ADVANCED_SETTINGS_DATA'
-import { initialActionCardSettingsData } from '../../constants/ACTION_CARD_SETTINGS_DATA'
+import {
+    initialActionCardInputs,
+    initialActionCardSettingsData,
+} from '../../constants/ACTION_CARD_SETTINGS_DATA'
 import { GameDto } from '../../types/gameDto'
+import TranslationsFormComponent from './components/translationsFormComponent'
 
 /**
  * Mostly logic regarding the new game form.
@@ -39,6 +44,8 @@ function NewGamePage() {
         activeFormRef,
         advancedSettingsData,
         setAdvancedSettingsData,
+        setActionCardInputs,
+        setNewGameTranslations,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
@@ -81,6 +88,10 @@ function NewGamePage() {
         // Advanced settings
         setAdvancedSettingsData(initialAdvancedSettingsData)
         setActionCardSettingsData(initialActionCardSettingsData)
+        setActionCardInputs(initialActionCardInputs)
+
+        // Translations
+        setNewGameTranslations(initialNewGameTranslations)
 
         if (reloadPage) window.location.reload()
     }
@@ -105,21 +116,20 @@ function NewGamePage() {
                 steps={[
                     {
                         label: 'New Game',
-                        content: (
-                            <NewGameFormComponent
-                                formData={newGame}
-                                setFormData={setNewGame}
-                            />
-                        ),
+                        content: <NewGameFormComponent />,
                     },
                     {
                         label: 'Advanced Settings',
-                        content: <AdvancedSettingsComponent />,
+                        content: <AdvancedSettingsFormComponent />,
                         customValidation: () =>
                             isActionCardSettingsDataValid(
                                 actionCardSettingsData,
                                 actionCardInputs
                             ),
+                    },
+                    {
+                        label: 'Translations',
+                        content: <TranslationsFormComponent />,
                     },
                     {
                         label: 'Summary',

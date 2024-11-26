@@ -5,7 +5,6 @@ import {
     handleSelectChange,
     handleTextChange,
 } from '../../../utils/inputUtils'
-import { NewGame } from '../../../types/newGame'
 import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
 import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
@@ -18,13 +17,10 @@ import PageLoaderComponent from '../../../components/pageLoaderComponent'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
 import { useGameOptionsStore } from '../../../hooks/useGameOptionsStore'
 
-type NewGameFormProps = {
-    formData: NewGame
-    setFormData: (game: NewGame) => void
-}
-
-function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
+function NewGameFormComponent() {
     const {
+        newGame,
+        setNewGame,
         selectedAccessories,
         setSelectedAccessories,
         selectedGameTypes,
@@ -74,9 +70,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                 label="Name"
                                 variant="filled"
                                 name="name"
-                                value={formData.name}
+                                value={newGame.name}
                                 onChange={event =>
-                                    handleTextChange(event, formData, setFormData)
+                                    handleTextChange(event, newGame, setNewGame)
                                 }
                                 required
                                 fullWidth
@@ -89,9 +85,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                     labelId="category-label"
                                     label="Category"
                                     name="categoryId"
-                                    value={formData.categoryId}
+                                    value={newGame.categoryId}
                                     onChange={event =>
-                                        handleSelectChange(event, formData, setFormData)
+                                        handleSelectChange(event, newGame, setNewGame)
                                     }
                                     required
                                     variant={'filled'}
@@ -113,9 +109,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                     labelId="activity-label"
                                     label="Activity Level"
                                     name="activityLevel"
-                                    value={formData.activityLevel}
+                                    value={newGame.activityLevel}
                                     onChange={event =>
-                                        handleSelectChange(event, formData, setFormData)
+                                        handleSelectChange(event, newGame, setNewGame)
                                     }
                                     variant={'filled'}
                                 >
@@ -134,9 +130,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                     labelId="drunk-label"
                                     label="Drunk Level"
                                     name="drunkLevel"
-                                    value={formData.drunkLevel}
+                                    value={newGame.drunkLevel}
                                     onChange={event =>
-                                        handleSelectChange(event, formData, setFormData)
+                                        handleSelectChange(event, newGame, setNewGame)
                                     }
                                     variant={'filled'}
                                 >
@@ -155,10 +151,10 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                         label="Intro Description"
                         variant="outlined"
                         name="introDescription"
-                        value={formData.introDescription}
+                        value={newGame.introDescription}
                         setValue={newValue =>
-                            setFormData({
-                                ...formData,
+                            setNewGame({
+                                ...newGame,
                                 introDescription: newValue,
                             })
                         }
@@ -173,9 +169,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                 name="minPlayers"
                                 type="number"
                                 inputProps={{ min: 2 }}
-                                value={formData.minPlayers}
+                                value={newGame.minPlayers}
                                 onChange={event =>
-                                    handleNumberChange(event, formData, setFormData)
+                                    handleNumberChange(event, newGame, setNewGame)
                                 }
                                 fullWidth
                             />
@@ -187,9 +183,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                 name="maxPlayers"
                                 type="number"
                                 inputProps={{ min: 0 }}
-                                value={formData.maxPlayers}
+                                value={newGame.maxPlayers}
                                 onChange={event =>
-                                    handleNumberChange(event, formData, setFormData)
+                                    handleNumberChange(event, newGame, setNewGame)
                                 }
                                 fullWidth
                             />
@@ -201,9 +197,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                 name="minutes"
                                 type="number"
                                 inputProps={{ min: 0 }}
-                                value={formData.minutes}
+                                value={newGame.minutes}
                                 onChange={event =>
-                                    handleNumberChange(event, formData, setFormData)
+                                    handleNumberChange(event, newGame, setNewGame)
                                 }
                                 fullWidth
                                 required
@@ -221,9 +217,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                     labelId="player-group-type-label"
                                     label="Player Group Type"
                                     name="playerGroupTypeId"
-                                    value={formData.playerGroupTypeId}
+                                    value={newGame.playerGroupTypeId}
                                     onChange={event =>
-                                        handleSelectChange(event, formData, setFormData)
+                                        handleSelectChange(event, newGame, setNewGame)
                                     }
                                 >
                                     <MenuItem value={0}>
@@ -248,9 +244,9 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                                     labelId="game-audience-label"
                                     label="Game Audience"
                                     name="gameAudienceId"
-                                    value={formData.gameAudienceId}
+                                    value={newGame.gameAudienceId}
                                     onChange={event =>
-                                        handleSelectChange(event, formData, setFormData)
+                                        handleSelectChange(event, newGame, setNewGame)
                                     }
                                 >
                                     <MenuItem value={0}>
@@ -282,7 +278,7 @@ function NewGameFormComponent({ formData, setFormData }: NewGameFormProps) {
                 </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-                <PreviewWindowComponent name={formData.name} />
+                <PreviewWindowComponent name={newGame.name} />
             </Grid>
         </Grid>
     )
