@@ -4,6 +4,7 @@ import {
     initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
+    initialNewGameTranslations,
 } from '../constants/NEW_GAME_FORM_DATA'
 import { initialWritingSettingsData } from '../constants/WRITING_SETTINGS_DATA'
 import { initialAdvancedSettingsData } from '../constants/ADVANCED_SETTINGS_DATA'
@@ -38,6 +39,9 @@ export const useNewGameStore = create<NewGameState>()(
 
             advancedSettingsData: initialAdvancedSettingsData,
             setAdvancedSettingsData: settings => set({ advancedSettingsData: settings }),
+
+            newGameTranslations: initialNewGameTranslations,
+            setNewGameTranslations: translations => set({ newGameTranslations: translations }),
         }),
         {
             name: 'newGameStorage',

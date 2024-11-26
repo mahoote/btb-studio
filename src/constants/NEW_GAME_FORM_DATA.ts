@@ -29,3 +29,14 @@ export const activityLevels: GenericType[] = [
     { id: 1, name: 'Medium' },
     { id: 2, name: 'High' },
 ]
+
+export const initialNewGameTranslations = {
+    Norwegian: {
+        name: '',
+        introDescription: undefined,
+        descriptions: [],
+        customEndGameSentence: undefined,
+        prompt: undefined,
+        actionCardInputs: [],
+    },
+}

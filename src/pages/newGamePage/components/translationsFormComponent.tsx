@@ -4,7 +4,7 @@ import { useNewGameStore } from '../../../hooks/useNewGameStore'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import MultilineComponent from '../../../components/multilineComponent'
-import TranslateDescriptionsComponent from './translateDescriptionsComponent'
+import TranslateStringArrayComponent from './translateDescriptionsComponent'
 
 const TranslationsFormComponent = () => {
     const {
@@ -13,6 +13,8 @@ const TranslationsFormComponent = () => {
         actionCardSettingsData,
         actionCardInputs,
         activeFormRef,
+        newGameTranslations,
+        setNewGameTranslations,
     } = useNewGameStore()
 
     const languages = ['Norwegian']
@@ -45,6 +47,16 @@ const TranslationsFormComponent = () => {
                                     name={`${language}Name`}
                                     required
                                     fullWidth
+                                    value={newGameTranslations[language]?.name}
+                                    onChange={event =>
+                                        setNewGameTranslations({
+                                            ...newGameTranslations,
+                                            [language]: {
+                                                ...newGameTranslations[language],
+                                                name: event.target.value,
+                                            },
+                                        })
+                                    }
                                 />
                             ))}
                         </Box>
@@ -70,6 +82,17 @@ const TranslationsFormComponent = () => {
                                         variant="filled"
                                         multiline
                                         required
+                                        fullWidth
+                                        value={newGameTranslations[language]?.introDescription}
+                                        onChange={event =>
+                                            setNewGameTranslations({
+                                                ...newGameTranslations,
+                                                [language]: {
+                                                    ...newGameTranslations[language],
+                                                    introDescription: event.target.value,
+                                                },
+                                            })
+                                        }
                                     />
                                 ))}
                             </Box>
@@ -86,12 +109,22 @@ const TranslationsFormComponent = () => {
                             <Typography fontSize={18} color="darkgray">
                                 {language} *
                             </Typography>
-                            <TranslateDescriptionsComponent
+                            <TranslateStringArrayComponent
                                 values={newGame.descriptions}
                                 minRows={4}
                                 minHeight="13rem"
                                 gridXs={12}
                                 gridMd={6}
+                                inputValues={newGameTranslations[language]?.descriptions}
+                                setInputValues={values =>
+                                    setNewGameTranslations({
+                                        ...newGameTranslations,
+                                        [language]: {
+                                            ...newGameTranslations[language],
+                                            descriptions: values,
+                                        },
+                                    })
+                                }
                             />
                         </>
                     ))}
@@ -115,6 +148,18 @@ const TranslationsFormComponent = () => {
                                     fullWidth
                                     multiline
                                     required
+                                    value={
+                                        newGameTranslations[language]?.customEndGameSentence
+                                    }
+                                    onChange={event =>
+                                        setNewGameTranslations({
+                                            ...newGameTranslations,
+                                            [language]: {
+                                                ...newGameTranslations[language],
+                                                customEndGameSentence: event.target.value,
+                                            },
+                                        })
+                                    }
                                 />
                             ))}
                         </Box>
@@ -141,6 +186,16 @@ const TranslationsFormComponent = () => {
                                     name={`${language}Prompt`}
                                     fullWidth
                                     required
+                                    value={newGameTranslations[language]?.prompt}
+                                    onChange={event =>
+                                        setNewGameTranslations({
+                                            ...newGameTranslations,
+                                            [language]: {
+                                                ...newGameTranslations[language],
+                                                prompt: event.target.value,
+                                            },
+                                        })
+                                    }
                                 />
                             ))}
                         </Box>
@@ -157,10 +212,22 @@ const TranslationsFormComponent = () => {
                                     <Typography fontSize={18} color="darkgray" mb={2}>
                                         {language} *
                                     </Typography>
-                                    <TranslateDescriptionsComponent
+                                    <TranslateStringArrayComponent
                                         values={actionCardInputs}
                                         gridXs={12}
                                         gridSm={6}
+                                        inputValues={
+                                            newGameTranslations[language]?.actionCardInputs
+                                        }
+                                        setInputValues={values =>
+                                            setNewGameTranslations({
+                                                ...newGameTranslations,
+                                                [language]: {
+                                                    ...newGameTranslations[language],
+                                                    actionCardInputs: values,
+                                                },
+                                            })
+                                        }
                                     />
                                 </>
                             ))}

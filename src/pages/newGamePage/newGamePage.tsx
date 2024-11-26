@@ -8,6 +8,7 @@ import {
     initialAccessoriesData,
     initialGameTypesData,
     initialNewGameData,
+    initialNewGameTranslations,
 } from '../../constants/NEW_GAME_FORM_DATA'
 import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
 import { useNewGameStore } from '../../hooks/useNewGameStore'
@@ -44,6 +45,7 @@ function NewGamePage() {
         advancedSettingsData,
         setAdvancedSettingsData,
         setActionCardInputs,
+        setNewGameTranslations,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
@@ -87,6 +89,9 @@ function NewGamePage() {
         setAdvancedSettingsData(initialAdvancedSettingsData)
         setActionCardSettingsData(initialActionCardSettingsData)
         setActionCardInputs(initialActionCardInputs)
+
+        // Translations
+        setNewGameTranslations(initialNewGameTranslations)
 
         if (reloadPage) window.location.reload()
     }

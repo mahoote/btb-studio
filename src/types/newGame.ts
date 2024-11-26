@@ -32,3 +32,16 @@ export type WritingSettings = {
     writesAmount: number
     writeSeconds: number
 }
+
+export type NewGameTranslation = {
+    name: string
+    introDescription?: string
+    descriptions: string[]
+    customEndGameSentence?: string
+    prompt?: string
+    actionCardInputs: string[]
+}
+
+export type NewGameTranslations = {
+    [key: string]: NewGameTranslation
+}
