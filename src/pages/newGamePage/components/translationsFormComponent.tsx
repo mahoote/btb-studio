@@ -1,10 +1,13 @@
-import React from 'react'
-import { Box, Divider, Grid, TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Button, Divider, Grid, Snackbar, TextField, Typography } from '@mui/material'
 import { useNewGameStore } from '../../../hooks/useNewGameStore'
 import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
 import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
 import MultilineComponent from '../../../components/multilineComponent'
 import TranslateStringArrayComponent from './translateDescriptionsComponent'
+import { NewGameTranslations } from '../../../types/newGame'
+import { Alert } from '@mui/lab'
+import { ContentCopy, DataObject } from '@mui/icons-material'
 
 const TranslationsFormComponent = () => {
     const {
@@ -19,8 +22,57 @@ const TranslationsFormComponent = () => {
 
     const languages = ['Norwegian']
 
+    const [alertSettings, setAlertSettings] = useState<{
+        open: boolean
+        message: string
+        severity: 'success' | 'error'
+    }>({
+        open: false,
+        message: 'Copied to clipboard!',
+        severity: 'success',
+    })
+
+    const handleCopyFromEnglish = async () => {
+        const englishTranslations: NewGameTranslations = {
+            English: {
+                name: newGame.name,
+                introDescription: newGame.introDescription,
+                descriptions: newGame.descriptions,
+                customEndGameSentence: advancedSettingsData.customEndGameSentence,
+                prompt: actionCardSettingsData?.prompt,
+                actionCardInputs: actionCardInputs,
+            },
+        }
+
+        try {
+            const jsonString = JSON.stringify(englishTranslations, null, 2)
+            await navigator.clipboard.writeText(jsonString)
+            setAlertSettings(prev => ({ ...prev, open: true }))
+        } catch (error) {
+            console.error('Failed to copy JSON to clipboard:', error)
+            setAlertSettings({
+                open: true,
+                severity: 'error',
+                message: 'Failed to copy to clipboard',
+            })
+        }
+    }
+
+    const handleCloseAlert = () => setAlertSettings(prev => ({ ...prev, open: false }))
+
     return (
         <Box>
+            <Snackbar
+                open={alertSettings.open}
+                autoHideDuration={3000}
+                onClose={handleCloseAlert}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={handleCloseAlert} severity={alertSettings.severity}>
+                    {alertSettings.message}
+                </Alert>
+            </Snackbar>
+
             <Box component="p" color="darkgray" textAlign="center">
                 This subpage allows you to provide translations for the text fields you have
                 filled out in the previous steps of the form.
@@ -28,6 +80,20 @@ const TranslationsFormComponent = () => {
                 Ensuring accurate translations helps make the game accessible and enjoyable for
                 users in different languages.
             </Box>
+
+            <Box my={6} gap={2} display="flex" justifyContent="center">
+                <Button
+                    variant="outlined"
+                    endIcon={<ContentCopy />}
+                    onClick={void handleCopyFromEnglish}
+                >
+                    Copy from English
+                </Button>
+                <Button variant="outlined" endIcon={<DataObject />}>
+                    Insert from JSON
+                </Button>
+            </Box>
+
             <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
                 component="form"

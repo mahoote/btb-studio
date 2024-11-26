@@ -39,7 +39,7 @@ export type NewGameTranslation = {
     descriptions: string[]
     customEndGameSentence?: string
     prompt?: string
-    actionCardInputs: string[]
+    actionCardInputs?: string[]
 }
 
 export type NewGameTranslations = {

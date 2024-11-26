@@ -6,8 +6,8 @@ import MultilineComponent from '../../../components/multilineComponent'
 
 type TranslateDescriptionsComponentProps = {
     values: string[]
-    inputValues: string[]
-    setInputValues: (values: string[]) => void
+    inputValues?: string[]
+    setInputValues?: (values: string[]) => void
     minRows?: number
     minHeight?: string
     gridXs?: number
@@ -59,11 +59,13 @@ const TranslateDescriptionsComponent = ({
                                         required
                                         fullWidth
                                         minRows={minRows}
-                                        value={inputValues[index]}
+                                        value={inputValues?.[index]}
                                         setValue={value => {
-                                            const newInputValues = [...inputValues]
+                                            const newInputValues: string[] = [
+                                                ...(inputValues ?? []),
+                                            ]
                                             newInputValues[index] = value
-                                            setInputValues(newInputValues)
+                                            if (setInputValues) setInputValues(newInputValues)
                                         }}
                                     />
                                 </Box>
