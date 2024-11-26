@@ -7,7 +7,9 @@ import MultilineComponent from '../../../components/multilineComponent'
 import TranslateStringArrayComponent from './translateDescriptionsComponent'
 import { NewGameTranslations } from '../../../types/newGame'
 import { Alert } from '@mui/lab'
-import { ContentCopy, DataObject } from '@mui/icons-material'
+import { Add, ContentCopy, DataObject } from '@mui/icons-material'
+import AppModalComponent from '../../../components/appModalComponent'
+import { generateTranslationPrompt } from '../../../utils/prompts'
 
 const TranslationsFormComponent = () => {
     const {
@@ -32,6 +34,10 @@ const TranslationsFormComponent = () => {
         severity: 'success',
     })
 
+    const [userJsonInput, setUserJsonInput] = useState<string>('')
+
+    const [openModal, setOpenModal] = useState<boolean>(false)
+
     const handleCopyFromEnglish = async () => {
         const englishTranslations: NewGameTranslations = {
             English: {
@@ -45,8 +51,9 @@ const TranslationsFormComponent = () => {
         }
 
         try {
-            const jsonString = JSON.stringify(englishTranslations, null, 2)
-            await navigator.clipboard.writeText(jsonString)
+            await navigator.clipboard.writeText(
+                generateTranslationPrompt(languages, englishTranslations)
+            )
             setAlertSettings(prev => ({ ...prev, open: true }))
         } catch (error) {
             console.error('Failed to copy JSON to clipboard:', error)
@@ -59,6 +66,21 @@ const TranslationsFormComponent = () => {
     }
 
     const handleCloseAlert = () => setAlertSettings(prev => ({ ...prev, open: false }))
+
+    const handleJsonAdd = () => {
+        try {
+            const newTranslations = JSON.parse(userJsonInput) as NewGameTranslations
+            setNewGameTranslations(newTranslations)
+            setOpenModal(false)
+        } catch (error) {
+            console.error('Failed to parse JSON:', error)
+            setAlertSettings({
+                open: true,
+                severity: 'error',
+                message: 'Failed to parse JSON',
+            })
+        }
+    }
 
     return (
         <Box>
@@ -85,14 +107,52 @@ const TranslationsFormComponent = () => {
                 <Button
                     variant="outlined"
                     endIcon={<ContentCopy />}
-                    onClick={void handleCopyFromEnglish}
+                    onClick={() => void handleCopyFromEnglish()}
                 >
                     Copy from English
                 </Button>
-                <Button variant="outlined" endIcon={<DataObject />}>
+                <Button
+                    variant="outlined"
+                    endIcon={<DataObject />}
+                    onClick={() => {
+                        setOpenModal(true)
+                    }}
+                >
                     Insert from JSON
                 </Button>
             </Box>
+
+            <AppModalComponent
+                open={openModal}
+                handleClose={() => {
+                    setOpenModal(false)
+                }}
+                title="Insert translations JSON object"
+            >
+                <>
+                    <TextField
+                        sx={{ mt: 2 }}
+                        variant="outlined"
+                        name="jsonObject"
+                        value={userJsonInput}
+                        onChange={event => setUserJsonInput(event.target.value)}
+                        multiline
+                        fullWidth
+                        minRows={6}
+                        maxRows={18}
+                    />
+                    <Box display="flex" justifyContent="end" mt={2}>
+                        <Button
+                            variant="contained"
+                            endIcon={<Add />}
+                            onClick={handleJsonAdd}
+                            disabled={userJsonInput.length <= 0}
+                        >
+                            Add
+                        </Button>
+                    </Box>
+                </>
+            </AppModalComponent>
 
             <Box
                 sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
