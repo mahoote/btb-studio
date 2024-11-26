@@ -38,6 +38,10 @@ const TranslationsFormComponent = () => {
 
     const [openModal, setOpenModal] = useState<boolean>(false)
 
+    /**
+     * Copies the JSON object to the clipboard.
+     * Alerts the user if it fails.
+     */
     const handleCopyFromEnglish = async () => {
         const englishTranslations: NewGameTranslations = {
             English: {
@@ -67,6 +71,9 @@ const TranslationsFormComponent = () => {
 
     const handleCloseAlert = () => setAlertSettings(prev => ({ ...prev, open: false }))
 
+    /**
+     * Adds the JSON object to the translations object.
+     */
     const handleJsonAdd = () => {
         try {
             const newTranslations = JSON.parse(userJsonInput) as NewGameTranslations
