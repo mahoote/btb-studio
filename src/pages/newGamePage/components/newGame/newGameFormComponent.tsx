@@ -4,18 +4,18 @@ import {
     handleNumberChange,
     handleSelectChange,
     handleTextChange,
-} from '../../../utils/inputUtils'
-import ChipsAutocompleteComponent from '../../../components/chipsAutocompleteComponent'
-import { getGameTypeCombinations } from '../../../utils/gameTypeUtils'
-import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
+} from '../../../../utils/inputUtils'
+import ChipsAutocompleteComponent from '../../../../components/chipsAutocompleteComponent'
+import { getGameTypeCombinations } from '../../../../utils/gameTypeUtils'
+import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
 import PreviewWindowComponent from './previewWindowComponent'
-import { activityLevels, drunkLevels } from '../../../constants/NEW_GAME_FORM_DATA'
-import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import { GenericType } from '../../../types/genericType'
-import ErrorMessageComponent from '../../../components/errorMessageComponent'
-import PageLoaderComponent from '../../../components/pageLoaderComponent'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
-import { useGameOptionsStore } from '../../../hooks/useGameOptionsStore'
+import { activityLevels, drunkLevels } from '../../../../constants/NEW_GAME_FORM_DATA'
+import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
+import { GenericType } from '../../../../types/genericType'
+import ErrorMessageComponent from '../../../../components/errorMessageComponent'
+import PageLoaderComponent from '../../../../components/pageLoaderComponent'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
+import { useGameOptionsStore } from '../../../../hooks/useGameOptionsStore'
 
 function NewGameFormComponent() {
     const {

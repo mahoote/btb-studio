@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
-import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
 
 type PreviewWindowProps = {
     name: string

@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { Box, Button, Divider, Grid, Snackbar, TextField, Typography } from '@mui/material'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
-import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import MultilineComponent from '../../../components/multilineComponent'
-import TranslateStringArrayComponent from './translateDescriptionsComponent'
-import { NewGameTranslations } from '../../../types/newGame'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
+import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
+import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
+import MultilineComponent from '../../../../components/multilineComponent'
+import TranslateStringArrayComponent from './translateStringArrayComponent'
+import { NewGameTranslations } from '../../../../types/newGame'
 import { Alert } from '@mui/lab'
 import { Add, ContentCopy, DataObject } from '@mui/icons-material'
-import AppModalComponent from '../../../components/appModalComponent'
-import { generateTranslationPrompt } from '../../../utils/prompts'
+import AppModalComponent from '../../../../components/appModalComponent'
+import { generateTranslationPrompt } from '../../../../utils/prompts'
 
 const TranslationsFormComponent = () => {
     const {

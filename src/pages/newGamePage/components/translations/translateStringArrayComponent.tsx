@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Grid } from '@mui/material'
-import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import MultilineComponent from '../../../components/multilineComponent'
+import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
+import MultilineComponent from '../../../../components/multilineComponent'
 
-type TranslateDescriptionsComponentProps = {
+type TranslateStringArrayComponentProps = {
     values: string[]
     inputValues?: string[]
     setInputValues?: (values: string[]) => void
@@ -15,7 +15,7 @@ type TranslateDescriptionsComponentProps = {
     gridMd?: number
 }
 
-const TranslateDescriptionsComponent = ({
+const TranslateStringArrayComponent = ({
     values,
     inputValues,
     setInputValues,
@@ -24,7 +24,7 @@ const TranslateDescriptionsComponent = ({
     gridXs,
     gridSm,
     gridMd,
-}: TranslateDescriptionsComponentProps) => {
+}: TranslateStringArrayComponentProps) => {
     return (
         <Grid container spacing={2}>
             {values
@@ -77,4 +77,4 @@ const TranslateDescriptionsComponent = ({
     )
 }
 
-export default TranslateDescriptionsComponent
+export default TranslateStringArrayComponent
