@@ -242,7 +242,10 @@ const TranslationsFormComponent = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     <h3>Description</h3>
                     {languages.map(language => (
-                        <div key={language}>
+                        <Box
+                            key={language}
+                            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+                        >
                             <Typography fontSize={18} color="darkgray">
                                 {language} *
                             </Typography>
@@ -263,7 +266,7 @@ const TranslationsFormComponent = () => {
                                     })
                                 }
                             />
-                        </div>
+                        </Box>
                     ))}
                 </Box>
                 <Divider />
@@ -347,8 +350,11 @@ const TranslationsFormComponent = () => {
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                             <h3>Action Cards</h3>
                             {languages.map(language => (
-                                <div key={language}>
-                                    <Typography fontSize={18} color="darkgray" mb={2}>
+                                <Box
+                                    key={language}
+                                    sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+                                >
+                                    <Typography fontSize={18} color="darkgray">
                                         {language} *
                                     </Typography>
                                     <TranslateStringArrayComponent
@@ -368,7 +374,7 @@ const TranslationsFormComponent = () => {
                                             })
                                         }
                                     />
-                                </div>
+                                </Box>
                             ))}
                         </Box>
                         <Divider />
