@@ -176,6 +176,7 @@ function ActionCardSettingsComponent() {
                                     disabled={(actionCardSettingsData?.cardSeconds ?? 0) <= 0}
                                     control={
                                         <Switch
+                                            defaultChecked={actionCardSettingsData.isAutoNext}
                                             onChange={event => {
                                                 setActionCardSettingsData({
                                                     ...actionCardSettingsData,
@@ -197,6 +198,7 @@ function ActionCardSettingsComponent() {
                                     disabled={actionCardSettingsData.stateId !== 5}
                                     control={
                                         <Switch
+                                            defaultChecked={actionCardSettingsData.hasBuzzer}
                                             onChange={event => {
                                                 setActionCardSettingsData({
                                                     ...actionCardSettingsData,
@@ -217,6 +219,9 @@ function ActionCardSettingsComponent() {
                                 <FormControlLabel
                                     control={
                                         <Switch
+                                            defaultChecked={
+                                                actionCardSettingsData.isPlayerCreative
+                                            }
                                             onChange={event => {
                                                 setActionCardSettingsData({
                                                     ...actionCardSettingsData,
