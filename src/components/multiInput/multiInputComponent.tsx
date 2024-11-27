@@ -76,6 +76,7 @@ function MultiInputComponent({
                 {inputs.map((input, index) => (
                     <Grid key={index} item xs={12} sm={4}>
                         <TextFieldSuggestionsComponent
+                            key={index}
                             wordSuggestions={wordSuggestions}
                             label={`Input ${index + 1}`}
                             name={`input-${index + 1}`}

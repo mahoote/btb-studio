@@ -1,15 +1,15 @@
 import ActionCardSettingsComponent from './actionCardSettingsComponent'
 import { Box } from '@mui/material'
 import React, { useEffect } from 'react'
-import { GameTypeEnum } from '../../../enums/gameTypeEnum'
+import { GameTypeEnum } from '../../../../enums/gameTypeEnum'
 import {
     initialActionCardInputs,
     initialActionCardSettingsData,
-} from '../../../constants/ACTION_CARD_SETTINGS_DATA'
+} from '../../../../constants/ACTION_CARD_SETTINGS_DATA'
 import WritingSettingsComponent from './writingSettingsComponent'
-import { initialWritingSettingsData } from '../../../constants/WRITING_SETTINGS_DATA'
+import { initialWritingSettingsData } from '../../../../constants/WRITING_SETTINGS_DATA'
 import AdvancedDefaultSettingsComponent from './advancedDefaultSettingsComponent'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
 
 function AdvancedSettingsFormComponent() {
     const {

@@ -10,10 +10,10 @@ import {
     Tooltip,
 } from '@mui/material'
 import React from 'react'
-import { handleInputChange, handleTextChange } from '../../../utils/inputUtils'
-import ErrorMessageComponent from '../../../components/errorMessageComponent'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
-import ImageUploaderComponent from '../../../components/imageUploaderComponent'
+import { handleInputChange, handleTextChange } from '../../../../utils/inputUtils'
+import ErrorMessageComponent from '../../../../components/errorMessageComponent'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
+import ImageUploaderComponent from '../../../../components/imageUploaderComponent'
 
 function AdvancedDefaultSettingsComponent() {
     const { advancedSettingsData, setAdvancedSettingsData } = useNewGameStore()

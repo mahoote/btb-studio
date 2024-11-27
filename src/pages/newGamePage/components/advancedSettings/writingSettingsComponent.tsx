@@ -1,8 +1,8 @@
 import { Box, Divider, Grid, TextField, Tooltip, Typography } from '@mui/material'
 import React from 'react'
-import { handleNumberChange } from '../../../utils/inputUtils'
-import ErrorMessageComponent from '../../../components/errorMessageComponent'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import { handleNumberChange } from '../../../../utils/inputUtils'
+import ErrorMessageComponent from '../../../../components/errorMessageComponent'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
 
 function WritingSettingsComponent() {
     const { writingSettingsData, setWritingSettingsData } = useNewGameStore()

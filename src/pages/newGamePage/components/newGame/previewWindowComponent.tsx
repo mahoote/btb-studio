@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import { Add, ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
-import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
+import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
 
 type PreviewWindowProps = {
     name: string
@@ -58,7 +58,7 @@ function PreviewWindowComponent({ name }: PreviewWindowProps) {
                 className="container"
                 borderRadius={5}
                 height="32rem"
-                width="17rem"
+                width="19rem"
                 color="text.primary"
                 padding={2}
                 display="flex"
@@ -86,9 +86,6 @@ function PreviewWindowComponent({ name }: PreviewWindowProps) {
                         required
                         fullWidth
                         rows={15}
-                        InputProps={{
-                            style: { fontSize: '0.85em' },
-                        }}
                     />
                 </Box>
                 <Box display="flex" justifyContent="center" alignItems="center">

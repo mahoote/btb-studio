@@ -13,16 +13,16 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material'
-import { handleNumberChange, handleSelectChange } from '../../../utils/inputUtils'
-import MultiInputComponent from '../../../components/multiInput/multiInputComponent'
-import { isCardInputMultiline } from '../../../utils/actionCardSettingsUtils'
-import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import { actionCardContentTypes } from '../../../constants/ACTION_CARD_SETTINGS_DATA'
-import ErrorMessageComponent from '../../../components/errorMessageComponent'
-import PageLoaderComponent from '../../../components/pageLoaderComponent'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
-import { useActionCardStore } from '../../../hooks/useActionCardStore'
+import { handleNumberChange, handleSelectChange } from '../../../../utils/inputUtils'
+import MultiInputComponent from '../../../../components/multiInput/multiInputComponent'
+import { isCardInputMultiline } from '../../../../utils/actionCardSettingsUtils'
+import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
+import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
+import { actionCardContentTypes } from '../../../../constants/ACTION_CARD_SETTINGS_DATA'
+import ErrorMessageComponent from '../../../../components/errorMessageComponent'
+import PageLoaderComponent from '../../../../components/pageLoaderComponent'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
+import { useActionCardStore } from '../../../../hooks/useActionCardStore'
 
 /**
  * All the different settings to add to a game with "Action Card" game type.

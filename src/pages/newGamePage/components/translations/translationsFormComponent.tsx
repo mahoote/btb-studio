@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { Box, Button, Divider, Grid, Snackbar, TextField, Typography } from '@mui/material'
-import { useNewGameStore } from '../../../hooks/useNewGameStore'
-import { actionCardSuggestions } from '../../../constants/WORD_SUGGESTION_DATA'
-import TextFieldSuggestionsComponent from '../../../components/textFieldSuggestionsComponent'
-import MultilineComponent from '../../../components/multilineComponent'
-import TranslateStringArrayComponent from './translateDescriptionsComponent'
-import { NewGameTranslations } from '../../../types/newGame'
+import { useNewGameStore } from '../../../../hooks/useNewGameStore'
+import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
+import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
+import MultilineComponent from '../../../../components/multilineComponent'
+import TranslateStringArrayComponent from './translateStringArrayComponent'
+import { NewGameTranslations } from '../../../../types/newGame'
 import { Alert } from '@mui/lab'
 import { Add, ContentCopy, DataObject } from '@mui/icons-material'
-import AppModalComponent from '../../../components/appModalComponent'
-import { generateTranslationPrompt } from '../../../utils/prompts'
+import AppModalComponent from '../../../../components/appModalComponent'
+import { generateTranslationPrompt } from '../../../../utils/prompts'
 
 const TranslationsFormComponent = () => {
     const {
@@ -38,6 +38,8 @@ const TranslationsFormComponent = () => {
 
     const [openModal, setOpenModal] = useState<boolean>(false)
 
+    const [copyJsonBackupText, setCopyJsonBackupText] = useState<string | undefined>()
+
     /**
      * Copies the JSON object to the clipboard.
      * Alerts the user if it fails.
@@ -63,6 +65,14 @@ const TranslationsFormComponent = () => {
             setAlertSettings(prev => ({ ...prev, open: true }))
         } catch (error) {
             console.error('Failed to copy JSON to clipboard:', error)
+
+            if (!navigator.clipboard) {
+                console.error('Clipboard API is not supported in this environment.')
+                setCopyJsonBackupText(
+                    generateTranslationPrompt(languages, englishTranslations)
+                )
+            }
+
             setAlertSettings({
                 open: true,
                 severity: 'error',
@@ -81,6 +91,7 @@ const TranslationsFormComponent = () => {
             const newTranslations = JSON.parse(userJsonInput) as NewGameTranslations
             setNewGameTranslations(newTranslations)
             setOpenModal(false)
+            window.location.reload()
         } catch (error) {
             console.error('Failed to parse JSON:', error)
             setAlertSettings({
@@ -125,11 +136,15 @@ const TranslationsFormComponent = () => {
                     endIcon={<DataObject />}
                     onClick={() => {
                         setOpenModal(true)
+                        setCopyJsonBackupText(undefined)
                     }}
                 >
                     Insert from JSON
                 </Button>
             </Box>
+
+            {/* If the copy to clipboard doesnt work, just print it in the browser. */}
+            {copyJsonBackupText && <Box>{copyJsonBackupText}</Box>}
 
             <AppModalComponent
                 open={openModal}
@@ -177,6 +192,7 @@ const TranslationsFormComponent = () => {
                             </div>
                             {languages.map(language => (
                                 <TextField
+                                    key={language}
                                     label={language}
                                     variant="filled"
                                     name={`${language}Name`}
@@ -211,6 +227,7 @@ const TranslationsFormComponent = () => {
                                 </div>
                                 {languages.map(language => (
                                     <TextFieldSuggestionsComponent
+                                        key={language}
                                         wordSuggestions={actionCardSuggestions}
                                         label={language}
                                         name={`${language}IntroDescription`}
@@ -240,7 +257,10 @@ const TranslationsFormComponent = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     <h3>Description</h3>
                     {languages.map(language => (
-                        <>
+                        <Box
+                            key={language}
+                            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+                        >
                             <Typography fontSize={18} color="darkgray">
                                 {language} *
                             </Typography>
@@ -261,7 +281,7 @@ const TranslationsFormComponent = () => {
                                     })
                                 }
                             />
-                        </>
+                        </Box>
                     ))}
                 </Box>
                 <Divider />
@@ -277,6 +297,7 @@ const TranslationsFormComponent = () => {
                             </div>
                             {languages.map(language => (
                                 <TextField
+                                    key={language}
                                     label={language}
                                     variant="filled"
                                     name={`${language}CustomEndGameSentence`}
@@ -315,6 +336,7 @@ const TranslationsFormComponent = () => {
                             </div>
                             {languages.map(language => (
                                 <TextFieldSuggestionsComponent
+                                    key={language}
                                     wordSuggestions={actionCardSuggestions}
                                     label={language}
                                     variant="filled"
@@ -343,8 +365,11 @@ const TranslationsFormComponent = () => {
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                             <h3>Action Cards</h3>
                             {languages.map(language => (
-                                <>
-                                    <Typography fontSize={18} color="darkgray" mb={2}>
+                                <Box
+                                    key={language}
+                                    sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+                                >
+                                    <Typography fontSize={18} color="darkgray">
                                         {language} *
                                     </Typography>
                                     <TranslateStringArrayComponent
@@ -364,7 +389,7 @@ const TranslationsFormComponent = () => {
                                             })
                                         }
                                     />
-                                </>
+                                </Box>
                             ))}
                         </Box>
                         <Divider />

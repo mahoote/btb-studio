@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { createNewGame } from '../../utils/newGameFormUtils'
-import NewGameFormComponent from './components/newGameFormComponent'
-import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
-import AdvancedSettingsFormComponent from './components/advancedSettingsFormComponent'
+import NewGameFormComponent from './components/newGame/newGameFormComponent'
+import LinearStepperComponent from '../../components/linearStepperComponent'
+import AdvancedSettingsFormComponent from './components/advancedSettings/advancedSettingsFormComponent'
 import { isActionCardSettingsDataValid } from '../../utils/actionCardSettingsUtils'
 import {
     initialAccessoriesData,
@@ -21,7 +21,7 @@ import {
     initialActionCardSettingsData,
 } from '../../constants/ACTION_CARD_SETTINGS_DATA'
 import { GameDto } from '../../types/gameDto'
-import TranslationsFormComponent from './components/translationsFormComponent'
+import TranslationsFormComponent from './components/translations/translationsFormComponent'
 
 /**
  * Mostly logic regarding the new game form.
@@ -46,6 +46,8 @@ function NewGamePage() {
         setAdvancedSettingsData,
         setActionCardInputs,
         setNewGameTranslations,
+        formStepIndex,
+        setFormStepIndex,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
@@ -80,6 +82,8 @@ function NewGamePage() {
 
     const handleResetForm = (reloadPage: boolean = true) => {
         // Default settings
+        setFormStepIndex(0)
+
         setNewGame(initialNewGameData)
         setDescriptions(initialNewGameData.descriptions)
         setSelectedGameTypes(initialGameTypesData)
@@ -112,7 +116,7 @@ function NewGamePage() {
                     </IconButton>
                 </Tooltip>
             </Box>
-            <HorizontalLinearStepperComponent
+            <LinearStepperComponent
                 steps={[
                     {
                         label: 'New Game',
@@ -136,6 +140,8 @@ function NewGamePage() {
                         content: <div>Summary</div>,
                     },
                 ]}
+                formStepIndex={formStepIndex}
+                setFormStepIndex={setFormStepIndex}
                 onFinnish={() => void submitForm()}
                 onReset={handleResetForm}
                 completeMessage={`"${createdGame?.name}" was created.`}

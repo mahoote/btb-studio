@@ -6,7 +6,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended-type-checked',
         'plugin:react-hooks/recommended',
         'plugin:prettier/recommended',
-        'prettier'
+        'prettier',
     ],
     ignorePatterns: ['dist', '.eslintrc.cjs'],
     parser: '@typescript-eslint/parser',
@@ -17,9 +17,14 @@ module.exports = {
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
             'warn',
-            { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }
+            {
+                vars: 'all',
+                varsIgnorePattern: '^_',
+                args: 'after-used',
+                argsIgnorePattern: '^_',
+            },
         ],
-        'prettier/prettier': 'error'
+        'prettier/prettier': 'error',
     },
     parserOptions: {
         ecmaVersion: 'latest',
@@ -27,4 +32,4 @@ module.exports = {
         project: ['./tsconfig.json', './tsconfig.node.json'],
         tsconfigRootDir: __dirname,
     },
-};
+}
