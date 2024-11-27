@@ -134,7 +134,9 @@ function HorizontalLinearStepperComponent({
                     } = {}
                     if (steps[index].isOptional) {
                         labelProps.optional = (
-                            <Typography variant="caption">Optional</Typography>
+                            <Typography key={index} variant="caption">
+                                Optional
+                            </Typography>
                         )
                     }
                     if (isStepSkipped(index)) {

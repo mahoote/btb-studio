@@ -177,6 +177,7 @@ const TranslationsFormComponent = () => {
                             </div>
                             {languages.map(language => (
                                 <TextField
+                                    key={language}
                                     label={language}
                                     variant="filled"
                                     name={`${language}Name`}
@@ -211,6 +212,7 @@ const TranslationsFormComponent = () => {
                                 </div>
                                 {languages.map(language => (
                                     <TextFieldSuggestionsComponent
+                                        key={language}
                                         wordSuggestions={actionCardSuggestions}
                                         label={language}
                                         name={`${language}IntroDescription`}
@@ -240,7 +242,7 @@ const TranslationsFormComponent = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     <h3>Description</h3>
                     {languages.map(language => (
-                        <>
+                        <div key={language}>
                             <Typography fontSize={18} color="darkgray">
                                 {language} *
                             </Typography>
@@ -261,7 +263,7 @@ const TranslationsFormComponent = () => {
                                     })
                                 }
                             />
-                        </>
+                        </div>
                     ))}
                 </Box>
                 <Divider />
@@ -277,6 +279,7 @@ const TranslationsFormComponent = () => {
                             </div>
                             {languages.map(language => (
                                 <TextField
+                                    key={language}
                                     label={language}
                                     variant="filled"
                                     name={`${language}CustomEndGameSentence`}
@@ -315,6 +318,7 @@ const TranslationsFormComponent = () => {
                             </div>
                             {languages.map(language => (
                                 <TextFieldSuggestionsComponent
+                                    key={language}
                                     wordSuggestions={actionCardSuggestions}
                                     label={language}
                                     variant="filled"
@@ -343,7 +347,7 @@ const TranslationsFormComponent = () => {
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                             <h3>Action Cards</h3>
                             {languages.map(language => (
-                                <>
+                                <div key={language}>
                                     <Typography fontSize={18} color="darkgray" mb={2}>
                                         {language} *
                                     </Typography>
@@ -364,7 +368,7 @@ const TranslationsFormComponent = () => {
                                             })
                                         }
                                     />
-                                </>
+                                </div>
                             ))}
                         </Box>
                         <Divider />
