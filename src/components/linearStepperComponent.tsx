@@ -174,6 +174,7 @@ function LinearStepperComponent({
                 )
             ) : (
                 <>
+                    <Box paddingY={3}>{steps[formStepIndex].content}</Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
                             color="inherit"
@@ -193,7 +194,6 @@ function LinearStepperComponent({
                             {formStepIndex === steps.length - 1 ? 'Finish' : 'Next'}
                         </Button>
                     </Box>
-                    <Box paddingY={3}>{steps[formStepIndex].content}</Box>
                 </>
             )}
         </Box>
