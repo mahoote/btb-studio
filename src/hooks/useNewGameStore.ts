@@ -42,6 +42,9 @@ export const useNewGameStore = create<NewGameState>()(
 
             newGameTranslations: initialNewGameTranslations,
             setNewGameTranslations: translations => set({ newGameTranslations: translations }),
+
+            formStepIndex: 0,
+            setFormStepIndex: step => set({ formStepIndex: step }),
         }),
         {
             name: 'newGameStorage',

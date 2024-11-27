@@ -37,4 +37,7 @@ export interface NewGameState {
 
     newGameTranslations: NewGameTranslations
     setNewGameTranslations: (translations: NewGameTranslations) => void
+
+    formStepIndex: number
+    setFormStepIndex: (step: number) => void
 }

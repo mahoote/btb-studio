@@ -6,11 +6,13 @@ import StepLabel from '@mui/material/StepLabel'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { StepperObject } from '../types/StepperObject'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { CircularProgress, Theme, useMediaQuery } from '@mui/material'
 
 type HorizontalLinearStepperProps = {
     steps: StepperObject[]
+    formStepIndex: number
+    setFormStepIndex: (step: number) => void
     onFinnish?: () => void
     completeMessage?: string
     onReset?: () => void
@@ -33,14 +35,15 @@ type HorizontalLinearStepperProps = {
  */
 function HorizontalLinearStepperComponent({
     steps,
+    formStepIndex,
+    setFormStepIndex,
     onFinnish,
     completeMessage,
     onReset,
     isComplete,
     isFormValid,
 }: HorizontalLinearStepperProps) {
-    const [activeStepIndex, setActiveStepIndex] = React.useState(0)
-    const [skipped, setSkipped] = React.useState(new Set<number>())
+    const [skipped, setSkipped] = useState(new Set<number>())
     const isMobileSize = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
     const isStepSkipped = (step: number) => {
@@ -51,7 +54,7 @@ function HorizontalLinearStepperComponent({
      * Returns is the form is invalid or if the custom validation fails.
      */
     const handleNext = () => {
-        const activeStep = steps[activeStepIndex]
+        const activeStep = steps[formStepIndex]
 
         if (isFormValid && !isFormValid()) return
         if (activeStep.customValidation) {
@@ -64,42 +67,42 @@ function HorizontalLinearStepperComponent({
         }
 
         let newSkipped = skipped
-        if (isStepSkipped(activeStepIndex)) {
+        if (isStepSkipped(formStepIndex)) {
             newSkipped = new Set(newSkipped.values())
-            newSkipped.delete(activeStepIndex)
+            newSkipped.delete(formStepIndex)
         }
 
-        setActiveStepIndex(prevActiveStep => prevActiveStep + 1)
+        setFormStepIndex(formStepIndex + 1)
         setSkipped(newSkipped)
     }
 
     const handleBack = () => {
-        setActiveStepIndex(prevActiveStep => prevActiveStep - 1)
+        setFormStepIndex(formStepIndex - 1)
     }
 
     const handleSkip = () => {
-        if (!steps[activeStepIndex].isOptional) {
+        if (!steps[formStepIndex].isOptional) {
             throw new Error("You can't skip a step that isn't optional.")
         }
 
-        setActiveStepIndex(prevActiveStep => prevActiveStep + 1)
+        setFormStepIndex(formStepIndex + 1)
         setSkipped(prevSkipped => {
             const newSkipped = new Set(prevSkipped.values())
-            newSkipped.add(activeStepIndex)
+            newSkipped.add(formStepIndex)
             return newSkipped
         })
     }
 
     const handleReset = () => {
         if (onReset) onReset()
-        setActiveStepIndex(0)
+        setFormStepIndex(0)
     }
 
     useEffect(() => {
-        if (activeStepIndex === steps.length && onFinnish) {
+        if (formStepIndex === steps.length && onFinnish) {
             onFinnish()
         }
-    }, [activeStepIndex])
+    }, [formStepIndex])
 
     const CompleteMessageComponent = () => {
         return (
@@ -120,7 +123,7 @@ function HorizontalLinearStepperComponent({
     return (
         <Box sx={{ width: '100%' }}>
             <Stepper
-                activeStep={activeStepIndex}
+                activeStep={formStepIndex}
                 sx={{ overflowX: 'auto' }}
                 orientation={isMobileSize ? 'vertical' : 'horizontal'}
             >
@@ -144,7 +147,7 @@ function HorizontalLinearStepperComponent({
                     )
                 })}
             </Stepper>
-            {activeStepIndex === steps.length ? (
+            {formStepIndex === steps.length ? (
                 isComplete ? (
                     <CompleteMessageComponent />
                 ) : (
@@ -157,23 +160,23 @@ function HorizontalLinearStepperComponent({
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button
                             color="inherit"
-                            disabled={activeStepIndex === 0}
+                            disabled={formStepIndex === 0}
                             onClick={handleBack}
                             sx={{ mr: 1 }}
                         >
                             Back
                         </Button>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        {steps[activeStepIndex].isOptional && (
+                        {steps[formStepIndex].isOptional && (
                             <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                 Skip
                             </Button>
                         )}
                         <Button onClick={handleNext}>
-                            {activeStepIndex === steps.length - 1 ? 'Finish' : 'Next'}
+                            {formStepIndex === steps.length - 1 ? 'Finish' : 'Next'}
                         </Button>
                     </Box>
-                    <Box paddingY={3}>{steps[activeStepIndex].content}</Box>
+                    <Box paddingY={3}>{steps[formStepIndex].content}</Box>
                 </>
             )}
         </Box>

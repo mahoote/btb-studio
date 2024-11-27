@@ -46,6 +46,8 @@ function NewGamePage() {
         setAdvancedSettingsData,
         setActionCardInputs,
         setNewGameTranslations,
+        formStepIndex,
+        setFormStepIndex,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
@@ -80,6 +82,8 @@ function NewGamePage() {
 
     const handleResetForm = (reloadPage: boolean = true) => {
         // Default settings
+        setFormStepIndex(0)
+
         setNewGame(initialNewGameData)
         setDescriptions(initialNewGameData.descriptions)
         setSelectedGameTypes(initialGameTypesData)
@@ -136,6 +140,8 @@ function NewGamePage() {
                         content: <div>Summary</div>,
                     },
                 ]}
+                formStepIndex={formStepIndex}
+                setFormStepIndex={setFormStepIndex}
                 onFinnish={() => void submitForm()}
                 onReset={handleResetForm}
                 completeMessage={`"${createdGame?.name}" was created.`}
