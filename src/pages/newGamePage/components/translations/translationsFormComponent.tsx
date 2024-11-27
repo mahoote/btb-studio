@@ -38,6 +38,8 @@ const TranslationsFormComponent = () => {
 
     const [openModal, setOpenModal] = useState<boolean>(false)
 
+    const [copyJsonBackupText, setCopyJsonBackupText] = useState<string | undefined>()
+
     /**
      * Copies the JSON object to the clipboard.
      * Alerts the user if it fails.
@@ -63,6 +65,14 @@ const TranslationsFormComponent = () => {
             setAlertSettings(prev => ({ ...prev, open: true }))
         } catch (error) {
             console.error('Failed to copy JSON to clipboard:', error)
+
+            if (!navigator.clipboard) {
+                console.error('Clipboard API is not supported in this environment.')
+                setCopyJsonBackupText(
+                    generateTranslationPrompt(languages, englishTranslations)
+                )
+            }
+
             setAlertSettings({
                 open: true,
                 severity: 'error',
@@ -81,6 +91,7 @@ const TranslationsFormComponent = () => {
             const newTranslations = JSON.parse(userJsonInput) as NewGameTranslations
             setNewGameTranslations(newTranslations)
             setOpenModal(false)
+            window.location.reload()
         } catch (error) {
             console.error('Failed to parse JSON:', error)
             setAlertSettings({
@@ -125,11 +136,15 @@ const TranslationsFormComponent = () => {
                     endIcon={<DataObject />}
                     onClick={() => {
                         setOpenModal(true)
+                        setCopyJsonBackupText(undefined)
                     }}
                 >
                     Insert from JSON
                 </Button>
             </Box>
+
+            {/* If the copy to clipboard doesnt work, just print it in the browser. */}
+            {copyJsonBackupText && <Box>{copyJsonBackupText}</Box>}
 
             <AppModalComponent
                 open={openModal}
