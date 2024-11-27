@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { createNewGame } from '../../utils/newGameFormUtils'
 import NewGameFormComponent from './components/newGame/newGameFormComponent'
-import HorizontalLinearStepperComponent from '../../components/horizontalLinearStepperComponent'
+import LinearStepperComponent from '../../components/linearStepperComponent'
 import AdvancedSettingsFormComponent from './components/advancedSettings/advancedSettingsFormComponent'
 import { isActionCardSettingsDataValid } from '../../utils/actionCardSettingsUtils'
 import {
@@ -116,7 +116,7 @@ function NewGamePage() {
                     </IconButton>
                 </Tooltip>
             </Box>
-            <HorizontalLinearStepperComponent
+            <LinearStepperComponent
                 steps={[
                     {
                         label: 'New Game',

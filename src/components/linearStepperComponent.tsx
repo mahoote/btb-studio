@@ -9,7 +9,7 @@ import { StepperObject } from '../types/StepperObject'
 import { useEffect, useState } from 'react'
 import { CircularProgress, Theme, useMediaQuery } from '@mui/material'
 
-type HorizontalLinearStepperProps = {
+type LinearStepperProps = {
     steps: StepperObject[]
     formStepIndex: number
     setFormStepIndex: (step: number) => void
@@ -18,6 +18,7 @@ type HorizontalLinearStepperProps = {
     onReset?: () => void
     isComplete?: boolean
     isFormValid?: () => boolean
+    isVertical?: boolean
 }
 
 /**
@@ -33,7 +34,7 @@ type HorizontalLinearStepperProps = {
  * @param customValidation
  * @constructor
  */
-function HorizontalLinearStepperComponent({
+function LinearStepperComponent({
     steps,
     formStepIndex,
     setFormStepIndex,
@@ -42,7 +43,8 @@ function HorizontalLinearStepperComponent({
     onReset,
     isComplete,
     isFormValid,
-}: HorizontalLinearStepperProps) {
+    isVertical,
+}: LinearStepperProps) {
     const [skipped, setSkipped] = useState(new Set<number>())
     const isMobileSize = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
@@ -76,8 +78,16 @@ function HorizontalLinearStepperComponent({
         setSkipped(newSkipped)
     }
 
-    const handleBack = () => {
-        setFormStepIndex(formStepIndex - 1)
+    const handleBack = (index?: number) => {
+        setFormStepIndex(index ?? formStepIndex - 1)
+    }
+
+    function handleStepClick(index: number) {
+        if (formStepIndex < index) {
+            handleNext()
+        } else if (formStepIndex > index) {
+            handleBack(index)
+        }
     }
 
     const handleSkip = () => {
@@ -125,7 +135,7 @@ function HorizontalLinearStepperComponent({
             <Stepper
                 activeStep={formStepIndex}
                 sx={{ overflowX: 'auto' }}
-                orientation={isMobileSize ? 'vertical' : 'horizontal'}
+                orientation={isMobileSize || isVertical ? 'vertical' : 'horizontal'}
             >
                 {steps.map((step, index) => {
                     const stepProps: { completed?: boolean } = {}
@@ -143,7 +153,12 @@ function HorizontalLinearStepperComponent({
                         stepProps.completed = false
                     }
                     return (
-                        <Step key={index} {...stepProps}>
+                        <Step
+                            key={index}
+                            {...stepProps}
+                            onClick={() => handleStepClick(index)}
+                            sx={{ cursor: 'pointer' }}
+                        >
                             <StepLabel {...labelProps}>{step.label}</StepLabel>
                         </Step>
                     )
@@ -163,7 +178,7 @@ function HorizontalLinearStepperComponent({
                         <Button
                             color="inherit"
                             disabled={formStepIndex === 0}
-                            onClick={handleBack}
+                            onClick={() => handleBack()}
                             sx={{ mr: 1 }}
                         >
                             Back
@@ -185,4 +200,4 @@ function HorizontalLinearStepperComponent({
     )
 }
 
-export default HorizontalLinearStepperComponent
+export default LinearStepperComponent
