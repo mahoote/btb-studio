@@ -58,7 +58,7 @@ function PreviewWindowComponent({ name }: PreviewWindowProps) {
                 className="container"
                 borderRadius={5}
                 height="32rem"
-                width="17rem"
+                width="19rem"
                 color="text.primary"
                 padding={2}
                 display="flex"
@@ -86,9 +86,6 @@ function PreviewWindowComponent({ name }: PreviewWindowProps) {
                         required
                         fullWidth
                         rows={15}
-                        InputProps={{
-                            style: { fontSize: '0.85em' },
-                        }}
                     />
                 </Box>
                 <Box display="flex" justifyContent="center" alignItems="center">
