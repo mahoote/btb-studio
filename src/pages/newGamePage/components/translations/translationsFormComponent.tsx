@@ -22,7 +22,7 @@ const TranslationsFormComponent = () => {
         setNewGameTranslations,
     } = useNewGameStore()
 
-    const languages = ['Norwegian']
+    const languages = ['no']
 
     const [alertSettings, setAlertSettings] = useState<{
         open: boolean
