@@ -143,7 +143,7 @@ const TranslationsFormComponent = () => {
                 </Button>
             </Box>
 
-            {/* If the copy to clipboard doesnt work, just print it in the browser. */}
+            {/* If the copy to clipboard doesn't work, just print it in the browser. */}
             {copyJsonBackupText && <Box>{copyJsonBackupText}</Box>}
 
             <AppModalComponent
