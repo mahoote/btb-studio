@@ -56,7 +56,7 @@ const NewGameSummaryTableComponent = () => {
                         Intro Description
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
-                        {newGame.introDescription}
+                        <MultilineComponent text={newGame.introDescription ?? ''} />
                     </TableCell>
                 </TableRow>
                 <TableRow>

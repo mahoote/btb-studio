@@ -34,7 +34,11 @@ const AdvancedSettingsSummaryTableComponent = () => {
                     <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
                         Custom End Game Sentence
                     </TableCell>
-                    <TableCell>{advancedSettingsData.customEndGameSentence}</TableCell>
+                    <TableCell>
+                        <MultilineComponent
+                            text={advancedSettingsData.customEndGameSentence ?? ''}
+                        />
+                    </TableCell>
                 </TableRow>
             </TableBody>
 
