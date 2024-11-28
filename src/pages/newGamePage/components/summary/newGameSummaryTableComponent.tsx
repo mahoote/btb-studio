@@ -4,6 +4,7 @@ import { useGameOptionsStore } from '../../../../hooks/useGameOptionsStore'
 import { Box, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import MultilineComponent from '../../../../components/multilineComponent'
 import { activityLevels, drunkLevels } from '../../../../constants/NEW_GAME_FORM_DATA'
+import { getValidDescriptions } from '../../../../utils/newGameFormUtils'
 
 const NewGameSummaryTableComponent = () => {
     const { newGame, selectedGameTypes, selectedAccessories } = useNewGameStore()
@@ -63,13 +64,15 @@ const NewGameSummaryTableComponent = () => {
                         Descriptions
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
-                        {newGame.descriptions.map((description, index) => (
-                            <Box component="ul" key={index} px={1}>
-                                <Box component="li">
-                                    <MultilineComponent text={description} />
+                        {getValidDescriptions(newGame.descriptions).map(
+                            (description, index) => (
+                                <Box component="ul" key={index} px={1}>
+                                    <Box component="li">
+                                        <MultilineComponent text={description} />
+                                    </Box>
                                 </Box>
-                            </Box>
-                        ))}
+                            )
+                        )}
                     </TableCell>
                 </TableRow>
                 <TableRow>

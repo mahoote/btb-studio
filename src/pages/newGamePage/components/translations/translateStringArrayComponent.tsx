@@ -28,8 +28,8 @@ const TranslateStringArrayComponent = ({
     return (
         <Grid container spacing={2}>
             {values
-                .filter(description => description !== '')
-                .map((description, index) => {
+                .filter(value => value !== '')
+                .map((value, index) => {
                     return (
                         <Grid key={index} item xs={gridXs} sm={gridSm} md={gridMd}>
                             <Box>
@@ -47,7 +47,7 @@ const TranslateStringArrayComponent = ({
                                         borderBottomLeftRadius: 0,
                                     }}
                                 >
-                                    <MultilineComponent text={description} />
+                                    <MultilineComponent text={value} />
                                 </Box>
                                 <Box>
                                     <TextFieldSuggestionsComponent

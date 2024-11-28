@@ -34,9 +34,7 @@ export async function createNewGame(
 ): Promise<SubmitNewGameFormType> {
     let createdGame: GameDto | null = null
 
-    newGameData.descriptions = newGameData.descriptions.filter(
-        description => description !== ''
-    )
+    newGameData.descriptions = getValidDescriptions(newGameData.descriptions)
 
     const newGame = await createGame({
         name: newGameData.name,
@@ -139,4 +137,12 @@ export async function addGameTypesToGame(
     }
 
     return { errorMessage }
+}
+
+/**
+ * Filters out empty descriptions.
+ * @param descriptions
+ */
+export const getValidDescriptions = (descriptions: string[]): string[] => {
+    return descriptions.filter(description => description !== '')
 }
