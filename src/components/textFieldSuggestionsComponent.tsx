@@ -43,6 +43,10 @@ const TextFieldSuggestionsComponent = forwardRef<HTMLInputElement, TextFieldSugg
             setValue(value)
 
             const cursorPosition = event.target.selectionStart
+
+            /* Split the input based on spaces and new lines.
+             *  Get the last word typed by the user.
+             */
             const lastWord = value
                 .slice(0, cursorPosition!)
                 .split(/[\s\r\n]+/)
