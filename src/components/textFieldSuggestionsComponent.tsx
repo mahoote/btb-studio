@@ -43,7 +43,10 @@ const TextFieldSuggestionsComponent = forwardRef<HTMLInputElement, TextFieldSugg
             setValue(value)
 
             const cursorPosition = event.target.selectionStart
-            const lastWord = value.slice(0, cursorPosition!).split(' ').pop()
+            const lastWord = value
+                .slice(0, cursorPosition!)
+                .split(/[\s\r\n]+/)
+                .pop()
 
             for (const suggestion of wordSuggestions) {
                 if (lastWord && lastWord.startsWith(suggestion.key)) {
