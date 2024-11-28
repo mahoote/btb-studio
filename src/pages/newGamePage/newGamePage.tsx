@@ -22,6 +22,7 @@ import {
 } from '../../constants/ACTION_CARD_SETTINGS_DATA'
 import { GameDto } from '../../types/gameDto'
 import TranslationsFormComponent from './components/translations/translationsFormComponent'
+import NewGameSummaryComponent from './components/summary/newGameSummaryComponent'
 
 /**
  * Mostly logic regarding the new game form.
@@ -137,7 +138,7 @@ function NewGamePage() {
                     },
                     {
                         label: 'Summary',
-                        content: <div>Summary</div>,
+                        content: <NewGameSummaryComponent />,
                     },
                 ]}
                 formStepIndex={formStepIndex}

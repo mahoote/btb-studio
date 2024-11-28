@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import { StepperObject } from '../types/StepperObject'
 import { useEffect, useState } from 'react'
 import { CircularProgress, Theme, useMediaQuery } from '@mui/material'
+import { scrollToTop } from '../utils/windowUtils'
 
 type LinearStepperProps = {
     steps: StepperObject[]
@@ -76,10 +77,13 @@ function LinearStepperComponent({
 
         setFormStepIndex(formStepIndex + 1)
         setSkipped(newSkipped)
+
+        scrollToTop()
     }
 
     const handleBack = (index?: number) => {
         setFormStepIndex(index ?? formStepIndex - 1)
+        scrollToTop()
     }
 
     function handleStepClick(index: number) {
