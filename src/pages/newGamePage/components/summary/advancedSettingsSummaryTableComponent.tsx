@@ -25,13 +25,13 @@ const AdvancedSettingsSummaryTableComponent = () => {
             </TableHead>
             <TableBody>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Game End Type
                     </TableCell>
                     <TableCell>{advancedSettingsData.gameEndType}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Custom End Game Sentence
                     </TableCell>
                     <TableCell>
@@ -41,7 +41,7 @@ const AdvancedSettingsSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Custom Rules Image
                     </TableCell>
                     <TableCell>
@@ -72,10 +72,7 @@ const AdvancedSettingsSummaryTableComponent = () => {
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 State
                             </TableCell>
                             <TableCell>
@@ -87,28 +84,19 @@ const AdvancedSettingsSummaryTableComponent = () => {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Limit
                             </TableCell>
                             <TableCell>{actionCardSettingsData.cardLimit}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Time
                             </TableCell>
                             <TableCell>{actionCardSettingsData.cardSeconds} seconds</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Auto Next
                             </TableCell>
                             <TableCell>
@@ -116,10 +104,7 @@ const AdvancedSettingsSummaryTableComponent = () => {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Buzzer
                             </TableCell>
                             <TableCell>
@@ -127,10 +112,7 @@ const AdvancedSettingsSummaryTableComponent = () => {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Player Creative
                             </TableCell>
                             <TableCell>
@@ -138,19 +120,13 @@ const AdvancedSettingsSummaryTableComponent = () => {
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Prompt
                             </TableCell>
                             <TableCell>{actionCardSettingsData.prompt}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Action Cards
                             </TableCell>
                             <TableCell>
@@ -178,19 +154,13 @@ const AdvancedSettingsSummaryTableComponent = () => {
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Max Writes Per Player
                             </TableCell>
                             <TableCell>{writingSettingsData.writesAmount}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell
-                                sx={{ verticalAlign: 'top', fontWeight: 'bold' }}
-                                scope="row"
-                            >
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Writing Time
                             </TableCell>
                             <TableCell>{writingSettingsData.writeSeconds} seconds</TableCell>

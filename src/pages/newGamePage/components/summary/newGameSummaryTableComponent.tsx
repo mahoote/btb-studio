@@ -22,13 +22,13 @@ const NewGameSummaryTableComponent = () => {
             </TableHead>
             <TableBody>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Name
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>{newGame.name}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Category
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -36,7 +36,7 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Activity Level
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -44,7 +44,7 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Drunk Level
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -52,7 +52,7 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Intro Description
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -60,7 +60,7 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Descriptions
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -76,25 +76,25 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Minimum Players
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>{newGame.minPlayers}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Maximum Players
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>{newGame.maxPlayers}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Minutes
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>{newGame.minutes}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Player Group Type
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -102,7 +102,7 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Game Audience
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -110,7 +110,7 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Game Types
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
@@ -120,7 +120,7 @@ const NewGameSummaryTableComponent = () => {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Accessories
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>
