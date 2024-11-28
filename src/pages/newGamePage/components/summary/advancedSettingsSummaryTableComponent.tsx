@@ -40,6 +40,25 @@ const AdvancedSettingsSummaryTableComponent = () => {
                         />
                     </TableCell>
                 </TableRow>
+                <TableRow>
+                    <TableCell sx={{ verticalAlign: 'top', fontWeight: 'bold' }} scope="row">
+                        Custom Rules Image
+                    </TableCell>
+                    <TableCell>
+                        <Box maxWidth="30rem">
+                            <Box
+                                component="img"
+                                src={advancedSettingsData.customRulesImageBase64}
+                                alt="No image selected"
+                                sx={{
+                                    width: '100%',
+                                    height: '100%',
+                                    fontStyle: 'italic',
+                                }}
+                            />
+                        </Box>
+                    </TableCell>
+                </TableRow>
             </TableBody>
 
             {actionCardSettingsData && (
