@@ -1,5 +1,10 @@
-import { ActionCardSettings } from '../types/newGame'
+import { ActionCardSettings, NewGameTranslations } from '../types/newGame'
 import { createActionCard, createActionCardSettings } from '../services/actionCardService'
+import {
+    ActionCardSettingsInsertDto,
+    ActionCardSettingsTranslationInsertDto,
+    ActionCardTranslationInsertDto,
+} from '../types/actionCardDto'
 
 /**
  * Creates the Action Card Settings and Action Cards.
@@ -7,25 +12,65 @@ import { createActionCard, createActionCardSettings } from '../services/actionCa
  * @param gameId
  * @param actionCardSettingsData
  * @param actionCardInputs
+ * @param newGameTranslations
  */
 export async function createActionCardData(
     gameId: number,
     actionCardSettingsData: ActionCardSettings,
-    actionCardInputs: string[]
+    actionCardInputs: string[],
+    newGameTranslations: NewGameTranslations
 ) {
-    const settings = await createActionCardSettings({
+    const actionCardSettingsInsertDto: ActionCardSettingsInsertDto = {
         game_id: gameId,
         state_id: actionCardSettingsData.stateId,
         card_limit: actionCardSettingsData.cardLimit,
         card_seconds: actionCardSettingsData.cardSeconds,
         is_auto_next: actionCardSettingsData.isAutoNext,
         is_player_creative: actionCardSettingsData.isPlayerCreative,
-        prompt: actionCardSettingsData.prompt,
         has_buzzer: actionCardSettingsData.hasBuzzer,
+    }
+
+    const actionCardSettingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[] =
+        []
+
+    const actionCardSettingsTranslationInsertDto: ActionCardSettingsTranslationInsertDto = {
+        language: 'en',
+        prompt: actionCardSettingsData.prompt,
+    }
+
+    actionCardSettingsTranslationInsertDtos.push(actionCardSettingsTranslationInsertDto)
+
+    Object.entries(newGameTranslations).forEach(([key, translation]) => {
+        actionCardSettingsTranslationInsertDtos.push({
+            action_card_settings_id: settings.id,
+            language: key,
+            prompt: translation.prompt,
+        } as ActionCardSettingsTranslationInsertDto)
     })
 
-    for (const input of actionCardInputs) {
-        await createActionCard(input, settings.id)
+    const settings = await createActionCardSettings(
+        actionCardSettingsInsertDto,
+        actionCardSettingsTranslationInsertDtos
+    )
+
+    for (const [key, translation] of Object.entries(newGameTranslations)) {
+        for (let i = 0; i < actionCardInputs.length; i++) {
+            const input = actionCardInputs[i]
+            const inputTranslated = translation.actionCardInputs?.[i] ?? ''
+
+            const actionCardTranslationInsertDtos = [
+                {
+                    language: 'en',
+                    value: input,
+                } as ActionCardTranslationInsertDto,
+                {
+                    language: key,
+                    value: inputTranslated,
+                },
+            ]
+
+            await createActionCard(input, settings.id, actionCardTranslationInsertDtos)
+        }
     }
 }
 

@@ -5,6 +5,8 @@ import {
     ActionCardDto,
     ActionCardSettingsDto,
     ActionCardSettingsInsertDto,
+    ActionCardSettingsTranslationInsertDto,
+    ActionCardTranslationInsertDto,
 } from '../types/actionCardDto'
 
 /**
@@ -22,14 +24,16 @@ export async function getActionCardStates(): Promise<GenericType[]> {
 /**
  * Creates action card settings and will be used for
  * one specific game that requires action cards.
- * @param dto
+ * @param actionCardSettingsInsertDto
+ * @param actionCardSettingsTranslationInsertDtos
  */
 export async function createActionCardSettings(
-    dto: ActionCardSettingsInsertDto
+    actionCardSettingsInsertDto: ActionCardSettingsInsertDto,
+    actionCardSettingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[]
 ): Promise<ActionCardSettingsDto> {
     const { data, error }: SupabaseResponse<ActionCardSettingsDto> = await supabase
         .from('action_card_settings')
-        .insert([dto])
+        .insert([actionCardSettingsInsertDto])
         .select()
         .single()
 
@@ -41,21 +45,42 @@ export async function createActionCardSettings(
         throw new Error('Error creating action card settings')
     }
 
+    for (const actionCardSettingsTranslationInsertDto of actionCardSettingsTranslationInsertDtos) {
+        await createActionCardSettingsTranslation(actionCardSettingsTranslationInsertDto)
+    }
+
     return data
+}
+
+/**
+ * Creates the translation for the action card settings.
+ * @param actionCardSettingsTranslationInsertDto
+ */
+export async function createActionCardSettingsTranslation(
+    actionCardSettingsTranslationInsertDto: ActionCardSettingsTranslationInsertDto
+): Promise<void> {
+    const { error } = await supabase
+        .from('action_card_settings_translation')
+        .insert([actionCardSettingsTranslationInsertDto])
+
+    if (error) {
+        throw new Error(error.message)
+    }
 }
 
 /**
  * Creates an action card and adds a many-to-many relationship with the settings regarding the card.
  * @param cardValue
  * @param settingsId
+ * @param actionCardTranslationInsertDtos
  */
-export async function createActionCard(cardValue: string, settingsId: number): Promise<void> {
+export async function createActionCard(
+    cardValue: string,
+    settingsId: number,
+    actionCardTranslationInsertDtos: ActionCardTranslationInsertDto[]
+): Promise<void> {
     const { data: actionCardData, error: actionCardError }: SupabaseResponse<ActionCardDto> =
-        await supabase
-            .from('action_card')
-            .insert([{ value: cardValue }])
-            .select()
-            .single()
+        await supabase.from('action_card').insert([{}]).select().single()
 
     if (actionCardError) {
         throw new Error(actionCardError.message)
@@ -77,5 +102,21 @@ export async function createActionCard(cardValue: string, settingsId: number): P
 
     if (mtmError) {
         throw new Error(mtmError.message)
+    }
+
+    for (const actionCardTranslationInsertDto of actionCardTranslationInsertDtos) {
+        await createActionCardTranslation(actionCardTranslationInsertDto)
+    }
+}
+
+export async function createActionCardTranslation(
+    actionCardTranslationInsertDto: ActionCardTranslationInsertDto
+): Promise<void> {
+    const { error } = await supabase
+        .from('action_card_translation')
+        .insert([actionCardTranslationInsertDto])
+
+    if (error) {
+        throw new Error(error.message)
     }
 }

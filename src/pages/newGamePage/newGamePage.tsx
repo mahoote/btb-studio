@@ -27,6 +27,7 @@ import { GameDto } from '../../types/gameDto'
 import TranslationsFormComponent from './components/translations/translationsFormComponent'
 import NewGameSummaryComponent from './components/summary/newGameSummaryComponent'
 import { deleteNewGame } from '../../services/gameService'
+import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
 
 /**
  * Mostly logic regarding the new game form.
@@ -94,14 +95,13 @@ function NewGamePage() {
             await deleteNewGame(createdNewGame.id)
         }
 
-        /*
         await createAdvancedSettingsData(
-            createdNewGame,
+            createdNewGame.id,
+            newGameTranslations,
             advancedSettingsData,
             actionCardSettingsData,
             actionCardInputs
         )
-        */
 
         handleResetForm(false)
     }

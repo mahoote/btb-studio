@@ -17,11 +17,22 @@ export type ActionCardSettingsInsertDto = {
     card_seconds?: number
     is_auto_next?: boolean
     is_player_creative?: boolean
-    prompt?: string
     has_buzzer?: boolean
+}
+
+export type ActionCardSettingsTranslationInsertDto = {
+    action_card_settings_id?: number
+    language: string
+    prompt?: string
 }
 
 export type ActionCardDto = {
     id: number
+    created_at: string
+}
+
+export type ActionCardTranslationInsertDto = {
+    action_card_id?: number
+    language: string
     value: string
 }
