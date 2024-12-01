@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert } from '@mui/lab'
 import { Snackbar } from '@mui/material'
 import { useAlertStore } from '../hooks/useAlertStore'
+import MultilineComponent from './multilineComponent'
 
 export type AppAlert = {
     open: boolean
@@ -32,7 +33,7 @@ const AppAlertComponent = () => {
             }}
         >
             <Alert onClose={handleCloseAlert} severity={alert.severity} variant="filled">
-                {alert.message}
+                <MultilineComponent text={alert.message} />
             </Alert>
         </Snackbar>
     )
