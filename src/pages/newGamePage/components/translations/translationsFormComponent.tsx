@@ -10,6 +10,7 @@ import { Add, ContentCopy, DataObject } from '@mui/icons-material'
 import AppModalComponent from '../../../../components/appModalComponent'
 import { generateTranslationPrompt } from '../../../../utils/prompts'
 import { useAlertStore } from '../../../../hooks/useAlertStore'
+import { LanguageEnum } from '../../../../enums/languageEnum'
 
 const TranslationsFormComponent = () => {
     const {
@@ -176,7 +177,7 @@ const TranslationsFormComponent = () => {
                             {languages.map(language => (
                                 <TextField
                                     key={language}
-                                    label={language}
+                                    label={LanguageEnum[language as keyof typeof LanguageEnum]}
                                     variant="filled"
                                     name={`${language}Name`}
                                     required
@@ -212,7 +213,9 @@ const TranslationsFormComponent = () => {
                                     <TextFieldSuggestionsComponent
                                         key={language}
                                         wordSuggestions={actionCardSuggestions}
-                                        label={language}
+                                        label={
+                                            LanguageEnum[language as keyof typeof LanguageEnum]
+                                        }
                                         name={`${language}IntroDescription`}
                                         variant="filled"
                                         multiline
@@ -245,7 +248,7 @@ const TranslationsFormComponent = () => {
                             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
                         >
                             <Typography fontSize={18} color="darkgray">
-                                {language} *
+                                {LanguageEnum[language as keyof typeof LanguageEnum]} *
                             </Typography>
                             <TranslateStringArrayComponent
                                 values={newGame.descriptions}
@@ -281,7 +284,7 @@ const TranslationsFormComponent = () => {
                             {languages.map(language => (
                                 <TextField
                                     key={language}
-                                    label={language}
+                                    label={LanguageEnum[language as keyof typeof LanguageEnum]}
                                     variant="filled"
                                     name={`${language}CustomEndGameSentence`}
                                     fullWidth
@@ -321,7 +324,7 @@ const TranslationsFormComponent = () => {
                                 <TextFieldSuggestionsComponent
                                     key={language}
                                     wordSuggestions={actionCardSuggestions}
-                                    label={language}
+                                    label={LanguageEnum[language as keyof typeof LanguageEnum]}
                                     variant="filled"
                                     name={`${language}Prompt`}
                                     fullWidth
@@ -353,7 +356,7 @@ const TranslationsFormComponent = () => {
                                     sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
                                 >
                                     <Typography fontSize={18} color="darkgray">
-                                        {language} *
+                                        {LanguageEnum[language as keyof typeof LanguageEnum]} *
                                     </Typography>
                                     <TranslateStringArrayComponent
                                         values={actionCardInputs}
