@@ -127,7 +127,7 @@ function NewGamePage() {
             setCreatedGame(createdNewGame)
             setAlert({
                 open: true,
-                message: `Game ID=${createdNewGame?.id}\n"${createdNewGame?.name}"\nCreated successfully!`,
+                message: `"${createdNewGame?.name}"\nGame Id=${createdNewGame?.id}\nCreated successfully!`,
                 severity: 'success',
                 autoHideDuration: 4000,
             })
