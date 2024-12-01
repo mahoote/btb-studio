@@ -161,7 +161,7 @@ function LinearStepperComponent({
                             key={index}
                             {...stepProps}
                             onClick={() => handleStepClick(index)}
-                            sx={{ cursor: 'pointer' }}
+                            sx={{ cursor: 'pointer', userSelect: 'none' }}
                         >
                             <StepLabel {...labelProps}>{step.label}</StepLabel>
                         </Step>

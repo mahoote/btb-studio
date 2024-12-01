@@ -29,6 +29,7 @@ import NewGameSummaryComponent from './components/summary/newGameSummaryComponen
 import { deleteNewGame } from '../../services/gameService'
 import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
 import { initialWritingSettingsData } from '../../constants/WRITING_SETTINGS_DATA'
+import { useAlertStore } from '../../hooks/useAlertStore'
 
 /**
  * Mostly logic regarding the new game form.
@@ -60,6 +61,8 @@ function NewGamePage() {
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
+
+    const { setAlert } = useAlertStore()
 
     const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
 
@@ -116,7 +119,11 @@ function NewGamePage() {
             )
 
             setCreatedGame(createdNewGame)
-            // Reset the form
+            setAlert({
+                open: true,
+                message: `${createdNewGame?.name} with id ${createdNewGame?.id} was created successfully!`,
+                severity: 'success',
+            })
             handleResetForm(false)
         } catch (error) {
             console.error('Failed to create game:', error)
@@ -176,7 +183,6 @@ function NewGamePage() {
                 setFormStepIndex={setFormStepIndex}
                 onFinnish={() => void submitForm()}
                 onReset={handleResetForm}
-                completeMessage={`"${createdGame?.name}" was created.`}
                 isComplete={!!createdGame}
                 isFormValid={() => {
                     if (activeFormRef?.current) {
