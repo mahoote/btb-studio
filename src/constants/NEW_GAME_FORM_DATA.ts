@@ -6,13 +6,13 @@ export const initialNewGameData: NewGame = {
     categoryId: 1,
     descriptions: [],
     drunkLevel: 0,
-    gameAudienceId: undefined,
+    gameAudienceId: 0,
     introDescription: '',
     maxPlayers: undefined,
     minPlayers: undefined,
     minutes: undefined,
     name: '',
-    playerGroupTypeId: undefined,
+    playerGroupTypeId: 0,
 }
 
 export const initialAccessoriesData: string[] = []

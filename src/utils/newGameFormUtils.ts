@@ -26,8 +26,15 @@ export async function createNewGame(
         activity_level: newGameData.activityLevel,
         drunk_level: newGameData.drunkLevel,
         minutes: newGameData.minutes,
-        player_group_type_id: newGameData.playerGroupTypeId,
-        game_audience_id: newGameData.gameAudienceId,
+        player_group_type_id:
+            typeof newGameData.playerGroupTypeId === 'number' &&
+            newGameData.playerGroupTypeId > 0
+                ? newGameData.playerGroupTypeId
+                : undefined,
+        game_audience_id:
+            typeof newGameData.gameAudienceId === 'number' && newGameData.gameAudienceId > 0
+                ? newGameData.gameAudienceId
+                : undefined,
         game_category_id: newGameData.categoryId,
         game_end_type: advancedDefaultSettings.gameEndType,
     }

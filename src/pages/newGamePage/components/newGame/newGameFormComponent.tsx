@@ -213,7 +213,7 @@ function NewGameFormComponent() {
                                     Player Group Type
                                 </InputLabel>
                                 <Select
-                                    variant={'outlined'}
+                                    variant="outlined"
                                     labelId="player-group-type-label"
                                     label="Player Group Type"
                                     name="playerGroupTypeId"
