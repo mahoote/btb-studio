@@ -3,17 +3,9 @@ import {
     createGameHasAccessory,
     createGameHasGameType,
 } from '../services/gameService'
-import { GameDto, GameInsertDto, GameTranslationInsertDto } from '../types/gameDto'
+import { GameInsertDto, GameTranslationInsertDto } from '../types/gameDto'
 import { GenericType } from '../types/genericType'
 import { AdvancedSettings, NewGame, NewGameTranslations } from '../types/newGame'
-
-type SubmitNewGameFormType = {
-    createdGame: GameDto | null
-}
-
-type AddToGameType = {
-    errorMessage: string | null
-}
 
 /**
  * Creates a new game as well as the accessories and game types associated with it.
@@ -25,7 +17,7 @@ export async function createNewGame(
     newGameData: NewGame,
     advancedDefaultSettings: AdvancedSettings,
     newGameTranslations: NewGameTranslations
-): Promise<SubmitNewGameFormType> {
+) {
     // New Game
     const gameInsertDto: GameInsertDto = {
         min_players: newGameData.minPlayers,
@@ -40,15 +32,15 @@ export async function createNewGame(
     }
 
     // New Game Translations
-    const newGameTranslationInsertDtos: GameTranslationInsertDto[] = []
-
-    newGameTranslationInsertDtos.push({
-        language: 'en',
-        name: newGameData.name,
-        intro_description: newGameData.introDescription,
-        descriptions: getValidDescriptions(newGameData.descriptions),
-        custom_end_game_sentence: advancedDefaultSettings.customEndGameSentence,
-    } as GameTranslationInsertDto)
+    const newGameTranslationInsertDtos: GameTranslationInsertDto[] = [
+        {
+            language: 'en',
+            name: newGameData.name,
+            intro_description: newGameData.introDescription,
+            descriptions: getValidDescriptions(newGameData.descriptions),
+            custom_end_game_sentence: advancedDefaultSettings.customEndGameSentence,
+        },
+    ]
 
     Object.entries(newGameTranslations).forEach(([key, translation]) => {
         newGameTranslationInsertDtos.push({
@@ -57,25 +49,10 @@ export async function createNewGame(
             intro_description: translation.introDescription,
             descriptions: getValidDescriptions(translation.descriptions),
             custom_end_game_sentence: translation.customEndGameSentence,
-        } as GameTranslationInsertDto)
+        })
     })
 
-    // Create new game
-    const createdGame = await createGame(gameInsertDto, newGameTranslationInsertDtos)
-        .then((response: GameDto | null) => {
-            if (!response) {
-                console.error('Could not fetch game from database.')
-                return null
-            }
-            return response
-        })
-        .catch(error => {
-            console.error('Error creating game:', error)
-            alert('Error creating game')
-            return null
-        })
-
-    return { createdGame }
+    return await createGame(gameInsertDto, newGameTranslationInsertDtos)
 }
 
 /**
@@ -88,26 +65,18 @@ export async function addAccessoriesToGame(
     selectedAccessories: string[],
     accessories: GenericType[] | null,
     newGameId: number
-): Promise<AddToGameType> {
-    let errorMessage: string | null = null
-
+) {
     for (const accessory of selectedAccessories) {
         const accessoryId =
             accessories?.find(accessoryItem => accessoryItem.name === accessory)?.id ?? 0
 
         if (accessoryId === 0) {
             console.error('Could not find accessory:', accessory)
-            errorMessage = 'Could not find accessory.'
-            return { errorMessage }
+            throw new Error('Could not find accessory.')
         }
 
-        await createGameHasAccessory(newGameId, accessoryId).catch((error: Error) => {
-            console.error('Error adding accessory to game:', error)
-            errorMessage = error.message
-        })
+        await createGameHasAccessory(newGameId, accessoryId)
     }
-
-    return { errorMessage }
 }
 
 /**
@@ -120,26 +89,18 @@ export async function addGameTypesToGame(
     selectedGameTypes: string[],
     gameTypes: GenericType[] | null,
     newGameId: number
-): Promise<AddToGameType> {
-    let errorMessage: string | null = null
-
+) {
     for (const gameType of selectedGameTypes) {
         const gameTypeId =
             gameTypes?.find(gameTypeItem => gameTypeItem.name === gameType)?.id ?? 0
 
         if (gameTypeId === 0) {
             console.error('Could not find game type:', gameType)
-            errorMessage = 'Could not find game type.'
-            return { errorMessage }
+            throw new Error('Could not find game type.')
         }
 
-        await createGameHasGameType(newGameId, gameTypeId).catch((error: Error) => {
-            console.error('Error adding game type to game:', error)
-            errorMessage = error.message
-        })
+        await createGameHasGameType(newGameId, gameTypeId)
     }
-
-    return { errorMessage }
 }
 
 /**

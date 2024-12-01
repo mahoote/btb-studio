@@ -30,46 +30,44 @@ export async function createActionCardData(
         has_buzzer: actionCardSettingsData.hasBuzzer,
     }
 
-    const actionCardSettingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[] =
-        []
-
-    const actionCardSettingsTranslationInsertDto: ActionCardSettingsTranslationInsertDto = {
-        language: 'en',
-        prompt: actionCardSettingsData.prompt,
-    }
-
-    actionCardSettingsTranslationInsertDtos.push(actionCardSettingsTranslationInsertDto)
+    const settingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[] = [
+        {
+            language: 'en',
+            prompt: actionCardSettingsData.prompt,
+        },
+    ]
 
     Object.entries(newGameTranslations).forEach(([key, translation]) => {
-        actionCardSettingsTranslationInsertDtos.push({
-            action_card_settings_id: settings.id,
+        settingsTranslationInsertDtos.push({
             language: key,
             prompt: translation.prompt,
-        } as ActionCardSettingsTranslationInsertDto)
+        })
     })
 
     const settings = await createActionCardSettings(
         actionCardSettingsInsertDto,
-        actionCardSettingsTranslationInsertDtos
+        settingsTranslationInsertDtos
     )
 
+    // Loop through all the languages.
     for (const [key, translation] of Object.entries(newGameTranslations)) {
+        // Loop through all the action card inputs and create the action cards.
         for (let i = 0; i < actionCardInputs.length; i++) {
             const input = actionCardInputs[i]
-            const inputTranslated = translation.actionCardInputs?.[i] ?? ''
+            const inputTranslated = translation.actionCardInputs?.[i]
 
-            const actionCardTranslationInsertDtos = [
+            const actionCardTranslationInsertDtos: ActionCardTranslationInsertDto[] = [
                 {
                     language: 'en',
                     value: input,
-                } as ActionCardTranslationInsertDto,
+                },
                 {
                     language: key,
                     value: inputTranslated,
                 },
             ]
 
-            await createActionCard(input, settings.id, actionCardTranslationInsertDtos)
+            await createActionCard(settings.id, actionCardTranslationInsertDtos)
         }
     }
 }

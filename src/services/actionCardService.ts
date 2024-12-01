@@ -30,7 +30,7 @@ export async function getActionCardStates(): Promise<GenericType[]> {
 export async function createActionCardSettings(
     actionCardSettingsInsertDto: ActionCardSettingsInsertDto,
     actionCardSettingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[]
-): Promise<ActionCardSettingsDto> {
+) {
     const { data, error }: SupabaseResponse<ActionCardSettingsDto> = await supabase
         .from('action_card_settings')
         .insert([actionCardSettingsInsertDto])
@@ -46,7 +46,10 @@ export async function createActionCardSettings(
     }
 
     for (const actionCardSettingsTranslationInsertDto of actionCardSettingsTranslationInsertDtos) {
-        await createActionCardSettingsTranslation(actionCardSettingsTranslationInsertDto)
+        await createActionCardSettingsTranslation({
+            ...actionCardSettingsTranslationInsertDto,
+            action_card_settings_id: data.id,
+        })
     }
 
     return data
@@ -70,23 +73,24 @@ export async function createActionCardSettingsTranslation(
 
 /**
  * Creates an action card and adds a many-to-many relationship with the settings regarding the card.
- * @param cardValue
  * @param settingsId
  * @param actionCardTranslationInsertDtos
  */
 export async function createActionCard(
-    cardValue: string,
     settingsId: number,
     actionCardTranslationInsertDtos: ActionCardTranslationInsertDto[]
-): Promise<void> {
-    const { data: actionCardData, error: actionCardError }: SupabaseResponse<ActionCardDto> =
-        await supabase.from('action_card').insert([{}]).select().single()
+) {
+    const { data, error }: SupabaseResponse<ActionCardDto> = await supabase
+        .from('action_card')
+        .insert([])
+        .select()
+        .single()
 
-    if (actionCardError) {
-        throw new Error(actionCardError.message)
+    if (error) {
+        throw new Error(error.message)
     }
 
-    if (!actionCardData) {
+    if (!data) {
         throw new Error('Error creating action card')
     }
 
@@ -95,7 +99,7 @@ export async function createActionCard(
         .from('action_card_settings_has_action_card')
         .insert([
             {
-                action_card_id: actionCardData.id,
+                action_card_id: data.id,
                 action_card_settings_id: settingsId,
             },
         ])

@@ -9,10 +9,7 @@ import { GameHasAccessoryDto } from '../types/gameHasAccessoryDto'
  * @param game
  * @param gameTranslations
  */
-async function createGame(
-    game: GameInsertDto,
-    gameTranslations: GameTranslationInsertDto[]
-): Promise<GameDto | null> {
+async function createGame(game: GameInsertDto, gameTranslations: GameTranslationInsertDto[]) {
     const { data, error }: SupabaseResponse<GameDto> = await supabase
         .from('game')
         .insert([game])
@@ -23,11 +20,15 @@ async function createGame(
         throw new Error(error.message)
     }
 
-    for (const gameTranslation of gameTranslations) {
-        await createGameTranslation({ ...gameTranslation, game_id: data?.id ?? 0 })
+    if (!data) {
+        throw new Error('Error creating game')
     }
 
-    return data as GameDto
+    for (const gameTranslation of gameTranslations) {
+        await createGameTranslation({ ...gameTranslation, game_id: data.id })
+    }
+
+    return data
 }
 
 /**

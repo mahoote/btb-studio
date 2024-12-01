@@ -62,46 +62,43 @@ function NewGamePage() {
     const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
 
     const submitForm = async () => {
-        const { createdGame: createdNewGame } = await createNewGame(
-            newGame,
-            advancedSettingsData,
-            newGameTranslations
-        )
+        try {
+            const createdNewGame = await createNewGame(
+                newGame,
+                advancedSettingsData,
+                newGameTranslations
+            )
 
-        setCreatedGame(createdNewGame)
-
-        if (!createdNewGame) {
-            console.error('Could not create game.')
+            setCreatedGame(createdNewGame)
+        } catch (error) {
+            console.error('Submit form:', error)
             return
         }
 
-        // Add accessories to game
-        const { errorMessage: accessoryErrorMessage } = await addAccessoriesToGame(
-            selectedAccessories,
-            accessories,
-            createdNewGame.id
-        )
+        if (!createdGame) return
 
-        // Add game types to game
-        const { errorMessage: gameTypeErrorMessage } = await addGameTypesToGame(
-            selectedGameTypes,
-            gameTypes,
-            createdNewGame.id
-        )
-
-        if (gameTypeErrorMessage || accessoryErrorMessage) {
-            console.error(accessoryErrorMessage)
-            console.error(gameTypeErrorMessage)
-            await deleteNewGame(createdNewGame.id)
+        try {
+            await addAccessoriesToGame(selectedAccessories, accessories, createdGame.id)
+            await addGameTypesToGame(selectedGameTypes, gameTypes, createdGame.id)
+        } catch (error) {
+            console.error('Failed to create game:', error)
+            await deleteNewGame(createdGame.id)
+            return
         }
 
-        await createAdvancedSettingsData(
-            createdNewGame.id,
-            newGameTranslations,
-            advancedSettingsData,
-            actionCardSettingsData,
-            actionCardInputs
-        )
+        try {
+            await createAdvancedSettingsData(
+                createdGame.id,
+                newGameTranslations,
+                advancedSettingsData,
+                actionCardSettingsData,
+                actionCardInputs
+            )
+        } catch (error) {
+            console.error('Failed to create game:', error)
+            await deleteNewGame(createdGame.id)
+            return
+        }
 
         handleResetForm(false)
     }
