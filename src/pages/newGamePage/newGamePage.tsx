@@ -121,8 +121,9 @@ function NewGamePage() {
             setCreatedGame(createdNewGame)
             setAlert({
                 open: true,
-                message: `${createdNewGame?.name} with id ${createdNewGame?.id} was created successfully!`,
+                message: `"${createdNewGame?.name}" with ID="${createdNewGame?.id}" was created successfully!`,
                 severity: 'success',
+                autoHideDuration: 4000,
             })
             handleResetForm(false)
         } catch (error) {

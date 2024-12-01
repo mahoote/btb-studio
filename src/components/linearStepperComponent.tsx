@@ -121,10 +121,8 @@ function LinearStepperComponent({
     const CompleteMessageComponent = () => {
         return (
             <>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                    {completeMessage ?? (
-                        <span>All steps completed - you&apos;re finished</span>
-                    )}
+                <Typography sx={{ mt: 7, textAlign: 'center' }}>
+                    {completeMessage ?? <h3>All steps completed - you&apos;re finished</h3>}
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                     <Box sx={{ flex: '1 1 auto' }} />
@@ -172,7 +170,7 @@ function LinearStepperComponent({
                 isComplete ? (
                     <CompleteMessageComponent />
                 ) : (
-                    <Box display="flex" justifyContent="center">
+                    <Box display="flex" justifyContent="center" mt={7}>
                         <CircularProgress />
                     </Box>
                 )
