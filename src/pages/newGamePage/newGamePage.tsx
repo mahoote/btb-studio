@@ -98,6 +98,12 @@ function NewGamePage() {
             )
         } catch (error) {
             console.error('Submit form:', error)
+            setAlert({
+                open: true,
+                message: 'Failed to create new game. Please try again.',
+                severity: 'error',
+                autoHideDuration: 5000,
+            })
             setFormStepIndex(0)
             return
         }
@@ -128,6 +134,12 @@ function NewGamePage() {
             handleResetForm(false)
         } catch (error) {
             console.error('Failed to create game:', error)
+            setAlert({
+                open: true,
+                message: 'Failed to complete game creation. Please try again.',
+                severity: 'error',
+                autoHideDuration: 5000,
+            })
             setFormStepIndex(0)
 
             // Clean up by deleting the created game
