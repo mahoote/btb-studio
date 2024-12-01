@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
     addAccessoriesToGame,
     addGameTypesToGame,
@@ -64,8 +64,6 @@ function NewGamePage() {
 
     const { setAlert } = useAlertStore()
 
-    const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
-
     const handleResetForm = (reloadPage: boolean = true) => {
         // Default settings
         setFormStepIndex(0)
@@ -88,10 +86,10 @@ function NewGamePage() {
     }
 
     const submitForm = async () => {
-        let createdNewGame: GameDto | null = null
+        let createdGame: GameDto | null = null
 
         try {
-            createdNewGame = await createNewGame(
+            createdGame = await createNewGame(
                 newGame,
                 advancedSettingsData,
                 newGameTranslations
@@ -108,26 +106,25 @@ function NewGamePage() {
             return
         }
 
-        if (!createdNewGame) return
+        if (!createdGame) return
 
         try {
             // Add accessories and game types
-            await addAccessoriesToGame(selectedAccessories, accessories, createdNewGame.id)
-            await addGameTypesToGame(selectedGameTypes, gameTypes, createdNewGame.id)
+            await addAccessoriesToGame(selectedAccessories, accessories, createdGame.id)
+            await addGameTypesToGame(selectedGameTypes, gameTypes, createdGame.id)
 
             // Add advanced settings
             await createAdvancedSettingsData(
-                createdNewGame.id,
+                createdGame.id,
                 newGameTranslations,
                 advancedSettingsData,
                 actionCardSettingsData,
                 actionCardInputs
             )
 
-            setCreatedGame(createdNewGame)
             setAlert({
                 open: true,
-                message: `"${createdNewGame?.name}"\nGame Id=${createdNewGame?.id}\nCreated successfully!`,
+                message: `"${createdGame?.name}"\nGame Id=${createdGame?.id}\nCreated successfully!`,
                 severity: 'success',
                 autoHideDuration: 4000,
             })
@@ -144,7 +141,7 @@ function NewGamePage() {
 
             // Clean up by deleting the created game
             try {
-                await deleteNewGame(createdNewGame.id)
+                await deleteNewGame(createdGame.id)
             } catch (cleanupError) {
                 console.error('Failed to delete game:', cleanupError)
                 setFormStepIndex(0)
@@ -196,7 +193,6 @@ function NewGamePage() {
                 setFormStepIndex={setFormStepIndex}
                 onFinnish={() => void submitForm()}
                 onReset={handleResetForm}
-                isComplete={!!createdGame}
                 isFormValid={() => {
                     if (activeFormRef?.current) {
                         if (activeFormRef.current.checkValidity()) {
