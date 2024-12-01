@@ -31,7 +31,7 @@ function WritingSettingsComponent() {
                             <TextField
                                 label="Max Writes per Player"
                                 variant="filled"
-                                name="cardLimit"
+                                name="writesAmount"
                                 type="number"
                                 inputProps={{ min: 0 }}
                                 fullWidth
@@ -55,7 +55,7 @@ function WritingSettingsComponent() {
                             <TextField
                                 label="Write Time (Seconds)"
                                 variant="filled"
-                                name="cardSeconds"
+                                name="writeSeconds"
                                 type="number"
                                 fullWidth
                                 value={writingSettingsData.writeSeconds}

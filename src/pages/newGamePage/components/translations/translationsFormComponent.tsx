@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import { Box, Button, Divider, Grid, Snackbar, TextField, Typography } from '@mui/material'
+import { Box, Button, Divider, Grid, TextField, Typography } from '@mui/material'
 import { useNewGameStore } from '../../../../hooks/useNewGameStore'
 import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
 import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
 import MultilineComponent from '../../../../components/multilineComponent'
 import TranslateStringArrayComponent from './translateStringArrayComponent'
 import { NewGameTranslations } from '../../../../types/newGame'
-import { Alert } from '@mui/lab'
 import { Add, ContentCopy, DataObject } from '@mui/icons-material'
 import AppModalComponent from '../../../../components/appModalComponent'
 import { generateTranslationPrompt } from '../../../../utils/prompts'
+import { useAlertStore } from '../../../../hooks/useAlertStore'
+import { codeToLanguage } from '../../../../utils/languageUtils'
 
 const TranslationsFormComponent = () => {
     const {
@@ -22,17 +23,9 @@ const TranslationsFormComponent = () => {
         setNewGameTranslations,
     } = useNewGameStore()
 
-    const languages = ['Norwegian']
+    const { setAlert } = useAlertStore()
 
-    const [alertSettings, setAlertSettings] = useState<{
-        open: boolean
-        message: string
-        severity: 'success' | 'error'
-    }>({
-        open: false,
-        message: 'Copied to clipboard!',
-        severity: 'success',
-    })
+    const languages = ['no']
 
     const [userJsonInput, setUserJsonInput] = useState<string>('')
 
@@ -46,7 +39,7 @@ const TranslationsFormComponent = () => {
      */
     const handleCopyFromEnglish = async () => {
         const englishTranslations: NewGameTranslations = {
-            English: {
+            en: {
                 name: newGame.name,
                 introDescription: newGame.introDescription,
                 descriptions: newGame.descriptions.filter(
@@ -62,7 +55,11 @@ const TranslationsFormComponent = () => {
             await navigator.clipboard.writeText(
                 generateTranslationPrompt(languages, englishTranslations)
             )
-            setAlertSettings(prev => ({ ...prev, open: true }))
+            setAlert({
+                open: true,
+                severity: 'success',
+                message: 'Copied to clipboard',
+            })
         } catch (error) {
             console.error('Failed to copy JSON to clipboard:', error)
 
@@ -73,15 +70,13 @@ const TranslationsFormComponent = () => {
                 )
             }
 
-            setAlertSettings({
+            setAlert({
                 open: true,
                 severity: 'error',
                 message: 'Failed to copy to clipboard',
             })
         }
     }
-
-    const handleCloseAlert = () => setAlertSettings(prev => ({ ...prev, open: false }))
 
     /**
      * Adds the JSON object to the translations object.
@@ -94,7 +89,7 @@ const TranslationsFormComponent = () => {
             window.location.reload()
         } catch (error) {
             console.error('Failed to parse JSON:', error)
-            setAlertSettings({
+            setAlert({
                 open: true,
                 severity: 'error',
                 message: 'Failed to parse JSON',
@@ -104,17 +99,6 @@ const TranslationsFormComponent = () => {
 
     return (
         <Box>
-            <Snackbar
-                open={alertSettings.open}
-                autoHideDuration={3000}
-                onClose={handleCloseAlert}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            >
-                <Alert onClose={handleCloseAlert} severity={alertSettings.severity}>
-                    {alertSettings.message}
-                </Alert>
-            </Snackbar>
-
             <Box component="p" color="darkgray" textAlign="center">
                 This subpage allows you to provide translations for the text fields you have
                 filled out in the previous steps of the form.
@@ -193,7 +177,7 @@ const TranslationsFormComponent = () => {
                             {languages.map(language => (
                                 <TextField
                                     key={language}
-                                    label={language}
+                                    label={codeToLanguage(language)}
                                     variant="filled"
                                     name={`${language}Name`}
                                     required
@@ -229,7 +213,7 @@ const TranslationsFormComponent = () => {
                                     <TextFieldSuggestionsComponent
                                         key={language}
                                         wordSuggestions={actionCardSuggestions}
-                                        label={language}
+                                        label={codeToLanguage(language)}
                                         name={`${language}IntroDescription`}
                                         variant="filled"
                                         multiline
@@ -262,7 +246,7 @@ const TranslationsFormComponent = () => {
                             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
                         >
                             <Typography fontSize={18} color="darkgray">
-                                {language} *
+                                {codeToLanguage(language)} *
                             </Typography>
                             <TranslateStringArrayComponent
                                 values={newGame.descriptions}
@@ -298,7 +282,7 @@ const TranslationsFormComponent = () => {
                             {languages.map(language => (
                                 <TextField
                                     key={language}
-                                    label={language}
+                                    label={codeToLanguage(language)}
                                     variant="filled"
                                     name={`${language}CustomEndGameSentence`}
                                     fullWidth
@@ -338,7 +322,7 @@ const TranslationsFormComponent = () => {
                                 <TextFieldSuggestionsComponent
                                     key={language}
                                     wordSuggestions={actionCardSuggestions}
-                                    label={language}
+                                    label={codeToLanguage(language)}
                                     variant="filled"
                                     name={`${language}Prompt`}
                                     fullWidth
@@ -370,7 +354,7 @@ const TranslationsFormComponent = () => {
                                     sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
                                 >
                                     <Typography fontSize={18} color="darkgray">
-                                        {language} *
+                                        {codeToLanguage(language)} *
                                     </Typography>
                                     <TranslateStringArrayComponent
                                         values={actionCardInputs}

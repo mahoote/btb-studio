@@ -1,9 +1,15 @@
 import { supabase } from '../supabaseClient'
-import { GameDto, GameInsertDto } from '../types/gameDto'
+import { GameDto, GameInsertDto, GameTranslationInsertDto } from '../types/gameDto'
 import { SupabaseResponse } from '../types/supabaseResponse'
 import { GameHasAccessoryDto } from '../types/gameHasAccessoryDto'
 
-export async function createGame(game: GameInsertDto): Promise<GameDto | null> {
+/**
+ * Creates a new game.
+ * Creates the game translations for the game.
+ * @param game
+ * @param gameTranslations
+ */
+async function createGame(game: GameInsertDto, gameTranslations: GameTranslationInsertDto[]) {
     const { data, error }: SupabaseResponse<GameDto> = await supabase
         .from('game')
         .insert([game])
@@ -14,10 +20,38 @@ export async function createGame(game: GameInsertDto): Promise<GameDto | null> {
         throw new Error(error.message)
     }
 
-    return data as GameDto
+    if (!data) {
+        throw new Error('Error creating game')
+    }
+
+    try {
+        for (const gameTranslation of gameTranslations) {
+            await createGameTranslation({ ...gameTranslation, game_id: data.id })
+        }
+    } catch (error) {
+        console.error('Error creating game translations:', error)
+        await deleteNewGame(data.id)
+    }
+
+    return data
 }
 
-export async function createGameHasAccessory(gameId: number, accessoryId: number) {
+/**
+ * Deletes a new game.
+ * @param gameId
+ */
+async function deleteNewGame(gameId: number) {
+    const { error }: SupabaseResponse<GameDto> = await supabase
+        .from('game')
+        .delete()
+        .eq('id', gameId)
+
+    if (error) {
+        throw new Error(error.message)
+    }
+}
+
+async function createGameHasAccessory(gameId: number, accessoryId: number) {
     const { error }: SupabaseResponse<GameHasAccessoryDto> = await supabase
         .from('game_has_accessory')
         .insert({ game_id: gameId, accessory_id: accessoryId })
@@ -27,7 +61,7 @@ export async function createGameHasAccessory(gameId: number, accessoryId: number
     }
 }
 
-export async function createGameHasGameType(gameId: number, gameTypeId: number) {
+async function createGameHasGameType(gameId: number, gameTypeId: number) {
     const { error }: SupabaseResponse<GameHasAccessoryDto> = await supabase
         .from('game_has_game_type')
         .insert({ game_id: gameId, game_type_id: gameTypeId })
@@ -36,3 +70,15 @@ export async function createGameHasGameType(gameId: number, gameTypeId: number) 
         throw new Error(error.message)
     }
 }
+
+async function createGameTranslation(gameTranslation: GameTranslationInsertDto) {
+    const { error }: SupabaseResponse<GameDto> = await supabase
+        .from('game_translation')
+        .insert([gameTranslation])
+
+    if (error) {
+        throw new Error(error.message)
+    }
+}
+
+export { createGame, createGameHasAccessory, createGameHasGameType, deleteNewGame }

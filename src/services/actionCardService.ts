@@ -5,6 +5,8 @@ import {
     ActionCardDto,
     ActionCardSettingsDto,
     ActionCardSettingsInsertDto,
+    ActionCardSettingsTranslationInsertDto,
+    ActionCardTranslationInsertDto,
 } from '../types/actionCardDto'
 
 /**
@@ -22,14 +24,16 @@ export async function getActionCardStates(): Promise<GenericType[]> {
 /**
  * Creates action card settings and will be used for
  * one specific game that requires action cards.
- * @param dto
+ * @param actionCardSettingsInsertDto
+ * @param actionCardSettingsTranslationInsertDtos
  */
 export async function createActionCardSettings(
-    dto: ActionCardSettingsInsertDto
-): Promise<ActionCardSettingsDto> {
+    actionCardSettingsInsertDto: ActionCardSettingsInsertDto,
+    actionCardSettingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[]
+) {
     const { data, error }: SupabaseResponse<ActionCardSettingsDto> = await supabase
         .from('action_card_settings')
-        .insert([dto])
+        .insert([actionCardSettingsInsertDto])
         .select()
         .single()
 
@@ -41,27 +45,52 @@ export async function createActionCardSettings(
         throw new Error('Error creating action card settings')
     }
 
+    for (const actionCardSettingsTranslationInsertDto of actionCardSettingsTranslationInsertDtos) {
+        await createActionCardSettingsTranslation({
+            ...actionCardSettingsTranslationInsertDto,
+            action_card_settings_id: data.id,
+        })
+    }
+
     return data
 }
 
 /**
- * Creates an action card and adds a many-to-many relationship with the settings regarding the card.
- * @param cardValue
- * @param settingsId
+ * Creates the translation for the action card settings.
+ * @param actionCardSettingsTranslationInsertDto
  */
-export async function createActionCard(cardValue: string, settingsId: number): Promise<void> {
-    const { data: actionCardData, error: actionCardError }: SupabaseResponse<ActionCardDto> =
-        await supabase
-            .from('action_card')
-            .insert([{ value: cardValue }])
-            .select()
-            .single()
+export async function createActionCardSettingsTranslation(
+    actionCardSettingsTranslationInsertDto: ActionCardSettingsTranslationInsertDto
+): Promise<void> {
+    const { error } = await supabase
+        .from('action_card_settings_translation')
+        .insert([actionCardSettingsTranslationInsertDto])
 
-    if (actionCardError) {
-        throw new Error(actionCardError.message)
+    if (error) {
+        throw new Error(error.message)
+    }
+}
+
+/**
+ * Creates an action card and adds a many-to-many relationship with the settings regarding the card.
+ * @param settingsId
+ * @param actionCardTranslationInsertDtos
+ */
+export async function createActionCard(
+    settingsId: number,
+    actionCardTranslationInsertDtos: ActionCardTranslationInsertDto[]
+) {
+    const { data, error }: SupabaseResponse<ActionCardDto> = await supabase
+        .from('action_card')
+        .insert([{}])
+        .select()
+        .single()
+
+    if (error) {
+        throw new Error(error.message)
     }
 
-    if (!actionCardData) {
+    if (!data) {
         throw new Error('Error creating action card')
     }
 
@@ -70,12 +99,31 @@ export async function createActionCard(cardValue: string, settingsId: number): P
         .from('action_card_settings_has_action_card')
         .insert([
             {
-                action_card_id: actionCardData.id,
+                action_card_id: data.id,
                 action_card_settings_id: settingsId,
             },
         ])
 
     if (mtmError) {
         throw new Error(mtmError.message)
+    }
+
+    for (const actionCardTranslationInsertDto of actionCardTranslationInsertDtos) {
+        await createActionCardTranslation({
+            ...actionCardTranslationInsertDto,
+            action_card_id: data.id,
+        })
+    }
+}
+
+export async function createActionCardTranslation(
+    actionCardTranslationInsertDto: ActionCardTranslationInsertDto
+): Promise<void> {
+    const { error } = await supabase
+        .from('action_card_translation')
+        .insert([actionCardTranslationInsertDto])
+
+    if (error) {
+        throw new Error(error.message)
     }
 }

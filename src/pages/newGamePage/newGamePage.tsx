@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { createNewGame } from '../../utils/newGameFormUtils'
+import React, { useEffect } from 'react'
+import {
+    addAccessoriesToGame,
+    addGameTypesToGame,
+    createNewGame,
+} from '../../utils/newGameFormUtils'
 import NewGameFormComponent from './components/newGame/newGameFormComponent'
 import LinearStepperComponent from '../../components/linearStepperComponent'
 import AdvancedSettingsFormComponent from './components/advancedSettings/advancedSettingsFormComponent'
@@ -10,7 +14,6 @@ import {
     initialNewGameData,
     initialNewGameTranslations,
 } from '../../constants/NEW_GAME_FORM_DATA'
-import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
 import { useNewGameStore } from '../../hooks/useNewGameStore'
 import { useGameOptionsStore } from '../../hooks/useGameOptionsStore'
 import { Box, IconButton, Tooltip } from '@mui/material'
@@ -23,6 +26,10 @@ import {
 import { GameDto } from '../../types/gameDto'
 import TranslationsFormComponent from './components/translations/translationsFormComponent'
 import NewGameSummaryComponent from './components/summary/newGameSummaryComponent'
+import { deleteNewGame } from '../../services/gameService'
+import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
+import { initialWritingSettingsData } from '../../constants/WRITING_SETTINGS_DATA'
+import { useAlertStore } from '../../hooks/useAlertStore'
 
 /**
  * Mostly logic regarding the new game form.
@@ -49,37 +56,13 @@ function NewGamePage() {
         setNewGameTranslations,
         formStepIndex,
         setFormStepIndex,
+        newGameTranslations,
+        setWritingSettingsData,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
 
-    const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
-
-    const submitForm = async () => {
-        const { createdGame: createdNewGame } = await createNewGame(
-            newGame,
-            selectedAccessories,
-            selectedGameTypes,
-            accessories,
-            gameTypes,
-            advancedSettingsData
-        )
-
-        setCreatedGame(createdNewGame)
-
-        if (!createdNewGame) {
-            return
-        }
-
-        await createAdvancedSettingsData(
-            createdNewGame,
-            advancedSettingsData,
-            actionCardSettingsData,
-            actionCardInputs
-        )
-
-        handleResetForm(false)
-    }
+    const { setAlert } = useAlertStore()
 
     const handleResetForm = (reloadPage: boolean = true) => {
         // Default settings
@@ -94,11 +77,76 @@ function NewGamePage() {
         setAdvancedSettingsData(initialAdvancedSettingsData)
         setActionCardSettingsData(initialActionCardSettingsData)
         setActionCardInputs(initialActionCardInputs)
+        setWritingSettingsData(initialWritingSettingsData)
 
         // Translations
         setNewGameTranslations(initialNewGameTranslations)
 
         if (reloadPage) window.location.reload()
+    }
+
+    const submitForm = async () => {
+        let createdGame: GameDto | null = null
+
+        try {
+            createdGame = await createNewGame(
+                newGame,
+                advancedSettingsData,
+                newGameTranslations
+            )
+        } catch (error) {
+            console.error('Submit form:', error)
+            setAlert({
+                open: true,
+                message: 'Failed to create new game. Please try again.',
+                severity: 'error',
+                autoHideDuration: 5000,
+            })
+            setFormStepIndex(0)
+            return
+        }
+
+        if (!createdGame) return
+
+        try {
+            // Add accessories and game types
+            await addAccessoriesToGame(selectedAccessories, accessories, createdGame.id)
+            await addGameTypesToGame(selectedGameTypes, gameTypes, createdGame.id)
+
+            // Add advanced settings
+            await createAdvancedSettingsData(
+                createdGame.id,
+                newGameTranslations,
+                advancedSettingsData,
+                actionCardSettingsData,
+                actionCardInputs
+            )
+
+            setAlert({
+                open: true,
+                message: `"${createdGame?.name}"\nGame Id=${createdGame?.id}\nCreated successfully!`,
+                severity: 'success',
+                autoHideDuration: 4000,
+            })
+            handleResetForm(false)
+        } catch (error) {
+            console.error('Failed to create game:', error)
+            setAlert({
+                open: true,
+                message: 'Failed to complete game creation. Please try again.',
+                severity: 'error',
+                autoHideDuration: 5000,
+            })
+            setFormStepIndex(0)
+
+            // Clean up by deleting the created game
+            try {
+                await deleteNewGame(createdGame.id)
+            } catch (cleanupError) {
+                console.error('Failed to delete game:', cleanupError)
+                setFormStepIndex(0)
+            }
+        }
     }
 
     useEffect(() => {
@@ -145,8 +193,6 @@ function NewGamePage() {
                 setFormStepIndex={setFormStepIndex}
                 onFinnish={() => void submitForm()}
                 onReset={handleResetForm}
-                completeMessage={`"${createdGame?.name}" was created.`}
-                isComplete={!!createdGame}
                 isFormValid={() => {
                     if (activeFormRef?.current) {
                         if (activeFormRef.current.checkValidity()) {

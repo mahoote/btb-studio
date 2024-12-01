@@ -20,8 +20,6 @@ type GameDto = {
 
 type GameInsertDto = {
     name: string
-    intro_description?: string
-    descriptions: string[]
     min_players?: number
     max_players?: number
     activity_level?: number
@@ -30,8 +28,16 @@ type GameInsertDto = {
     player_group_type_id?: number
     game_audience_id?: number
     game_category_id: number
-    custom_end_game_sentence?: string
     game_end_type: string
 }
 
-export type { GameDto, GameInsertDto }
+type GameTranslationInsertDto = {
+    game_id?: number
+    language: string
+    name: string
+    intro_description?: string
+    descriptions: string[]
+    custom_end_game_sentence?: string
+}
+
+export type { GameDto, GameInsertDto, GameTranslationInsertDto }
