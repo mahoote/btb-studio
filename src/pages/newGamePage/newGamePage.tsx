@@ -28,6 +28,7 @@ import TranslationsFormComponent from './components/translations/translationsFor
 import NewGameSummaryComponent from './components/summary/newGameSummaryComponent'
 import { deleteNewGame } from '../../services/gameService'
 import { createAdvancedSettingsData } from '../../utils/advancedSettingsUtils'
+import { initialWritingSettingsData } from '../../constants/WRITING_SETTINGS_DATA'
 
 /**
  * Mostly logic regarding the new game form.
@@ -55,6 +56,7 @@ function NewGamePage() {
         formStepIndex,
         setFormStepIndex,
         newGameTranslations,
+        setWritingSettingsData,
     } = useNewGameStore()
 
     const { gameTypes, accessories } = useGameOptionsStore()
@@ -116,6 +118,7 @@ function NewGamePage() {
         setAdvancedSettingsData(initialAdvancedSettingsData)
         setActionCardSettingsData(initialActionCardSettingsData)
         setActionCardInputs(initialActionCardInputs)
+        setWritingSettingsData(initialWritingSettingsData)
 
         // Translations
         setNewGameTranslations(initialNewGameTranslations)
