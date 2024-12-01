@@ -34,5 +34,5 @@ export type ActionCardDto = {
 export type ActionCardTranslationInsertDto = {
     action_card_id?: number
     language: string
-    value?: string
+    value: string
 }

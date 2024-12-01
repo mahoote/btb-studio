@@ -20,6 +20,7 @@ export async function createNewGame(
 ) {
     // New Game
     const gameInsertDto: GameInsertDto = {
+        name: newGameData.name,
         min_players: newGameData.minPlayers,
         max_players: newGameData.maxPlayers,
         activity_level: newGameData.activityLevel,

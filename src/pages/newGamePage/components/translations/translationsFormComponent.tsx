@@ -46,7 +46,7 @@ const TranslationsFormComponent = () => {
      */
     const handleCopyFromEnglish = async () => {
         const englishTranslations: NewGameTranslations = {
-            English: {
+            en: {
                 name: newGame.name,
                 introDescription: newGame.introDescription,
                 descriptions: newGame.descriptions.filter(

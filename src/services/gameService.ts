@@ -24,8 +24,13 @@ async function createGame(game: GameInsertDto, gameTranslations: GameTranslation
         throw new Error('Error creating game')
     }
 
-    for (const gameTranslation of gameTranslations) {
-        await createGameTranslation({ ...gameTranslation, game_id: data.id })
+    try {
+        for (const gameTranslation of gameTranslations) {
+            await createGameTranslation({ ...gameTranslation, game_id: data.id })
+        }
+    } catch (error) {
+        console.error('Error creating game translations:', error)
+        await deleteNewGame(data.id)
     }
 
     return data

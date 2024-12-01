@@ -31,7 +31,7 @@ export const activityLevels: GenericType[] = [
 ]
 
 export const initialNewGameTranslations = {
-    Norwegian: {
+    no: {
         name: '',
         introDescription: undefined,
         descriptions: [],

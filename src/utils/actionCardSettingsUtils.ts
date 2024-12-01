@@ -30,19 +30,21 @@ export async function createActionCardData(
         has_buzzer: actionCardSettingsData.hasBuzzer,
     }
 
-    const settingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[] = [
-        {
+    const settingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[] = []
+
+    if (actionCardSettingsData.prompt) {
+        settingsTranslationInsertDtos.push({
             language: 'en',
             prompt: actionCardSettingsData.prompt,
-        },
-    ]
-
-    Object.entries(newGameTranslations).forEach(([key, translation]) => {
-        settingsTranslationInsertDtos.push({
-            language: key,
-            prompt: translation.prompt,
         })
-    })
+
+        Object.entries(newGameTranslations).forEach(([key, translation]) => {
+            settingsTranslationInsertDtos.push({
+                language: key,
+                prompt: translation.prompt,
+            })
+        })
+    }
 
     const settings = await createActionCardSettings(
         actionCardSettingsInsertDto,
@@ -54,7 +56,7 @@ export async function createActionCardData(
         // Loop through all the action card inputs and create the action cards.
         for (let i = 0; i < actionCardInputs.length; i++) {
             const input = actionCardInputs[i]
-            const inputTranslated = translation.actionCardInputs?.[i]
+            const inputTranslated = translation.actionCardInputs?.[i] ?? actionCardInputs[i]
 
             const actionCardTranslationInsertDtos: ActionCardTranslationInsertDto[] = [
                 {

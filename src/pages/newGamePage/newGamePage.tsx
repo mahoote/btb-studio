@@ -63,48 +63,6 @@ function NewGamePage() {
 
     const [createdGame, setCreatedGame] = useState<GameDto | null>(null)
 
-    const submitForm = async () => {
-        try {
-            const createdNewGame = await createNewGame(
-                newGame,
-                advancedSettingsData,
-                newGameTranslations
-            )
-
-            setCreatedGame(createdNewGame)
-        } catch (error) {
-            console.error('Submit form:', error)
-            return
-        }
-
-        if (!createdGame) return
-
-        try {
-            await addAccessoriesToGame(selectedAccessories, accessories, createdGame.id)
-            await addGameTypesToGame(selectedGameTypes, gameTypes, createdGame.id)
-        } catch (error) {
-            console.error('Failed to create game:', error)
-            await deleteNewGame(createdGame.id)
-            return
-        }
-
-        try {
-            await createAdvancedSettingsData(
-                createdGame.id,
-                newGameTranslations,
-                advancedSettingsData,
-                actionCardSettingsData,
-                actionCardInputs
-            )
-        } catch (error) {
-            console.error('Failed to create game:', error)
-            await deleteNewGame(createdGame.id)
-            return
-        }
-
-        handleResetForm(false)
-    }
-
     const handleResetForm = (reloadPage: boolean = true) => {
         // Default settings
         setFormStepIndex(0)
@@ -124,6 +82,54 @@ function NewGamePage() {
         setNewGameTranslations(initialNewGameTranslations)
 
         if (reloadPage) window.location.reload()
+    }
+
+    const submitForm = async () => {
+        let createdNewGame: GameDto | null = null
+
+        try {
+            createdNewGame = await createNewGame(
+                newGame,
+                advancedSettingsData,
+                newGameTranslations
+            )
+        } catch (error) {
+            console.error('Submit form:', error)
+            setFormStepIndex(0)
+            return
+        }
+
+        if (!createdNewGame) return
+
+        try {
+            // Add accessories and game types
+            await addAccessoriesToGame(selectedAccessories, accessories, createdNewGame.id)
+            await addGameTypesToGame(selectedGameTypes, gameTypes, createdNewGame.id)
+
+            // Add advanced settings
+            await createAdvancedSettingsData(
+                createdNewGame.id,
+                newGameTranslations,
+                advancedSettingsData,
+                actionCardSettingsData,
+                actionCardInputs
+            )
+
+            setCreatedGame(createdNewGame)
+            // Reset the form
+            handleResetForm(false)
+        } catch (error) {
+            console.error('Failed to create game:', error)
+            setFormStepIndex(0)
+
+            // Clean up by deleting the created game
+            try {
+                await deleteNewGame(createdNewGame.id)
+            } catch (cleanupError) {
+                console.error('Failed to delete game:', cleanupError)
+                setFormStepIndex(0)
+            }
+        }
     }
 
     useEffect(() => {

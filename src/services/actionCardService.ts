@@ -82,7 +82,7 @@ export async function createActionCard(
 ) {
     const { data, error }: SupabaseResponse<ActionCardDto> = await supabase
         .from('action_card')
-        .insert([])
+        .insert([{}])
         .select()
         .single()
 
@@ -109,7 +109,10 @@ export async function createActionCard(
     }
 
     for (const actionCardTranslationInsertDto of actionCardTranslationInsertDtos) {
-        await createActionCardTranslation(actionCardTranslationInsertDto)
+        await createActionCardTranslation({
+            ...actionCardTranslationInsertDto,
+            action_card_id: data.id,
+        })
     }
 }
 

@@ -19,6 +19,7 @@ type GameDto = {
 }
 
 type GameInsertDto = {
+    name: string
     min_players?: number
     max_players?: number
     activity_level?: number
