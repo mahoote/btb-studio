@@ -1,5 +1,5 @@
 import { GenericType } from '../types/genericType'
-import { supabase } from '../supabaseClient'
+import { supabaseGame } from '../supabaseClient'
 import { SupabaseResponse } from '../types/supabaseResponse'
 import {
     ActionCardDto,
@@ -13,7 +13,7 @@ import {
  * Fetches all the action card states.
  */
 export async function getActionCardStates(): Promise<GenericType[]> {
-    const { data, error } = await supabase.from('action_card_state').select('*')
+    const { data, error } = await supabaseGame.from('action_card_state').select('*')
 
     if (error) {
         throw new Error(error.message)
@@ -31,7 +31,7 @@ export async function createActionCardSettings(
     actionCardSettingsInsertDto: ActionCardSettingsInsertDto,
     actionCardSettingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[]
 ) {
-    const { data, error }: SupabaseResponse<ActionCardSettingsDto> = await supabase
+    const { data, error }: SupabaseResponse<ActionCardSettingsDto> = await supabaseGame
         .from('action_card_settings')
         .insert([actionCardSettingsInsertDto])
         .select()
@@ -62,7 +62,7 @@ export async function createActionCardSettings(
 export async function createActionCardSettingsTranslation(
     actionCardSettingsTranslationInsertDto: ActionCardSettingsTranslationInsertDto
 ): Promise<void> {
-    const { error } = await supabase
+    const { error } = await supabaseGame
         .from('action_card_settings_translation')
         .insert([actionCardSettingsTranslationInsertDto])
 
@@ -80,7 +80,7 @@ export async function createActionCard(
     settingsId: number,
     actionCardTranslationInsertDtos: ActionCardTranslationInsertDto[]
 ) {
-    const { data, error }: SupabaseResponse<ActionCardDto> = await supabase
+    const { data, error }: SupabaseResponse<ActionCardDto> = await supabaseGame
         .from('action_card')
         .insert([{}])
         .select()
@@ -95,7 +95,7 @@ export async function createActionCard(
     }
 
     // Add many-to-many relationship
-    const { error: mtmError } = await supabase
+    const { error: mtmError } = await supabaseGame
         .from('action_card_settings_has_action_card')
         .insert([
             {
@@ -119,7 +119,7 @@ export async function createActionCard(
 export async function createActionCardTranslation(
     actionCardTranslationInsertDto: ActionCardTranslationInsertDto
 ): Promise<void> {
-    const { error } = await supabase
+    const { error } = await supabaseGame
         .from('action_card_translation')
         .insert([actionCardTranslationInsertDto])
 

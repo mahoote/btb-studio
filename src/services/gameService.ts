@@ -1,4 +1,4 @@
-import { supabase } from '../supabaseClient'
+import { supabaseGame } from '../supabaseClient'
 import { GameDto, GameInsertDto, GameTranslationInsertDto } from '../types/gameDto'
 import { SupabaseResponse } from '../types/supabaseResponse'
 import { GameHasAccessoryDto } from '../types/gameHasAccessoryDto'
@@ -10,7 +10,7 @@ import { GameHasAccessoryDto } from '../types/gameHasAccessoryDto'
  * @param gameTranslations
  */
 async function createGame(game: GameInsertDto, gameTranslations: GameTranslationInsertDto[]) {
-    const { data, error }: SupabaseResponse<GameDto> = await supabase
+    const { data, error }: SupabaseResponse<GameDto> = await supabaseGame
         .from('game')
         .insert([game])
         .select()
@@ -41,7 +41,7 @@ async function createGame(game: GameInsertDto, gameTranslations: GameTranslation
  * @param gameId
  */
 async function deleteNewGame(gameId: number) {
-    const { error }: SupabaseResponse<GameDto> = await supabase
+    const { error }: SupabaseResponse<GameDto> = await supabaseGame
         .from('game')
         .delete()
         .eq('id', gameId)
@@ -52,7 +52,7 @@ async function deleteNewGame(gameId: number) {
 }
 
 async function createGameHasAccessory(gameId: number, accessoryId: number) {
-    const { error }: SupabaseResponse<GameHasAccessoryDto> = await supabase
+    const { error }: SupabaseResponse<GameHasAccessoryDto> = await supabaseGame
         .from('game_has_accessory')
         .insert({ game_id: gameId, accessory_id: accessoryId })
 
@@ -62,7 +62,7 @@ async function createGameHasAccessory(gameId: number, accessoryId: number) {
 }
 
 async function createGameHasGameType(gameId: number, gameTypeId: number) {
-    const { error }: SupabaseResponse<GameHasAccessoryDto> = await supabase
+    const { error }: SupabaseResponse<GameHasAccessoryDto> = await supabaseGame
         .from('game_has_game_type')
         .insert({ game_id: gameId, game_type_id: gameTypeId })
 
@@ -72,7 +72,7 @@ async function createGameHasGameType(gameId: number, gameTypeId: number) {
 }
 
 async function createGameTranslation(gameTranslation: GameTranslationInsertDto) {
-    const { error }: SupabaseResponse<GameDto> = await supabase
+    const { error }: SupabaseResponse<GameDto> = await supabaseGame
         .from('game_translation')
         .insert([gameTranslation])
 
