@@ -7,6 +7,7 @@ import { GameInsertDto, GameTranslationInsertDto } from '../types/gameDto'
 import { GenericType } from '../types/genericType'
 import { AdvancedSettings, NewGame, NewGameTranslations } from '../types/newGame'
 import { createAccessory } from '../services/accessoryService'
+import { removeGameOptionsLastFetched } from './storageUtils'
 
 /**
  * Creates a new game as well as the accessories and game types associated with it.
@@ -83,6 +84,9 @@ export async function addAccessoriesToGame(
         if (accessoryId === 0) {
             const newAccessory = await createAccessory(accessory)
             accessoryId = newAccessory.id
+
+            // Remove the last fetched game options to force a re-fetch.
+            removeGameOptionsLastFetched()
         }
 
         await createGameHasAccessory(newGameId, accessoryId)
