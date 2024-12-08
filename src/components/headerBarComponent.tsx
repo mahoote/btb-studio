@@ -6,6 +6,7 @@ import { Page } from '../types/page'
 import { Logout } from '@mui/icons-material'
 import { supabase } from '../supabaseClient'
 import { AuthError } from '@supabase/supabase-js'
+import { removeGameOptionsLastFetched } from '../utils/storageUtils'
 
 interface HeaderBarProps {
     pages: Page[]
@@ -14,7 +15,7 @@ interface HeaderBarProps {
 function HeaderBarComponent({ pages }: HeaderBarProps) {
     const handleSignOut = () => {
         const signOut = async () => {
-            localStorage.removeItem('gameOptionsLastFetched')
+            removeGameOptionsLastFetched()
             await supabase.auth.signOut()
         }
 
