@@ -14,6 +14,7 @@ interface HeaderBarProps {
 function HeaderBarComponent({ pages }: HeaderBarProps) {
     const handleSignOut = () => {
         const signOut = async () => {
+            localStorage.removeItem('gameOptionsLastFetched')
             await supabase.auth.signOut()
         }
 
