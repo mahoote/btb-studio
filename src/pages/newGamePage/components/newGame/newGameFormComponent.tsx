@@ -274,6 +274,7 @@ function NewGameFormComponent() {
                         selectedValues={selectedAccessories}
                         setSelectedValues={setSelectedAccessories}
                         label="Accessories"
+                        freeSolo={true}
                     />
                 </Box>
             </Grid>
