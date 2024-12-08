@@ -6,6 +6,7 @@ import {
 import { GameInsertDto, GameTranslationInsertDto } from '../types/gameDto'
 import { GenericType } from '../types/genericType'
 import { AdvancedSettings, NewGame, NewGameTranslations } from '../types/newGame'
+import { createAccessory } from '../services/accessoryService'
 
 /**
  * Creates a new game as well as the accessories and game types associated with it.
@@ -75,12 +76,13 @@ export async function addAccessoriesToGame(
     newGameId: number
 ) {
     for (const accessory of selectedAccessories) {
-        const accessoryId =
+        let accessoryId =
             accessories?.find(accessoryItem => accessoryItem.name === accessory)?.id ?? 0
 
+        // Create accessory if it does not exist.
         if (accessoryId === 0) {
-            console.error('Could not find accessory:', accessory)
-            throw new Error('Could not find accessory.')
+            const newAccessory = await createAccessory(accessory)
+            accessoryId = newAccessory.id
         }
 
         await createGameHasAccessory(newGameId, accessoryId)
