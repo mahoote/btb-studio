@@ -10,6 +10,7 @@ type ChipsAutocompleteProps = {
     required?: boolean
     optionCombinations?: string[][]
     variant?: 'outlined' | 'filled'
+    freeSolo?: boolean
 }
 
 function ChipsAutocompleteComponent({
@@ -19,13 +20,16 @@ function ChipsAutocompleteComponent({
     label,
     required,
     optionCombinations,
+    freeSolo,
     variant = 'outlined',
 }: ChipsAutocompleteProps) {
     const isRequired = selectedValues.length === 0 && required
+    const inputPlaceholder = freeSolo ? 'Choose or add...' : 'Choose...'
 
     return (
         <Autocomplete
             multiple
+            freeSolo={freeSolo}
             options={predefinedValues}
             value={selectedValues}
             onChange={(_, newValue) => {
@@ -42,7 +46,7 @@ function ChipsAutocompleteComponent({
                     {...params}
                     variant={variant}
                     label={label}
-                    placeholder="Choose..."
+                    placeholder={inputPlaceholder}
                     required={isRequired}
                 />
             )}
