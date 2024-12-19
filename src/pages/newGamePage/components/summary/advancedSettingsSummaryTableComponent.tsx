@@ -48,7 +48,7 @@ const AdvancedSettingsSummaryTableComponent = () => {
                         <Box maxWidth="30rem">
                             <Box
                                 component="img"
-                                src={advancedSettingsData.customRulesImageBase64}
+                                src={advancedSettingsData.customRulesImage?.imageBase64}
                                 alt="No image selected"
                                 sx={{
                                     width: '100%',

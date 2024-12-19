@@ -16,12 +16,3 @@ export function base64ToFile(base64String: string, fileName: string, mimeType: s
     const blob = new Blob([arrayBuffer], { type: mimeType })
     return new File([blob], fileName, { type: mimeType })
 }
-
-/**
- * Convert base64 string to a JPEG file
- * @param base64String
- * @param fileName
- */
-export function base64ToJpegFile(base64String: string, fileName: string) {
-    return base64ToFile(base64String, fileName, 'image/jpeg')
-}

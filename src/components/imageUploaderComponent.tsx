@@ -2,16 +2,17 @@ import React from 'react'
 import { Box, Button, IconButton, Typography } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { Delete, Image } from '@mui/icons-material'
+import { CustomImage } from '../types/newGame'
 
 const MAX_FILE_SIZE = 1024 * 1024 // 1 MB in bytes
-const ALLOWED_FILE_TYPES = ['image/jpeg']
+const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml']
 
 type ImageUploaderProps = {
-    imageBase64?: string
-    setImageBase64: (image?: string) => void
+    image?: CustomImage
+    setImage: (image?: CustomImage) => void
 }
 
-function ImageUploaderComponent({ imageBase64, setImageBase64 }: ImageUploaderProps) {
+function ImageUploaderComponent({ image, setImage }: ImageUploaderProps) {
     const [error, setError] = useState<string | null>(null)
     const [hovering, setHovering] = useState<boolean>(false)
     /**
@@ -23,20 +24,28 @@ function ImageUploaderComponent({ imageBase64, setImageBase64 }: ImageUploaderPr
 
         if (file) {
             if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-                setError('Only JPEG images are allowed.')
-                setImageBase64(undefined)
+                setError('Only JPEG, PNG and SVG images are allowed.')
+                setImage(undefined)
                 return
             }
 
             if (file.size > MAX_FILE_SIZE) {
                 setError(`File size must be less than ${MAX_FILE_SIZE / 1024 / 1024} MB.`)
-                setImageBase64(undefined)
+                setImage(undefined)
                 return
             }
 
+            const fileNameParts = file.name.split('.')
+            const extension =
+                fileNameParts.length > 1 ? fileNameParts[fileNameParts.length - 1] : ''
+
             const reader = new FileReader()
             reader.onloadend = () => {
-                setImageBase64(reader.result as string) // Store the Base64 string
+                setImage({
+                    imageBase64: reader.result as string,
+                    imageFileType: file.type,
+                    imageFileExtension: extension,
+                }) // Store the Base64 string, file type and file extension.
                 setError(null)
             }
             reader.readAsDataURL(file) // Convert image to Base64
@@ -44,13 +53,13 @@ function ImageUploaderComponent({ imageBase64, setImageBase64 }: ImageUploaderPr
     }
 
     const handleDeleteImage = () => {
-        setImageBase64(undefined)
+        setImage(undefined)
         setHovering(false)
     }
 
     return (
         <Box>
-            {imageBase64 ? (
+            {image ? (
                 <Box
                     sx={{
                         cursor: 'pointer',
@@ -70,7 +79,7 @@ function ImageUploaderComponent({ imageBase64, setImageBase64 }: ImageUploaderPr
                 >
                     <Box
                         component="img"
-                        src={imageBase64}
+                        src={image.imageBase64}
                         alt="Selected image preview"
                         sx={{
                             width: '100%',

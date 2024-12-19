@@ -86,11 +86,11 @@ function AdvancedDefaultSettingsComponent() {
                 <Grid container>
                     <Grid item xs={12} alignContent="center">
                         <ImageUploaderComponent
-                            imageBase64={advancedSettingsData.customRulesImageBase64}
-                            setImageBase64={image =>
+                            image={advancedSettingsData.customRulesImage}
+                            setImage={image =>
                                 setAdvancedSettingsData({
                                     ...advancedSettingsData,
-                                    customRulesImageBase64: image,
+                                    customRulesImage: image,
                                 })
                             }
                         />
