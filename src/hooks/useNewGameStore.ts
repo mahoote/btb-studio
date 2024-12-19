@@ -6,7 +6,6 @@ import {
     initialNewGameData,
     initialNewGameTranslations,
 } from '../constants/NEW_GAME_FORM_DATA'
-import { initialWritingSettingsData } from '../constants/WRITING_SETTINGS_DATA'
 import { initialAdvancedSettingsData } from '../constants/ADVANCED_SETTINGS_DATA'
 import { persist } from 'zustand/middleware'
 
@@ -34,7 +33,7 @@ export const useNewGameStore = create<NewGameState>()(
             activeFormRef: null,
             setActiveFormRef: ref => set({ activeFormRef: ref }),
 
-            writingSettingsData: initialWritingSettingsData,
+            writingSettingsData: undefined,
             setWritingSettingsData: settings => set({ writingSettingsData: settings }),
 
             advancedSettingsData: initialAdvancedSettingsData,
