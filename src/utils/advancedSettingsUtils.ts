@@ -1,7 +1,7 @@
 import { ActionCardSettings, AdvancedSettings, NewGameTranslations } from '../types/newGame'
 import { createActionCardData } from './actionCardSettingsUtils'
 import { uploadImageFile } from '../services/imageService'
-import { base64ToJpegFile } from './fileUtils'
+import { base64ToFile } from './fileUtils'
 
 /**
  * Creates the advanced settings data based on what the user has input.
@@ -18,10 +18,11 @@ export async function createAdvancedSettingsData(
     actionCardSettingsData?: ActionCardSettings,
     actionCardInputs?: string[]
 ) {
-    if (advancedSettingsData.customRulesImageBase64) {
-        const imageFile = base64ToJpegFile(
-            advancedSettingsData.customRulesImageBase64,
-            `game_${gameId}_custom_rules_image.jpg`
+    if (advancedSettingsData.customRulesImage) {
+        const imageFile = base64ToFile(
+            advancedSettingsData.customRulesImage.imageBase64,
+            `game_${gameId}_custom_rules_image.${advancedSettingsData.customRulesImage.imageFileExtension}`,
+            advancedSettingsData.customRulesImage.imageFileType
         )
         await uploadImageFile(imageFile, 'custom-rules-images', 'game', gameId)
     }

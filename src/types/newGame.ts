@@ -15,7 +15,13 @@ export type NewGame = {
 export type AdvancedSettings = {
     customEndGameSentence?: string
     gameEndType: string
-    customRulesImageBase64?: string
+    customRulesImage?: CustomImage
+}
+
+export type CustomImage = {
+    imageBase64: string
+    imageFileType: string
+    imageFileExtension: string
 }
 
 export type ActionCardSettings = {

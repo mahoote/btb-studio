@@ -1,4 +1,4 @@
-import { supabase } from '../supabaseClient'
+import { supabase, supabaseGame } from '../supabaseClient'
 
 export async function uploadImageFile(
     image: File,
@@ -28,7 +28,7 @@ export async function uploadImageFile(
 
     if (imageUrl) {
         // Update the row in the database with the image URL
-        const { error: updateError } = await supabase
+        const { error: updateError } = await supabaseGame
             .from(tableName)
             .update({ custom_rules_image_url: imageUrl })
             .eq('id', gameId)
