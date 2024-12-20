@@ -101,19 +101,11 @@ const TranslationsFormComponent = () => {
     }
 
     useEffect(() => {
-        const isPromptToTranslate =
-            !!actionCardSettingsData?.prompt ||
-            !!(
-                actionCardSettingsData?.isPlayerCreative &&
-                actionCardSettingsData?.playerCreativePrompt
-            )
+        const hasPromptToTranslate =
+            !!actionCardSettingsData?.prompt || !!actionCardSettingsData?.isPlayerCreative
 
-        setPromptToTranslate(isPromptToTranslate)
-    }, [
-        actionCardSettingsData?.prompt,
-        actionCardSettingsData?.isPlayerCreative,
-        actionCardSettingsData?.playerCreativePrompt,
-    ])
+        setPromptToTranslate(hasPromptToTranslate)
+    }, [actionCardSettingsData?.prompt, actionCardSettingsData?.isPlayerCreative])
 
     return (
         <Box>
