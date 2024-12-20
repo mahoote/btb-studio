@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Divider, Grid, TextField, Typography } from '@mui/material'
 import { useNewGameStore } from '../../../../hooks/useNewGameStore'
 import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
@@ -33,6 +33,8 @@ const TranslationsFormComponent = () => {
 
     const [copyJsonBackupText, setCopyJsonBackupText] = useState<string | undefined>()
 
+    const [promptToTranslate, setPromptToTranslate] = useState<boolean>(false)
+
     /**
      * Copies the JSON object to the clipboard.
      * Alerts the user if it fails.
@@ -47,6 +49,7 @@ const TranslationsFormComponent = () => {
                 ),
                 customEndGameSentence: advancedSettingsData.customEndGameSentence,
                 prompt: actionCardSettingsData?.prompt,
+                playerCreativePrompt: actionCardSettingsData?.playerCreativePrompt,
                 actionCardInputs: actionCardInputs?.filter(input => input.length > 0),
             },
         }
@@ -96,6 +99,13 @@ const TranslationsFormComponent = () => {
             })
         }
     }
+
+    useEffect(() => {
+        const hasPromptToTranslate =
+            !!actionCardSettingsData?.prompt || !!actionCardSettingsData?.isPlayerCreative
+
+        setPromptToTranslate(hasPromptToTranslate)
+    }, [actionCardSettingsData?.prompt, actionCardSettingsData?.isPlayerCreative])
 
     return (
         <Box>
@@ -311,35 +321,97 @@ const TranslationsFormComponent = () => {
                     <Typography variant="h6">Action Card Settings</Typography>
                 )}
 
-                {actionCardSettingsData?.prompt && (
+                {promptToTranslate && (
                     <>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <div>
-                                <h3>Prompt</h3>
-                                <MultilineComponent text={actionCardSettingsData.prompt} />
-                            </div>
-                            {languages.map(language => (
-                                <TextFieldSuggestionsComponent
-                                    key={language}
-                                    wordSuggestions={actionCardSuggestions}
-                                    label={codeToLanguage(language)}
-                                    variant="filled"
-                                    name={`${language}Prompt`}
-                                    fullWidth
-                                    required
-                                    value={newGameTranslations[language]?.prompt}
-                                    onChange={event =>
-                                        setNewGameTranslations({
-                                            ...newGameTranslations,
-                                            [language]: {
-                                                ...newGameTranslations[language],
-                                                prompt: event.target.value,
-                                            },
-                                        })
-                                    }
-                                />
-                            ))}
-                        </Box>
+                        <Grid container spacing={2}>
+                            {actionCardSettingsData?.prompt && (
+                                <Grid item xs={12} md={6}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 2,
+                                        }}
+                                    >
+                                        <div>
+                                            <h3>Prompt</h3>
+                                            <MultilineComponent
+                                                text={actionCardSettingsData.prompt}
+                                            />
+                                        </div>
+                                        {languages.map(language => (
+                                            <TextFieldSuggestionsComponent
+                                                key={language}
+                                                wordSuggestions={actionCardSuggestions}
+                                                label={codeToLanguage(language)}
+                                                variant="filled"
+                                                name={`${language}Prompt`}
+                                                fullWidth
+                                                required
+                                                value={newGameTranslations[language]?.prompt}
+                                                onChange={event =>
+                                                    setNewGameTranslations({
+                                                        ...newGameTranslations,
+                                                        [language]: {
+                                                            ...newGameTranslations[language],
+                                                            prompt: event.target.value,
+                                                        },
+                                                    })
+                                                }
+                                            />
+                                        ))}
+                                    </Box>
+                                </Grid>
+                            )}
+                            {actionCardSettingsData?.isPlayerCreative &&
+                                actionCardSettingsData?.playerCreativePrompt && (
+                                    <Grid item xs={12} md={6}>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: 2,
+                                            }}
+                                        >
+                                            <div>
+                                                <h3>Player Creative Prompt</h3>
+                                                <MultilineComponent
+                                                    text={
+                                                        actionCardSettingsData.playerCreativePrompt
+                                                    }
+                                                />
+                                            </div>
+                                            {languages.map(language => (
+                                                <TextFieldSuggestionsComponent
+                                                    key={language}
+                                                    wordSuggestions={actionCardSuggestions}
+                                                    label={codeToLanguage(language)}
+                                                    variant="filled"
+                                                    name={`${language}PlayerCreativePrompt`}
+                                                    fullWidth
+                                                    required
+                                                    value={
+                                                        newGameTranslations[language]
+                                                            ?.playerCreativePrompt
+                                                    }
+                                                    onChange={event =>
+                                                        setNewGameTranslations({
+                                                            ...newGameTranslations,
+                                                            [language]: {
+                                                                ...newGameTranslations[
+                                                                    language
+                                                                ],
+                                                                playerCreativePrompt:
+                                                                    event.target.value,
+                                                            },
+                                                        })
+                                                    }
+                                                />
+                                            ))}
+                                        </Box>
+                                    </Grid>
+                                )}
+                        </Grid>
                         <Divider />
                     </>
                 )}

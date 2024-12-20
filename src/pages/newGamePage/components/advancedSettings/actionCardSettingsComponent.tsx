@@ -246,7 +246,7 @@ function ActionCardSettingsComponent() {
                         >
                             <TextFieldSuggestionsComponent
                                 wordSuggestions={actionCardSuggestions}
-                                label="Prompt"
+                                label="Action Card Prompt"
                                 variant="outlined"
                                 name="prompt"
                                 fullWidth
@@ -260,6 +260,32 @@ function ActionCardSettingsComponent() {
                             />
                         </Tooltip>
                     </Grid>
+                    {actionCardSettingsData.isPlayerCreative && (
+                        <Grid item xs={12} sm={6}>
+                            <Tooltip
+                                title={
+                                    'This prompt will show between games if the players have checked "Player Creativity". They will write sentences or words based on this prompt.'
+                                }
+                            >
+                                <TextFieldSuggestionsComponent
+                                    wordSuggestions={actionCardSuggestions}
+                                    label="Player Creative Prompt"
+                                    variant="filled"
+                                    name="playerCreativePrompt"
+                                    multiline
+                                    fullWidth
+                                    required
+                                    value={actionCardSettingsData.playerCreativePrompt}
+                                    setValue={newValue =>
+                                        setActionCardSettingsData({
+                                            ...actionCardSettingsData,
+                                            playerCreativePrompt: newValue,
+                                        })
+                                    }
+                                />
+                            </Tooltip>
+                        </Grid>
+                    )}
                 </Grid>
                 <Typography>Cards</Typography>
                 <MultiInputComponent

@@ -24,6 +24,7 @@ export type ActionCardSettingsTranslationInsertDto = {
     action_card_settings_id?: number
     language: string
     prompt?: string
+    player_creative_prompt?: string
 }
 
 export type ActionCardDto = {

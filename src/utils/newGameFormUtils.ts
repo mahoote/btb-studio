@@ -8,6 +8,7 @@ import { GenericType } from '../types/genericType'
 import { AdvancedSettings, NewGame, NewGameTranslations } from '../types/newGame'
 import { createAccessory } from '../services/accessoryService'
 import { removeGameOptionsLastFetched } from './storageUtils'
+import { validNaturalNumber, validString } from './inputUtils'
 
 /**
  * Creates a new game as well as the accessories and game types associated with it.
@@ -23,20 +24,13 @@ export async function createNewGame(
     // New Game
     const gameInsertDto: GameInsertDto = {
         name: newGameData.name,
-        min_players: newGameData.minPlayers,
-        max_players: newGameData.maxPlayers,
+        min_players: validNaturalNumber(newGameData.minPlayers),
+        max_players: validNaturalNumber(newGameData.maxPlayers),
         activity_level: newGameData.activityLevel,
         drunk_level: newGameData.drunkLevel,
-        minutes: newGameData.minutes,
-        player_group_type_id:
-            typeof newGameData.playerGroupTypeId === 'number' &&
-            newGameData.playerGroupTypeId > 0
-                ? newGameData.playerGroupTypeId
-                : undefined,
-        game_audience_id:
-            typeof newGameData.gameAudienceId === 'number' && newGameData.gameAudienceId > 0
-                ? newGameData.gameAudienceId
-                : undefined,
+        minutes: validNaturalNumber(newGameData.minutes),
+        player_group_type_id: validNaturalNumber(newGameData.playerGroupTypeId),
+        game_audience_id: validNaturalNumber(newGameData.gameAudienceId),
         game_category_id: newGameData.categoryId,
         game_end_type: advancedDefaultSettings.gameEndType,
     }
@@ -46,9 +40,11 @@ export async function createNewGame(
         {
             language: 'en',
             name: newGameData.name,
-            intro_description: newGameData.introDescription,
+            intro_description: validString(newGameData.introDescription),
             descriptions: getValidDescriptions(newGameData.descriptions),
-            custom_end_game_sentence: advancedDefaultSettings.customEndGameSentence,
+            custom_end_game_sentence: validString(
+                advancedDefaultSettings.customEndGameSentence
+            ),
         },
     ]
 
@@ -56,9 +52,9 @@ export async function createNewGame(
         newGameTranslationInsertDtos.push({
             language: key,
             name: translation.name,
-            intro_description: translation.introDescription,
+            intro_description: validString(translation.introDescription),
             descriptions: getValidDescriptions(translation.descriptions),
-            custom_end_game_sentence: translation.customEndGameSentence,
+            custom_end_game_sentence: validString(translation.customEndGameSentence),
         })
     })
 
