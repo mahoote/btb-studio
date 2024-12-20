@@ -32,6 +32,7 @@ export type ActionCardSettings = {
     isAutoNext?: boolean
     prompt?: string
     isPlayerCreative?: boolean
+    playerCreativePrompt?: string
     hasBuzzer?: boolean
 }
 export type WritingSettings = {
@@ -45,6 +46,7 @@ export type NewGameTranslation = {
     descriptions: string[]
     customEndGameSentence?: string
     prompt?: string
+    playerCreativePrompt?: string
     actionCardInputs?: string[]
 }
 

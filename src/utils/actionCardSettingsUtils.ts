@@ -5,6 +5,7 @@ import {
     ActionCardSettingsTranslationInsertDto,
     ActionCardTranslationInsertDto,
 } from '../types/actionCardDto'
+import { validString } from './inputUtils'
 
 /**
  * Creates the Action Card Settings and Action Cards.
@@ -32,16 +33,22 @@ export async function createActionCardData(
 
     const settingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[] = []
 
-    if (actionCardSettingsData.prompt) {
+    if (actionCardSettingsData.prompt || actionCardSettingsData.isPlayerCreative) {
         settingsTranslationInsertDtos.push({
             language: 'en',
-            prompt: actionCardSettingsData.prompt,
+            prompt: validString(actionCardSettingsData.prompt),
+            player_creative_prompt: actionCardSettingsData.isPlayerCreative
+                ? validString(actionCardSettingsData.playerCreativePrompt)
+                : undefined,
         })
 
         Object.entries(newGameTranslations).forEach(([key, translation]) => {
             settingsTranslationInsertDtos.push({
                 language: key,
-                prompt: translation.prompt,
+                prompt: validString(translation.prompt),
+                player_creative_prompt: actionCardSettingsData.isPlayerCreative
+                    ? validString(translation.playerCreativePrompt)
+                    : undefined,
             })
         })
     }

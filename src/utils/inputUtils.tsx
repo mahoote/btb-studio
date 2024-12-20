@@ -86,3 +86,23 @@ export const handleSelectChange = (
 export const noWhiteSpaceInput = (input: string) => {
     return input.replace(/\s/g, '')
 }
+
+/**
+ * Checks that the string actually has a value, else return undefined
+ * @param input
+ */
+export const validString = (input?: string) => {
+    if (!input) return undefined
+
+    return input.trim().length > 0 ? input : undefined
+}
+
+/**
+ * Checks that the number actually has a value, else return undefined
+ * @param input
+ */
+export const validNaturalNumber = (input?: number) => {
+    if (!input) return undefined
+
+    return input > 0 ? input : undefined
+}

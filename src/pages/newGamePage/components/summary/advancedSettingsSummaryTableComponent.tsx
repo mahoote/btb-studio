@@ -93,7 +93,11 @@ const AdvancedSettingsSummaryTableComponent = () => {
                             <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Time
                             </TableCell>
-                            <TableCell>{actionCardSettingsData.cardSeconds} seconds</TableCell>
+                            <TableCell>
+                                {actionCardSettingsData.cardSeconds && (
+                                    <>{actionCardSettingsData.cardSeconds} seconds</>
+                                )}
+                            </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell sx={{ verticalAlign: 'top' }} scope="row">
@@ -119,9 +123,19 @@ const AdvancedSettingsSummaryTableComponent = () => {
                                 {actionCardSettingsData.isPlayerCreative?.toString()}
                             </TableCell>
                         </TableRow>
+                        {actionCardSettingsData.isPlayerCreative && (
+                            <TableRow>
+                                <TableCell sx={{ verticalAlign: 'top' }} scope="row">
+                                    Player Creative Prompt
+                                </TableCell>
+                                <TableCell>
+                                    {actionCardSettingsData.playerCreativePrompt}
+                                </TableCell>
+                            </TableRow>
+                        )}
                         <TableRow>
                             <TableCell sx={{ verticalAlign: 'top' }} scope="row">
-                                Prompt
+                                Action Card Prompt
                             </TableCell>
                             <TableCell>{actionCardSettingsData.prompt}</TableCell>
                         </TableRow>
