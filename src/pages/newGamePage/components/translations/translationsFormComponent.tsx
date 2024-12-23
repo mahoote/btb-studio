@@ -388,6 +388,7 @@ const TranslationsFormComponent = () => {
                                                     label={codeToLanguage(language)}
                                                     variant="filled"
                                                     name={`${language}PlayerCreativePrompt`}
+                                                    multiline
                                                     fullWidth
                                                     required
                                                     value={
