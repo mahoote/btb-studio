@@ -33,6 +33,7 @@ export async function createNewGame(
         game_audience_id: validNaturalNumber(newGameData.gameAudienceId),
         game_category_id: newGameData.categoryId,
         game_end_type: advancedDefaultSettings.gameEndType,
+        has_winner: advancedDefaultSettings.hasWinner,
     }
 
     // New Game Translations

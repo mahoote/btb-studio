@@ -86,7 +86,20 @@ function AdvancedDefaultSettingsComponent() {
                     <Grid item xs={12} sm={4} alignContent="center">
                         <FormControl>
                             <FormLabel>Other Settings</FormLabel>
-                            <FormControlLabel control={<Switch />} label="Has Winner" />
+                            <FormControlLabel
+                                label="Has Winner"
+                                control={
+                                    <Switch
+                                        defaultChecked={advancedSettingsData.hasWinner}
+                                        onChange={event =>
+                                            setAdvancedSettingsData({
+                                                ...advancedSettingsData,
+                                                hasWinner: event.target.checked,
+                                            })
+                                        }
+                                    />
+                                }
+                            />
                         </FormControl>
                     </Grid>
                 </Grid>
