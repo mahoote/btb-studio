@@ -7,7 +7,6 @@ export type NewGame = {
     minutes?: number
     name: string
     maxPlayers?: number
-    playerGroupTypeId?: number
     introDescription?: string
     gameAudienceId?: number
 }
