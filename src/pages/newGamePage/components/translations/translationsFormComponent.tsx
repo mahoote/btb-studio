@@ -264,6 +264,7 @@ const TranslationsFormComponent = () => {
                                 minHeight="13rem"
                                 gridXs={12}
                                 gridMd={6}
+                                multiline={true}
                                 inputValues={newGameTranslations[language]?.descriptions}
                                 setInputValues={values =>
                                     setNewGameTranslations({

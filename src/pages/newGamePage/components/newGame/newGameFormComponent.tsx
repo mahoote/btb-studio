@@ -200,6 +200,17 @@ function NewGameFormComponent() {
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
+                            <ChipsAutocompleteComponent
+                                predefinedValues={
+                                    gameTypes?.map(gameType => gameType.name) ?? []
+                                }
+                                selectedValues={selectedGameTypes}
+                                setSelectedValues={setSelectedGameTypes}
+                                label="Game Types"
+                                optionCombinations={getGameTypeCombinations()}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
                             <FormControl variant="outlined" fullWidth>
                                 <InputLabel id="game-audience-label">Game Audience</InputLabel>
                                 <Select
@@ -222,17 +233,6 @@ function NewGameFormComponent() {
                                     ))}
                                 </Select>
                             </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <ChipsAutocompleteComponent
-                                predefinedValues={
-                                    gameTypes?.map(gameType => gameType.name) ?? []
-                                }
-                                selectedValues={selectedGameTypes}
-                                setSelectedValues={setSelectedGameTypes}
-                                label="Game Types"
-                                optionCombinations={getGameTypeCombinations()}
-                            />
                         </Grid>
                     </Grid>
 
