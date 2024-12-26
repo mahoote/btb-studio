@@ -42,6 +42,12 @@ const AdvancedSettingsSummaryTableComponent = () => {
                 </TableRow>
                 <TableRow>
                     <TableCell sx={{ verticalAlign: 'top' }} scope="row">
+                        Has Winner
+                    </TableCell>
+                    <TableCell>{advancedSettingsData.hasWinner?.toString()}</TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                         Custom Rules Image
                     </TableCell>
                     <TableCell>

@@ -29,6 +29,7 @@ type GameInsertDto = {
     game_audience_id?: number
     game_category_id: number
     game_end_type: string
+    has_winner: boolean
 }
 
 type GameTranslationInsertDto = {

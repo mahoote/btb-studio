@@ -16,6 +16,7 @@ export type AdvancedSettings = {
     customEndGameSentence?: string
     gameEndType: string
     customRulesImage?: CustomImage
+    hasWinner: boolean
 }
 
 export type CustomImage = {
