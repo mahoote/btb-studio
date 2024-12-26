@@ -18,6 +18,7 @@ export type ActionCardSettingsInsertDto = {
     is_auto_next?: boolean
     is_player_creative?: boolean
     has_buzzer?: boolean
+    allow_sentence: boolean
 }
 
 export type ActionCardSettingsTranslationInsertDto = {

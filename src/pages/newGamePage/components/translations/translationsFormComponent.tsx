@@ -433,6 +433,7 @@ const TranslationsFormComponent = () => {
                                         values={actionCardInputs}
                                         gridXs={12}
                                         gridSm={6}
+                                        multiline={actionCardSettingsData?.allowSentence}
                                         inputValues={
                                             newGameTranslations[language]?.actionCardInputs
                                         }

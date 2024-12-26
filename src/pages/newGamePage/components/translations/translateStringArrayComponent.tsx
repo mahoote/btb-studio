@@ -3,6 +3,7 @@ import { Box, Grid } from '@mui/material'
 import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
 import MultilineComponent from '../../../../components/multilineComponent'
+import { noWhiteSpaceInput } from '../../../../utils/inputUtils'
 
 type TranslateStringArrayComponentProps = {
     values: string[]
@@ -13,6 +14,7 @@ type TranslateStringArrayComponentProps = {
     gridXs?: number
     gridSm?: number
     gridMd?: number
+    multiline?: boolean
 }
 
 const TranslateStringArrayComponent = ({
@@ -24,6 +26,7 @@ const TranslateStringArrayComponent = ({
     gridXs,
     gridSm,
     gridMd,
+    multiline,
 }: TranslateStringArrayComponentProps) => {
     return (
         <Grid container spacing={2}>
@@ -55,16 +58,20 @@ const TranslateStringArrayComponent = ({
                                         label={`Input ${index + 1}`}
                                         name={`descriptionPage${index}`}
                                         variant="filled"
-                                        multiline
+                                        multiline={multiline}
                                         required
                                         fullWidth
                                         minRows={minRows}
                                         value={inputValues?.[index]}
                                         setValue={value => {
+                                            let newInputValue = value
+                                            if (!multiline)
+                                                newInputValue = noWhiteSpaceInput(value)
+
                                             const newInputValues: string[] = [
                                                 ...(inputValues ?? []),
                                             ]
-                                            newInputValues[index] = value
+                                            newInputValues[index] = newInputValue
                                             if (setInputValues) setInputValues(newInputValues)
                                         }}
                                     />

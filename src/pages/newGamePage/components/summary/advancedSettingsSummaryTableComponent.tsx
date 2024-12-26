@@ -91,6 +91,14 @@ const AdvancedSettingsSummaryTableComponent = () => {
                         </TableRow>
                         <TableRow>
                             <TableCell sx={{ verticalAlign: 'top' }} scope="row">
+                                Allow Sentence
+                            </TableCell>
+                            <TableCell>
+                                {actionCardSettingsData.allowSentence.toString()}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell sx={{ verticalAlign: 'top' }} scope="row">
                                 Limit
                             </TableCell>
                             <TableCell>{actionCardSettingsData.cardLimit}</TableCell>
@@ -135,7 +143,11 @@ const AdvancedSettingsSummaryTableComponent = () => {
                                     Player Creative Prompt
                                 </TableCell>
                                 <TableCell>
-                                    {actionCardSettingsData.playerCreativePrompt}
+                                    <MultilineComponent
+                                        text={
+                                            actionCardSettingsData.playerCreativePrompt ?? ''
+                                        }
+                                    />
                                 </TableCell>
                             </TableRow>
                         )}

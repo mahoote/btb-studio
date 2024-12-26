@@ -9,7 +9,7 @@ import { noWhiteSpaceInput } from '../../utils/inputUtils'
 type MultiInputProps = {
     inputs: string[]
     setInputs: (inputs: string[] | undefined) => void
-    isMultiline?: boolean
+    multiline?: boolean
     wordSuggestions: TextFieldSuggestion[]
     variant?: 'outlined' | 'filled'
 }
@@ -20,7 +20,7 @@ type MultiInputProps = {
  * @constructor
  */
 function MultiInputComponent({
-    isMultiline,
+    multiline,
     inputs,
     setInputs,
     wordSuggestions,
@@ -84,10 +84,10 @@ function MultiInputComponent({
                             value={input}
                             setValue={(newValue: string) => {
                                 let newInputValue = newValue
-                                if (!isMultiline) newInputValue = noWhiteSpaceInput(newValue)
+                                if (!multiline) newInputValue = noWhiteSpaceInput(newValue)
                                 return handleInputChange(index, newInputValue)
                             }}
-                            multiline={isMultiline}
+                            multiline={multiline}
                             required
                             fullWidth
                         />

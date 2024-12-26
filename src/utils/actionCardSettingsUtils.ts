@@ -29,6 +29,7 @@ export async function createActionCardData(
         is_auto_next: actionCardSettingsData.isAutoNext,
         is_player_creative: actionCardSettingsData.isPlayerCreative,
         has_buzzer: actionCardSettingsData.hasBuzzer,
+        allow_sentence: actionCardSettingsData.allowSentence,
     }
 
     const settingsTranslationInsertDtos: ActionCardSettingsTranslationInsertDto[] = []
@@ -82,16 +83,6 @@ export async function createActionCardData(
 }
 
 /**
- * Checks if the current value is in the list of values.
- * Then the input is multiline.
- * @param currentValue
- * @param values
- */
-export function isCardInputMultiline(currentValue: number, values: number[]) {
-    return values.some(value => value === currentValue)
-}
-
-/**
  * Validates the Action Card Settings data with the following rules:
  * - If the content type is "Word" then only one word per card is allowed.
  * Returns an error message if the data is invalid.
@@ -104,7 +95,7 @@ export function isActionCardSettingsDataValid(
 ): string | undefined {
     if (!data || !inputs) return undefined
 
-    if (data.contentId === 1) {
+    if (!data.allowSentence) {
         const moreThanOneWord = inputs.some(input => input.split(' ').length > 1)
         return moreThanOneWord
             ? 'Only one word per card is allowed.\nUpdate the Content Type to "Sentence" to allow multiple.'

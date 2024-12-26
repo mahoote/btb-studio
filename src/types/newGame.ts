@@ -27,7 +27,6 @@ export type CustomImage = {
 
 export type ActionCardSettings = {
     stateId: number
-    contentId: number
     cardLimit?: number
     cardSeconds?: number
     isAutoNext?: boolean
@@ -35,6 +34,7 @@ export type ActionCardSettings = {
     isPlayerCreative?: boolean
     playerCreativePrompt?: string
     hasBuzzer?: boolean
+    allowSentence: boolean
 }
 export type WritingSettings = {
     writesAmount: number
