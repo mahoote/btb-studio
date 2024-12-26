@@ -8,9 +8,6 @@ export interface GameOptionsState extends ApiState {
     gameTypes: GenericType[]
     setGameTypes: (gameTypes: GenericType[]) => void
 
-    playerGroupTypes: GenericType[]
-    setPlayerGroupTypes: (playerGroupTypes: GenericType[]) => void
-
     accessories: GenericType[]
     setAccessories: (accessories: GenericType[]) => void
 

@@ -4,7 +4,6 @@ import { GenericType } from '../types/genericType'
 import { persist } from 'zustand/middleware'
 import { getGameCategories } from '../services/gameCategoryService'
 import { getGameTypes } from '../services/gameTypeService'
-import { getPlayerGroupTypes } from '../services/playerGroupTypeService'
 import { getAccessories } from '../services/accessoryService'
 import { getGameAudience } from '../services/gameAudienceService'
 import { canFetchData } from '../utils/apiUtils'
@@ -23,10 +22,6 @@ export const useGameOptionsStore = create<GameOptionsState>()(
 
             gameTypes: [],
             setGameTypes: (gameTypes: GenericType[]) => set({ gameTypes }),
-
-            playerGroupTypes: [],
-            setPlayerGroupTypes: (playerGroupTypes: GenericType[]) =>
-                set({ playerGroupTypes }),
 
             accessories: [],
             setAccessories: (accessories: GenericType[]) => set({ accessories }),
@@ -55,19 +50,16 @@ export const useGameOptionsStore = create<GameOptionsState>()(
  */
 const fetchGameOptionsAsync = async (set: (partial: Partial<GameOptionsState>) => void) => {
     try {
-        const [gameCategories, gameTypes, playerGroupTypes, accessories, gameAudience] =
-            await Promise.all([
-                getGameCategories(),
-                getGameTypes(),
-                getPlayerGroupTypes(),
-                getAccessories(),
-                getGameAudience(),
-            ])
+        const [gameCategories, gameTypes, accessories, gameAudience] = await Promise.all([
+            getGameCategories(),
+            getGameTypes(),
+            getAccessories(),
+            getGameAudience(),
+        ])
 
         set({
             gameCategories,
             gameTypes,
-            playerGroupTypes,
             accessories,
             gameAudience,
         })

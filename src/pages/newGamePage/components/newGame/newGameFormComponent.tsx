@@ -29,16 +29,8 @@ function NewGameFormComponent() {
         setActiveFormRef,
     } = useNewGameStore()
 
-    const {
-        fetchApi,
-        loading,
-        error,
-        gameCategories,
-        gameTypes,
-        playerGroupTypes,
-        accessories,
-        gameAudience,
-    } = useGameOptionsStore()
+    const { fetchApi, loading, error, gameCategories, gameTypes, accessories, gameAudience } =
+        useGameOptionsStore()
 
     // Set active form ref if it doesn't exist
     const formRef = useRef(null)
@@ -209,35 +201,6 @@ function NewGameFormComponent() {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <FormControl variant="outlined" fullWidth>
-                                <InputLabel id="player-group-type-label">
-                                    Player Group Type
-                                </InputLabel>
-                                <Select
-                                    variant="outlined"
-                                    labelId="player-group-type-label"
-                                    label="Player Group Type"
-                                    name="playerGroupTypeId"
-                                    value={newGame.playerGroupTypeId}
-                                    onChange={event =>
-                                        handleSelectChange(event, newGame, setNewGame)
-                                    }
-                                >
-                                    <MenuItem value={0}>
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {playerGroupTypes?.map(playerGroupType => (
-                                        <MenuItem
-                                            key={playerGroupType.id}
-                                            value={playerGroupType.id}
-                                        >
-                                            {playerGroupType.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl variant="outlined" fullWidth>
                                 <InputLabel id="game-audience-label">Game Audience</InputLabel>
                                 <Select
                                     variant={'outlined'}
@@ -260,15 +223,19 @@ function NewGameFormComponent() {
                                 </Select>
                             </FormControl>
                         </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <ChipsAutocompleteComponent
+                                predefinedValues={
+                                    gameTypes?.map(gameType => gameType.name) ?? []
+                                }
+                                selectedValues={selectedGameTypes}
+                                setSelectedValues={setSelectedGameTypes}
+                                label="Game Types"
+                                optionCombinations={getGameTypeCombinations()}
+                            />
+                        </Grid>
                     </Grid>
 
-                    <ChipsAutocompleteComponent
-                        predefinedValues={gameTypes?.map(gameType => gameType.name) ?? []}
-                        selectedValues={selectedGameTypes}
-                        setSelectedValues={setSelectedGameTypes}
-                        label="Game Types"
-                        optionCombinations={getGameTypeCombinations()}
-                    />
                     <ChipsAutocompleteComponent
                         predefinedValues={accessories?.map(accessory => accessory.name) ?? []}
                         selectedValues={selectedAccessories}

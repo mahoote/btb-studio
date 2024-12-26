@@ -9,7 +9,7 @@ import { getValidDescriptions } from '../../../../utils/newGameFormUtils'
 const NewGameSummaryTableComponent = () => {
     const { newGame, selectedGameTypes, selectedAccessories } = useNewGameStore()
 
-    const { gameCategories, playerGroupTypes, gameAudience } = useGameOptionsStore()
+    const { gameCategories, gameAudience } = useGameOptionsStore()
 
     return (
         <>
@@ -92,14 +92,6 @@ const NewGameSummaryTableComponent = () => {
                         Minutes
                     </TableCell>
                     <TableCell sx={{ verticalAlign: 'top' }}>{newGame.minutes}</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell sx={{ verticalAlign: 'top' }} scope="row">
-                        Player Group Type
-                    </TableCell>
-                    <TableCell sx={{ verticalAlign: 'top' }}>
-                        {playerGroupTypes.find(p => p.id === newGame.playerGroupTypeId)?.name}
-                    </TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell sx={{ verticalAlign: 'top' }} scope="row">
