@@ -12,7 +12,6 @@ export const initialNewGameData: NewGame = {
     minPlayers: undefined,
     minutes: undefined,
     name: '',
-    playerGroupTypeId: 0,
 }
 
 export const initialAccessoriesData: string[] = []
