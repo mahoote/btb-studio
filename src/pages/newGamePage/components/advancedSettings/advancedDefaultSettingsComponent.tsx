@@ -6,6 +6,7 @@ import {
     Grid,
     Radio,
     RadioGroup,
+    Switch,
     TextField,
     Tooltip,
 } from '@mui/material'
@@ -46,8 +47,8 @@ function AdvancedDefaultSettingsComponent() {
                         </Tooltip>
                     </Grid>
                 </Grid>
-                <Grid container>
-                    <Grid item xs={12}>
+                <Grid container columnGap={4} rowGap={2}>
+                    <Grid item>
                         <FormControl>
                             <FormLabel id="advanced-settings-game-end-type-label">
                                 Game End Type
@@ -80,6 +81,12 @@ function AdvancedDefaultSettingsComponent() {
                                     />
                                 </Tooltip>
                             </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={4} alignContent="center">
+                        <FormControl>
+                            <FormLabel>Other Settings</FormLabel>
+                            <FormControlLabel control={<Switch />} label="Has Winner" />
                         </FormControl>
                     </Grid>
                 </Grid>
