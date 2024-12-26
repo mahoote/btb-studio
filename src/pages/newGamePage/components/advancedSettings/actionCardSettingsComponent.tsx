@@ -15,10 +15,8 @@ import {
 } from '@mui/material'
 import { handleNumberChange, handleSelectChange } from '../../../../utils/inputUtils'
 import MultiInputComponent from '../../../../components/multiInput/multiInputComponent'
-import { isCardInputMultiline } from '../../../../utils/actionCardSettingsUtils'
 import TextFieldSuggestionsComponent from '../../../../components/textFieldSuggestionsComponent'
 import { actionCardSuggestions } from '../../../../constants/WORD_SUGGESTION_DATA'
-import { actionCardContentTypes } from '../../../../constants/ACTION_CARD_SETTINGS_DATA'
 import ErrorMessageComponent from '../../../../components/errorMessageComponent'
 import PageLoaderComponent from '../../../../components/pageLoaderComponent'
 import { useNewGameStore } from '../../../../hooks/useNewGameStore'
@@ -94,33 +92,6 @@ function ActionCardSettingsComponent() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl variant="outlined" fullWidth>
-                            <InputLabel id="state">Content Type</InputLabel>
-                            <Select
-                                variant="filled"
-                                labelId="content-id"
-                                label="Content Type"
-                                name="contentId"
-                                value={actionCardSettingsData.contentId}
-                                onChange={event =>
-                                    handleSelectChange(
-                                        event,
-                                        actionCardSettingsData,
-                                        setActionCardSettingsData
-                                    )
-                                }
-                            >
-                                {actionCardContentTypes.map(type => (
-                                    <MenuItem key={type.id} value={type.id}>
-                                        {type.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2}>
                     <Grid item xs={12} sm={3}>
                         <Tooltip
                             title={
@@ -165,8 +136,79 @@ function ActionCardSettingsComponent() {
                             />
                         </Tooltip>
                     </Grid>
+                </Grid>
+                <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
-                        <Box display="flex" justifyContent="space-evenly" flexWrap="wrap">
+                        <Tooltip
+                            title={
+                                'The common prompt at the beginning of the card. Can be used to give a hint, a question or a statement.'
+                            }
+                        >
+                            <TextFieldSuggestionsComponent
+                                wordSuggestions={actionCardSuggestions}
+                                label="Action Card Prompt"
+                                variant="outlined"
+                                name="prompt"
+                                fullWidth
+                                value={actionCardSettingsData.prompt}
+                                setValue={newValue =>
+                                    setActionCardSettingsData({
+                                        ...actionCardSettingsData,
+                                        prompt: newValue,
+                                    })
+                                }
+                            />
+                        </Tooltip>
+                    </Grid>
+                    {actionCardSettingsData.isPlayerCreative && (
+                        <Grid item xs={12} sm={6}>
+                            <Tooltip
+                                title={
+                                    'This prompt will show between games if the players have checked "Player Creativity". They will write sentences or words based on this prompt.'
+                                }
+                            >
+                                <TextFieldSuggestionsComponent
+                                    wordSuggestions={actionCardSuggestions}
+                                    label="Player Creative Prompt"
+                                    variant="filled"
+                                    name="playerCreativePrompt"
+                                    multiline
+                                    fullWidth
+                                    required
+                                    value={actionCardSettingsData.playerCreativePrompt}
+                                    setValue={newValue =>
+                                        setActionCardSettingsData({
+                                            ...actionCardSettingsData,
+                                            playerCreativePrompt: newValue,
+                                        })
+                                    }
+                                />
+                            </Tooltip>
+                        </Grid>
+                    )}
+                </Grid>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Box display="flex" flexWrap="wrap">
+                            <Tooltip title="When false, only allow a single word in the action card.">
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            defaultChecked={
+                                                actionCardSettingsData.allowSentence
+                                            }
+                                            onChange={event => {
+                                                setActionCardSettingsData({
+                                                    ...actionCardSettingsData,
+                                                    allowSentence: event.target.checked,
+                                                })
+                                            }}
+                                        />
+                                    }
+                                    label="Allow Sentence"
+                                    labelPlacement="top"
+                                />
+                            </Tooltip>
                             <Tooltip
                                 title={
                                     'If the "Card Seconds" is set, the Auto-next decides if there is a manual step between each card or if they should show the next card automatically.'
@@ -237,60 +279,10 @@ function ActionCardSettingsComponent() {
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <Tooltip
-                            title={
-                                'The common prompt at the beginning of the card. Can be used to give a hint, a question or a statement.'
-                            }
-                        >
-                            <TextFieldSuggestionsComponent
-                                wordSuggestions={actionCardSuggestions}
-                                label="Action Card Prompt"
-                                variant="outlined"
-                                name="prompt"
-                                fullWidth
-                                value={actionCardSettingsData.prompt}
-                                setValue={newValue =>
-                                    setActionCardSettingsData({
-                                        ...actionCardSettingsData,
-                                        prompt: newValue,
-                                    })
-                                }
-                            />
-                        </Tooltip>
-                    </Grid>
-                    {actionCardSettingsData.isPlayerCreative && (
-                        <Grid item xs={12} sm={6}>
-                            <Tooltip
-                                title={
-                                    'This prompt will show between games if the players have checked "Player Creativity". They will write sentences or words based on this prompt.'
-                                }
-                            >
-                                <TextFieldSuggestionsComponent
-                                    wordSuggestions={actionCardSuggestions}
-                                    label="Player Creative Prompt"
-                                    variant="filled"
-                                    name="playerCreativePrompt"
-                                    multiline
-                                    fullWidth
-                                    required
-                                    value={actionCardSettingsData.playerCreativePrompt}
-                                    setValue={newValue =>
-                                        setActionCardSettingsData({
-                                            ...actionCardSettingsData,
-                                            playerCreativePrompt: newValue,
-                                        })
-                                    }
-                                />
-                            </Tooltip>
-                        </Grid>
-                    )}
-                </Grid>
                 <Typography>Cards</Typography>
                 <MultiInputComponent
                     wordSuggestions={actionCardSuggestions}
-                    isMultiline={isCardInputMultiline(actionCardSettingsData.contentId, [2])}
+                    multiline={actionCardSettingsData.allowSentence}
                     inputs={actionCardInputs}
                     setInputs={setActionCardInputs}
                     variant="filled"

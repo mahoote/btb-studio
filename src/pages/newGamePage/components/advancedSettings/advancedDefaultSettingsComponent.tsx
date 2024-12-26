@@ -86,20 +86,22 @@ function AdvancedDefaultSettingsComponent() {
                     <Grid item xs={12} sm={4} alignContent="center">
                         <FormControl>
                             <FormLabel>Other Settings</FormLabel>
-                            <FormControlLabel
-                                label="Has Winner"
-                                control={
-                                    <Switch
-                                        defaultChecked={advancedSettingsData.hasWinner}
-                                        onChange={event =>
-                                            setAdvancedSettingsData({
-                                                ...advancedSettingsData,
-                                                hasWinner: event.target.checked,
-                                            })
-                                        }
-                                    />
-                                }
-                            />
+                            <Tooltip title="The playes will pick a winner at the end of the game based on who won.">
+                                <FormControlLabel
+                                    label="Has Winner"
+                                    control={
+                                        <Switch
+                                            defaultChecked={advancedSettingsData.hasWinner}
+                                            onChange={event =>
+                                                setAdvancedSettingsData({
+                                                    ...advancedSettingsData,
+                                                    hasWinner: event.target.checked,
+                                                })
+                                            }
+                                        />
+                                    }
+                                />
+                            </Tooltip>
                         </FormControl>
                     </Grid>
                 </Grid>
